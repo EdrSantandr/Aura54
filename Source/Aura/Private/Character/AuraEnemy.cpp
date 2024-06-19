@@ -3,14 +3,23 @@
 
 #include "Character/AuraEnemy.h"
 
+#include "Aura/Aura.h"
+
+AAuraEnemy::AAuraEnemy()
+{
+	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+}
+
 void AAuraEnemy::HighlightActor()
 {
-	const FString ActorName = GetNameSafe(this);
-	UE_LOG(LogTemp, Warning, TEXT("Actor Highligthed %s"), *ActorName);
+	GetMesh()->SetRenderCustomDepth(true);
+	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+	Weapon->SetRenderCustomDepth(true);
+	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 }
 
 void AAuraEnemy::UnHighlightActor()
 {
-	const FString ActorName = GetNameSafe(this);
-	UE_LOG(LogTemp, Warning, TEXT("Actor UnHighligthed %s"), *ActorName);
+	GetMesh()->SetRenderCustomDepth(false);
+	Weapon->SetRenderCustomDepth(false);
 }

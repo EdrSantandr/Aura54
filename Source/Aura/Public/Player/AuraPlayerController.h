@@ -23,7 +23,7 @@ public:
 	AAuraPlayerController();
 	virtual void Tick(float DeltaSeconds) override;
 protected:
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
 private:

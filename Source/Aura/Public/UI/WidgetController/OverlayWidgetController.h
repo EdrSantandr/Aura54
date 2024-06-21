@@ -6,8 +6,7 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnValueChangedSignature, float, NewValue);
 /**
  * 
  */
@@ -21,12 +20,20 @@ public:
 	virtual void BindCallbacksToDependencies() override;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnHealthChangedSignature OnHealthChangedSignature;
+	FOnValueChangedSignature OnHealthChangedSignature;
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
-	FOnMaxHealthChangedSignature OnMaxHealthChangedSignature;
+	FOnValueChangedSignature OnMaxHealthChangedSignature;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FOnValueChangedSignature OnManaChangedSignature;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FOnValueChangedSignature OnMaxManaChangedSignature;
 
 protected:
 	void HealthChange(const FOnAttributeChangeData& Data) const;
 	void MaxHealthChange(const FOnAttributeChangeData& Data) const;
+	void ManaChange(const FOnAttributeChangeData& Data) const;
+	void MaxManaChange(const FOnAttributeChangeData& Data) const;
 };

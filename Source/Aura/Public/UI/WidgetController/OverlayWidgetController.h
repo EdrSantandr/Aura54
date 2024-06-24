@@ -6,7 +6,27 @@
 #include "UI/WidgetController/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
+class UAuraUserWidget;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnValueChangedSignature, float, NewValue);
+
+USTRUCT()
+struct FUIWidgetRow : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FGameplayTag MessageTag = FGameplayTag();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	FText Message = FText();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<UAuraUserWidget> MessageWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UTexture2D* Image = nullptr;
+};
+
 /**
  * 
  */
@@ -32,6 +52,10 @@ public:
 	FOnValueChangedSignature OnMaxManaChangedSignature;
 
 protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
+	TObjectPtr<UDataTable> MessageWidgetDataTable;
+	
 	void HealthChange(const FOnAttributeChangeData& Data) const;
 	void MaxHealthChange(const FOnAttributeChangeData& Data) const;
 	void ManaChange(const FOnAttributeChangeData& Data) const;

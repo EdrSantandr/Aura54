@@ -60,11 +60,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
 	
-	void HealthChange(const FOnAttributeChangeData& Data) const;
-	void MaxHealthChange(const FOnAttributeChangeData& Data) const;
-	void ManaChange(const FOnAttributeChangeData& Data) const;
-	void MaxManaChange(const FOnAttributeChangeData& Data) const;
-
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
 };

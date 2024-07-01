@@ -12,9 +12,12 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 	const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet);
 	check(AttributeInfo);
 
-	FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoByTag(FAuraGameplayTags::Get().Attributes_Primary_Strength);
-	Info.AttributeValue = AuraAS->GetStrength();
-	AttributeInfoSignature.Broadcast(Info);
+	for (auto& Pair : AuraAS->TagsToAttributes)
+	{
+		FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoByTag(Pair.Key);
+		Info.AttributeValue = Pair.Value().GetNumericValue(AuraAS);
+		AttributeInfoSignature.Broadcast(Info);
+	}
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()

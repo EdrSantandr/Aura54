@@ -5,7 +5,6 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
-#include "AuraGameplayTags.h"
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
@@ -14,12 +13,27 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 
 	for (auto& Pair : AuraAS->TagsToAttributes)
 	{
-		FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoByTag(Pair.Key);
-		Info.AttributeValue = Pair.Value().GetNumericValue(AuraAS);
-		AttributeInfoSignature.Broadcast(Info);
+		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
+	const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet);
+	for(auto& Pair : AuraAS->TagsToAttributes)
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
+		[this, Pair](const FOnAttributeChangeData& Data)
+			{
+				BroadcastAttributeInfo(Pair.Key, Pair.Value());
+			}
+		);
+	}
+}
+
+void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const
+{
+	FAuraAttributeInfo Info = AttributeInfo->FindAttributeInfoByTag(AttributeTag);
+	Info.AttributeValue = Attribute.GetNumericValue(AttributeSet);
+	AttributeInfoSignature.Broadcast(Info);
 }

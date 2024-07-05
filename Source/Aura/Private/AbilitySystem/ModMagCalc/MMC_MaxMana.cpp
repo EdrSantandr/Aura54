@@ -8,7 +8,7 @@
 
 UMMC_MaxMana::UMMC_MaxMana()
 {
-	IntelligenceDef.AttributeToCapture = UAuraAttributeSet::GetVigorAttribute();
+	IntelligenceDef.AttributeToCapture = UAuraAttributeSet::GetIntelligenceAttribute();
 	IntelligenceDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
 	IntelligenceDef.bSnapshot = false;
 

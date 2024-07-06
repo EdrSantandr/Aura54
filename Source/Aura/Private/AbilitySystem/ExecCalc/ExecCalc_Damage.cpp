@@ -4,15 +4,18 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 
 struct AuraDamageStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockChance);
 	
 	AuraDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, Armor, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, BlockChance, Target, false);
 	}
 };
 
@@ -25,6 +28,8 @@ static const AuraDamageStatics& DamageStatics()
 UExecCalc_Damage::UExecCalc_Damage()
 {
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
+	RelevantAttributesToCapture.Add(DamageStatics().BlockChanceDef);
+	
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
@@ -43,12 +48,16 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	FAggregatorEvaluateParameters EvaluateParameters;
 	EvaluateParameters.SourceTags = SourceTags;
 	EvaluateParameters.TargetTags = TargetTags;
-	
-	float ArmorMagnitude = 0.f;	
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluateParameters, ArmorMagnitude);
-	ArmorMagnitude = FMath::Max(0.f, ArmorMagnitude);
-	++ArmorMagnitude;
 
-	const FGameplayModifierEvaluatedData EvaluatedData(DamageStatics().ArmorProperty, EGameplayModOp::Additive, ArmorMagnitude);
+	/* Get Damage set by caller magnitude*/
+	float DamageMagnitude = Spec.GetSetByCallerMagnitude(FAuraGameplayTags::Get().Damage);
+	/* Capture BlockChance on target and determine ir there was a successful block*/
+	float TargetBlockChanceMagnitude = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluateParameters, TargetBlockChanceMagnitude);
+	TargetBlockChanceMagnitude = FMath::Max<float>(0.f, TargetBlockChanceMagnitude);
+	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChanceMagnitude;
+	DamageMagnitude = bBlocked ? DamageMagnitude * 0.5f : DamageMagnitude;
+	
+	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, DamageMagnitude);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }

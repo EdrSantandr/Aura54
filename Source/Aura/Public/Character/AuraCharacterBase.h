@@ -26,6 +26,12 @@ public:
 	UAttributeSet* GetAttributeSet()const {return AttributeSet; }
 
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
+	// Die function will handle things on the server only
+	virtual void Die() override;
+
+	// This MulticastHandleDeath will handle death on server and client 
+	UFUNCTION(NetMulticast, Reliable)
+	virtual void MulticastHandleDeath();
 	
 protected:
 	virtual void BeginPlay() override;

@@ -32,6 +32,29 @@ UAnimMontage* AAuraCharacterBase::GetHitReactMontage_Implementation()
 	return HitReactMontage;
 }
 
+void AAuraCharacterBase::Die()
+{
+	//Drop the weapon
+	Weapon->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+	MulticastHandleDeath();
+}
+
+void AAuraCharacterBase::MulticastHandleDeath_Implementation()
+{
+	//Things here will de done in server and client
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

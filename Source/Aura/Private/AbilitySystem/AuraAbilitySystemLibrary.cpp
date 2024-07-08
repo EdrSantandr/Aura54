@@ -59,6 +59,11 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	const FGameplayEffectSpecHandle SecondaryAttributesSpecHandle = Asc->MakeOutgoingSpec(CharacterClassInfo->SecondaryAttributes, Level, SecondaryEffectContextHandle);
 	Asc->ApplyGameplayEffectSpecToSelf(*SecondaryAttributesSpecHandle.Data.Get());
 
+	FGameplayEffectContextHandle ResistanceEffectContextHandle = Asc->MakeEffectContext();
+	ResistanceEffectContextHandle.AddSourceObject(AvatarActor);
+	const FGameplayEffectSpecHandle ResistanceAttributesSpecHandle = Asc->MakeOutgoingSpec(CharacterClassInfo->ResistanceAttributes, Level, ResistanceEffectContextHandle);
+	Asc->ApplyGameplayEffectSpecToSelf(*ResistanceAttributesSpecHandle.Data.Get());
+
 	FGameplayEffectContextHandle VitalEffectContextHandle = Asc->MakeEffectContext();
 	VitalEffectContextHandle.AddSourceObject(AvatarActor);
 	const FGameplayEffectSpecHandle VitalAttributesSpecHandle = Asc->MakeOutgoingSpec(CharacterClassInfo->VitalAttributes, Level, VitalEffectContextHandle);

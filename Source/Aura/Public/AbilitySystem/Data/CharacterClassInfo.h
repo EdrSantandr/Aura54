@@ -37,6 +37,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="Class defaults")
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
+
+	UPROPERTY(EditDefaultsOnly, Category="Class defaults")
+	TSubclassOf<UGameplayEffect> ResistanceAttributes;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Class defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;

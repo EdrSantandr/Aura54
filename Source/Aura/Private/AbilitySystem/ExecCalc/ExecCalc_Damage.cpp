@@ -112,7 +112,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	/******** MAKE THE LOGIC USING THE VALUES AND COEFFICIENTS *******/
 	/* Block chance to reduce damage in a half*/
-	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChanceMagnitude;
+	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChanceMagnitude + 80.f;
 	DamageMagnitude = bBlocked ? DamageMagnitude * 0.5f : DamageMagnitude;
 	/* Save the blocked on the context handle*/
 	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
@@ -123,7 +123,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	/* Critical hit calculations*/
 	const float EffectiveCriticalHitChance = SourceCriticalHitChance - TargetCriticalHitResistance * CriticalHitResCoefficient;
-	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChance;
+	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChance + 80.f;
 	DamageMagnitude = bCriticalHit ? DamageMagnitude * 2.f + SourceCriticalHitDamage : DamageMagnitude;
 	/* Save the isCritical on the context handle*/
 	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);

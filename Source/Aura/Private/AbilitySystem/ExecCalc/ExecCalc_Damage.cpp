@@ -4,6 +4,7 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -106,12 +107,16 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	/*Get CriticalHitResistance Target from CharacterClassInfo*/
 	const FRealCurve* CriticalHitResCurve = CharacterClassInfo->DamageCalculationsCoefficients->FindCurve(FName("CriticalHitResistance"), FString());
 	const float CriticalHitResCoefficient = CriticalHitResCurve->Eval(TargetCombatInterface->GetPlayerLevel());
-
+	/* Get the AuraGameplayEffect context handle*/
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	
 	/******** MAKE THE LOGIC USING THE VALUES AND COEFFICIENTS *******/
 	/* Block chance to reduce damage in a half*/
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChanceMagnitude;
 	DamageMagnitude = bBlocked ? DamageMagnitude * 0.5f : DamageMagnitude;
-
+	/* Save the blocked on the context handle*/
+	UAuraAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
+	
 	/* ArmorPenetration Source ignores a percentage of Target's Armor */
 	const float EffectiveArmor = TargetArmorMagnitude * (100.f - SourceArmorPenetrationMagnitude * ArmorPenetrationCoefficient)/100.f;
 	DamageMagnitude *= (100.f - EffectiveArmor * EffectiveArmorCoefficient)/100.f;
@@ -120,6 +125,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const float EffectiveCriticalHitChance = SourceCriticalHitChance - TargetCriticalHitResistance * CriticalHitResCoefficient;
 	const bool bCriticalHit = FMath::RandRange(1, 100) < EffectiveCriticalHitChance;
 	DamageMagnitude = bCriticalHit ? DamageMagnitude * 2.f + SourceCriticalHitDamage : DamageMagnitude;
+	/* Save the isCritical on the context handle*/
+	UAuraAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
 	
 	const FGameplayModifierEvaluatedData EvaluatedData(UAuraAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, DamageMagnitude);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);

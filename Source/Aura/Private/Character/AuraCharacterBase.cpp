@@ -43,6 +43,18 @@ UNiagaraSystem* AAuraCharacterBase::GetBloodEffect_Implementation()
 	return BloodEffect;
 }
 
+FTaggedMontage AAuraCharacterBase::GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag)
+{
+	for (FTaggedMontage TaggedMontage : AttackMontages)
+	{
+		if (TaggedMontage.MontageTag.MatchesTagExact(MontageTag))
+		{
+			return TaggedMontage;
+		}
+	}
+	return FTaggedMontage();
+}
+
 void AAuraCharacterBase::Die()
 {
 	//Drop the weapon
@@ -85,15 +97,15 @@ void AAuraCharacterBase::BeginPlay()
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
 	const FAuraGameplayTags& AuraGameplayTags = FAuraGameplayTags::Get();
-	if (MontageTag.MatchesTagExact(AuraGameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	if (MontageTag.MatchesTagExact(AuraGameplayTags.CombatSocket_Weapon) && IsValid(Weapon))
 	{
 		return Weapon->GetSocketLocation(WeaponTipSocketName);	
 	}
-	if (MontageTag.MatchesTagExact(AuraGameplayTags.Montage_Attack_LeftHand) && IsValid(GetMesh()))
+	if (MontageTag.MatchesTagExact(AuraGameplayTags.CombatSocket_LeftHand) && IsValid(GetMesh()))
 	{
 		return GetMesh()->GetSocketLocation(LeftHandSocketName);	
 	}
-	if (MontageTag.MatchesTagExact(AuraGameplayTags.Montage_Attack_RightHand) && IsValid(GetMesh()))
+	if (MontageTag.MatchesTagExact(AuraGameplayTags.CombatSocket_RightHand) && IsValid(GetMesh()))
 	{
 		return GetMesh()->GetSocketLocation(RightHandSocketName);	
 	}

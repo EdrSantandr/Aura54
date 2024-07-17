@@ -37,6 +37,7 @@ public:
 	virtual UNiagaraSystem* GetBloodEffect_Implementation() override;
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
 	virtual int32 GetMinionCount_Implementation() override;
+	virtual void IncrementMinionCount_Implementation(int32 AdditionalMinions) override;
 
 	// This MulticastHandleDeath will handle death on server and client 
 	UFUNCTION(NetMulticast, Reliable)

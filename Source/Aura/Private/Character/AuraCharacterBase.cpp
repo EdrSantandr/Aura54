@@ -61,6 +61,11 @@ int32 AAuraCharacterBase::GetMinionCount_Implementation()
 	return MinionCount;
 }
 
+void AAuraCharacterBase::IncrementMinionCount_Implementation(int32 AdditionalMinions)
+{
+	MinionCount += AdditionalMinions;
+}
+
 void AAuraCharacterBase::Die()
 {
 	//Drop the weapon

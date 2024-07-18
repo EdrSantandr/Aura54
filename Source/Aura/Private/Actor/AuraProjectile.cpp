@@ -65,7 +65,6 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 	}
 	if(!bHit)
 	{
-		UE_LOG(LogTemp, Warning,TEXT("OTHER ACTOR: [%s]"), *OtherActor->GetName());
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
 		if (LoopingSoundComponent) LoopingSoundComponent->Stop();

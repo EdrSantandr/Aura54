@@ -39,6 +39,9 @@ public:
 	
 	void SetXP(int32 InXp);
 	void SetLevel(int32 InLevel);
+	
+	UFUNCTION(BlueprintCallable)
+	int32 GetCurrentXP() const {return XP; }
 
 protected:
 	UPROPERTY(VisibleAnywhere)

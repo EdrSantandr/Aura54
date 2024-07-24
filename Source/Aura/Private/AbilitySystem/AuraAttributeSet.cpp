@@ -160,7 +160,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 				if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor))
 				{
 					CombatInterface->Die();
-				} 
+				}
+				SendXpEvent(Props);
 			}
 			else
 			{
@@ -181,6 +182,22 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 		SetIncomingXp(0.f);
 		UE_LOG(LogAura, Log,TEXT("Incoming xp [%f]"), LocalIncomingXp);
 	}
+}
+
+void UAuraAttributeSet::SendXpEvent(const FEffectProperties& Props)
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter))
+	{
+		const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
+		const int32 ExpReward = UAuraAbilitySystemLibrary::GetXpRewardForClassAndLevel(Props.TargetCharacter, TargetClass, TargetLevel);
+
+		const FAuraGameplayTags& GameplayTags = FAuraGameplayTags::Get();
+		FGameplayEventData Payload;
+		Payload.EventMagnitude = ExpReward;
+		Payload.EventTag = GameplayTags.Attributes_Meta_IncomingXp;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter, GameplayTags.Attributes_Meta_IncomingXp, Payload);
+	} 
 }
 
 void UAuraAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const

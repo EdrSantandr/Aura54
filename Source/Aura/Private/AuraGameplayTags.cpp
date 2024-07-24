@@ -66,6 +66,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Attributes.Secondary.MaxMana"),
 		FString("Maximum amount of mana obtainable."));
 
+	/* Meta attributes*/
+	GameplayTags.Attributes_Meta_IncomingXp = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.IncomingXP"),
+		FString("Tag for IncomingXP meta attribute."));
+	
 	/* Input Tags*/
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("InputTag.LMB"),

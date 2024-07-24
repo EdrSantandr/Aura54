@@ -64,3 +64,11 @@ int32 AAuraCharacter::GetPlayerLevel()
 	check(AuraPlayerState);
 	return AuraPlayerState->GetPlayerLevel();
 }
+
+void AAuraCharacter::AddToExp_Implementation(int32 InExp)
+{
+	if (AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(GetPlayerState()))
+	{
+		AuraPlayerState->AddToXP(InExp);
+	}
+}

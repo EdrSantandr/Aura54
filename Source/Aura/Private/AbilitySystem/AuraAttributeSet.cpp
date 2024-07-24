@@ -181,9 +181,24 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		const float LocalIncomingXp = GetIncomingXp();
 		SetIncomingXp(0.f);
-		//todo: see if we should level up
-		if (Props.SourceCharacter->Implements<UPlayerInterface>())
+		//Source character is the owner, since GA_ListenForEvents applies GE_EventBasedEffect, adding to IncomingXp
+		if (Props.SourceCharacter->Implements<UPlayerInterface>() && Props.SourceCharacter->Implements<UCombatInterface>())
 		{
+			const int32 CurrentLevel = ICombatInterface::Execute_GetPlayerLevel(Props.SourceCharacter);
+			const int32 CurrentXp = IPlayerInterface::Execute_GetExp(Props.SourceCharacter);
+			const int32 NewLevel = IPlayerInterface::Execute_FindLevelForExp(Props.SourceCharacter,CurrentXp + LocalIncomingXp);
+			const int32 NumberOfLevelUps = NewLevel -CurrentLevel;
+			if (NumberOfLevelUps > 0)
+			{
+				const int32 AttributePointsReward = IPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter,CurrentLevel);
+				const int32 SpellPointsReward = IPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter,CurrentLevel);
+				IPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumberOfLevelUps);
+				IPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePointsReward);
+				IPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPointsReward);
+				SetHealth(GetMaxHealth());
+				SetMana(GetMaxMana());
+				IPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
+			}
 			IPlayerInterface::Execute_AddToExp(Props.SourceCharacter, LocalIncomingXp);	
 		}
 	}

@@ -153,10 +153,16 @@ void AAuraCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 
 void AAuraCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
 {
-	//todo: add attribute points to player state
+	if (AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(GetPlayerState()))
+	{
+		AuraPlayerState->AddToSpellPoints(InSpellPoints);
+	}
 }
 
 void AAuraCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
 {
-	//todo: add spell points to player state
+	if (AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(GetPlayerState()))
+	{
+		AuraPlayerState->AddToAttributePoints(InAttributePoints);
+	}
 }

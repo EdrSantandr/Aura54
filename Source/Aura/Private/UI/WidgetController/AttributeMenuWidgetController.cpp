@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
+#include "Player/AuraPlayerState.h"
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
@@ -26,6 +27,16 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 		[this, Pair](const FOnAttributeChangeData& Data)
 			{
 				BroadcastAttributeInfo(Pair.Key, Pair.Value());
+			}
+		);
+	}
+
+	if (AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState))
+	{
+		AuraPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+			[this](int32 Points)
+			{
+				AttributePointsChangedDelegate.Broadcast(Points);
 			}
 		);
 	}

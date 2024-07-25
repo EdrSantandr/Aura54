@@ -166,3 +166,21 @@ void AAuraCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints
 		AuraPlayerState->AddToAttributePoints(InAttributePoints);
 	}
 }
+
+int32 AAuraCharacter::GetAttributePoints_Implementation() const
+{
+	if (const AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(GetPlayerState()))
+	{
+		return AuraPlayerState->GetAttributePoints();
+	}
+	return 0;
+}
+
+int32 AAuraCharacter::GetSpellPoints_Implementation() const
+{
+	if (const AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(GetPlayerState()))
+	{
+		return AuraPlayerState->GetSpellPoints();
+	}
+	return 0;
+}

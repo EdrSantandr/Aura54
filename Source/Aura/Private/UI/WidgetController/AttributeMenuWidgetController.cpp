@@ -10,36 +10,40 @@
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
-	const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet);
-	check(AttributeInfo);
-
-	for (auto& Pair : AuraAS->TagsToAttributes)
+	if (GetAuraAS()!=nullptr)
 	{
-		BroadcastAttributeInfo(Pair.Key, Pair.Value());
-	}
+		check(AttributeInfo);
 
-	if (const AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState))
-	{
-		AttributePointsChangedDelegate.Broadcast(AuraPlayerState->GetAttributePoints());
+		for (auto& Pair : GetAuraAS()->TagsToAttributes)
+		{
+			BroadcastAttributeInfo(Pair.Key, Pair.Value());
+		}
+
+		if (GetAuraPS()!=nullptr)
+		{
+			AttributePointsChangedDelegate.Broadcast(GetAuraPS()->GetAttributePoints());
+		}
 	}
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
-	const UAuraAttributeSet* AuraAS = CastChecked<UAuraAttributeSet>(AttributeSet);
-	for(auto& Pair : AuraAS->TagsToAttributes)
+	if (GetAuraAS()!=nullptr)
 	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
-		[this, Pair](const FOnAttributeChangeData& Data)
-			{
-				BroadcastAttributeInfo(Pair.Key, Pair.Value());
-			}
-		);
+		for(auto& Pair : GetAuraAS()->TagsToAttributes)
+		{
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
+			[this, Pair](const FOnAttributeChangeData& Data)
+				{
+					BroadcastAttributeInfo(Pair.Key, Pair.Value());
+				}
+			);
+		}
 	}
-
-	if (AAuraPlayerState* AuraPlayerState = CastChecked<AAuraPlayerState>(PlayerState))
+	
+	if (GetAuraPS()!=nullptr)
 	{
-		AuraPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+		GetAuraPS()->OnAttributePointsChangedDelegate.AddLambda(
 			[this](int32 Points)
 			{
 				AttributePointsChangedDelegate.Broadcast(Points);
@@ -50,9 +54,9 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 
 void UAttributeMenuWidgetController::UpgradeAttribute(const FGameplayTag& AttributeTag)
 {
-	if (UAuraAbilitySystemComponent* AuraAsc = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent))
+	if (GetAuraASC()!=nullptr)
 	{
-		AuraAsc->UpgradeAttribute(AttributeTag);
+		GetAuraASC()->UpgradeAttribute(AttributeTag);
 	}
 }
 

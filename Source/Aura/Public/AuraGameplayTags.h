@@ -67,6 +67,7 @@ public:
 	FGameplayTag Abilities_Type_None;
 
 	FGameplayTag Abilities_Fire_Firebolt;
+	FGameplayTag Abilities_Lightning_Electrocute;
 
 	FGameplayTag Cooldown_Fire_Firebolt;
 	

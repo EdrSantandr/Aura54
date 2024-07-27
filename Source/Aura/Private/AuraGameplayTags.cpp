@@ -199,6 +199,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FName("Abilities.HitReact"),
 			FString("Tag for HitReact ability"));
 
+	GameplayTags.Abilities_None = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.None"),
+			FString("Tag for None ability. Nullptr"));
+	
 	GameplayTags.Abilities_Fire_Firebolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Abilities.Fire.Firebolt"),
 		FString("Tag for Firebolt ability"));

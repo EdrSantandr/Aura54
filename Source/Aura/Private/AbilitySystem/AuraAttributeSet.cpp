@@ -3,6 +3,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraAbilityTypes.h"
 #include "GameplayEffectExtension.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
@@ -10,6 +11,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "Interaction/PlayerInterface.h"
+#include "GameplayEffectComponents/TargetTagsGameplayEffectComponent.h"
 #include "Player/AuraPlayerController.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
@@ -131,10 +133,46 @@ void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, const f
 
 void UAuraAttributeSet::HandleDeBuff(const FEffectProperties& Props)
 {
-	//HandlingDeBuffs
-	if (UAuraAbilitySystemLibrary::IsSuccessfulDeBuff(Props.EffectContextHandle))
+	const FAuraGameplayTags AuraGameplayTags = FAuraGameplayTags::Get();
+	FGameplayEffectContextHandle EffectContextHandle = Props.SourceASC->MakeEffectContext();
+	EffectContextHandle.AddSourceObject(Props.SourceAvatarActor);
+
+	const FGameplayTag DamageType = UAuraAbilitySystemLibrary::GetDamageType(Props.EffectContextHandle);
+	const float DeBuffDamage =  UAuraAbilitySystemLibrary::GetDeBuffDamage(Props.EffectContextHandle);
+	const float DeBuffDuration =  UAuraAbilitySystemLibrary::GetDeBuffDuration(Props.EffectContextHandle);
+	const float DeBuffFrequency =  UAuraAbilitySystemLibrary::GetDeBuffFrequency(Props.EffectContextHandle);
+
+	const FString DeBuffName = FString::Printf(TEXT("DynamicDeBuff_%s"), *DamageType.ToString());
+	UGameplayEffect* DeBuffEffect = NewObject<UGameplayEffect>(GetTransientPackage(), FName(DeBuffName));
+
+	DeBuffEffect->DurationPolicy = EGameplayEffectDurationType::HasDuration;
+	DeBuffEffect->Period = DeBuffFrequency;
+	DeBuffEffect->DurationMagnitude = FScalableFloat(DeBuffDuration);
+
+	FInheritedTagContainer TagContainer = FInheritedTagContainer();
+	UTargetTagsGameplayEffectComponent& AssetTagsComponent = DeBuffEffect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
+	FInheritedTagContainer InheritedTagContainer;
+	InheritedTagContainer.Added.AddTag(AuraGameplayTags.DamageTypesToDeBuffs[DamageType]);
+	AssetTagsComponent.SetAndApplyTargetTagChanges(InheritedTagContainer);
+
+	DeBuffEffect->StackingType = EGameplayEffectStackingType::AggregateBySource;
+	DeBuffEffect->StackLimitCount = 1;
+
+	int32 Index = DeBuffEffect->Modifiers.Num();
+	DeBuffEffect->Modifiers.Add(FGameplayModifierInfo());
+	FGameplayModifierInfo& ModifierInfo = DeBuffEffect->Modifiers[Index];
+
+	ModifierInfo.ModifierMagnitude = FScalableFloat(DeBuffDamage);
+	ModifierInfo.ModifierOp = EGameplayModOp::Additive;
+	ModifierInfo.Attribute = UAuraAttributeSet::GetIncomingDamageAttribute();
+	
+	if (FGameplayEffectSpec* MutableSpec = new FGameplayEffectSpec(DeBuffEffect, EffectContextHandle, 1.f))
 	{
-		
+		FAuraGameplayEffectContext* AuraContext = static_cast<FAuraGameplayEffectContext*>(MutableSpec->GetContext().Get());
+		TSharedPtr<FGameplayTag> DeBuffDamageType = MakeShareable(new FGameplayTag(DamageType));
+		AuraContext->SetDamageType(DeBuffDamageType);
+
+		Props.TargetASC->ApplyGameplayEffectSpecToSelf(*MutableSpec);
 	}
 }
 
@@ -166,8 +204,10 @@ void UAuraAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 		const bool bBlocked = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
 		const bool bCritical = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 		ShowFloatingText(Props, LocalIncomingDamage, bBlocked, bCritical);
-
-		HandleDeBuff(Props);
+		if (UAuraAbilitySystemLibrary::IsSuccessfulDeBuff(Props.EffectContextHandle))
+		{
+			HandleDeBuff(Props);
+		}
 	}
 }
 
@@ -202,6 +242,8 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	Super::PostGameplayEffectExecute(Data);
 	FEffectProperties Props;
 	SetEffectProperties(Data, Props);
+	//Check if the character is dead
+	if (Props.TargetCharacter->Implements<UCombatInterface>() && ICombatInterface::Execute_IsDead(Props.TargetCharacter)) return;
 
 	if(Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{

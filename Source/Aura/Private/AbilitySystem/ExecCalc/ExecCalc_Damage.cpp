@@ -9,6 +9,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "Aura/AuraLogChannels.h"
 #include "Interaction/CombatInterface.h"
 
 struct AuraDamageStatics
@@ -94,6 +95,7 @@ void UExecCalc_Damage::DetermineDeBuff(const FGameplayEffectCustomExecutionParam
 				UAuraAbilitySystemLibrary::SetDeBuffDamage(ContextHandle, DeBuffDamage);
 				UAuraAbilitySystemLibrary::SetDeBuffDuration(ContextHandle, DeBuffDuration);
 				UAuraAbilitySystemLibrary::SetDeBuffFrequency(ContextHandle, DeBuffFrequency);
+				//UE_LOG(LogAura, Error, TEXT("DAMAGE [%f] DUration [%f] frequency [%f]"), DeBuffDamage, DeBuffDuration, DeBuffFrequency);
 			}
 		}
 	}

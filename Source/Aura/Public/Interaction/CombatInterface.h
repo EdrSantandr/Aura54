@@ -10,6 +10,11 @@
 
 
 class UNiagaraSystem;
+class UAnimMontage;
+class UAbilitySystemComponent;
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnAscRegisteredSignature, UAbilitySystemComponent*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeathSignature, AActor*, DeadActor);
 
 USTRUCT(BlueprintType)
 struct FTaggedMontage
@@ -35,7 +40,6 @@ class UCombatInterface : public UInterface
 	GENERATED_BODY()
 };
 
-class UAnimMontage;
 /**
  * 
  */
@@ -82,4 +86,8 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	ECharacterClass GetCharacterClass();
+
+	virtual FOnAscRegisteredSignature GetOnAscRegisteredDelegate() = 0;
+
+	virtual FOnDeathSignature* GetOnDeathDelegate() = 0;
 };

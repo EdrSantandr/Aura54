@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/DeBuff/DeBuffNiagaraComponent.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -12,6 +13,10 @@
 AAuraCharacterBase::AAuraCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
+
+	BurnDeBuffComponent = CreateDefaultSubobject<UDeBuffNiagaraComponent>("BurnDeBuffComponent");
+	BurnDeBuffComponent->SetupAttachment(GetRootComponent());
+	BurnDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Burn;
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
@@ -71,6 +76,16 @@ ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
 	return CharacterClass;
 }
 
+FOnAscRegisteredSignature AAuraCharacterBase::GetOnAscRegisteredDelegate()
+{
+	return OnAscRegisteredDelegate;
+}
+
+FOnDeathSignature* AAuraCharacterBase::GetOnDeathDelegate()
+{
+	return &OnDeathDelegate;
+}
+
 void AAuraCharacterBase::Die()
 {
 	//Drop the weapon
@@ -105,6 +120,8 @@ void AAuraCharacterBase::MulticastHandleDeath_Implementation()
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 	bDead = true;
+	UE_LOG(LogTemp, Warning, TEXT("make call to on death broadcast"));
+	OnDeathDelegate.Broadcast(this);
 }
 
 void AAuraCharacterBase::BeginPlay()

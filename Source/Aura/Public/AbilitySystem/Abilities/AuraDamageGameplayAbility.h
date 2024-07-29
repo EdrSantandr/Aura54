@@ -19,7 +19,8 @@ class AURA_API UAuraDamageGameplayAbility : public UAuraGameplayAbility
 public:
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
-	
+
+	UFUNCTION(BlueprintPure)
 	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
 	
 protected:
@@ -32,20 +33,26 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	FScalableFloat Damage;
 
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	UPROPERTY(EditDefaultsOnly, Category="DebBuff Damage")
 	FScalableFloat DeBuffChance;
 
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	UPROPERTY(EditDefaultsOnly, Category="DebBuff Damage")
 	FScalableFloat DeBuffDamage;
 
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	UPROPERTY(EditDefaultsOnly, Category="DebBuff Damage")
 	FScalableFloat DeBuffFrequency;
 
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	UPROPERTY(EditDefaultsOnly, Category="DebBuff Damage")
 	FScalableFloat DeBuffDuration;
 
-	UPROPERTY(EditDefaultsOnly, Category="Damage")
-	float DeathImpulseMagnitude = 60.f;
+	UPROPERTY(EditDefaultsOnly, Category="Death")
+	float DeathImpulseMagnitude = 10000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Knockback")
+	float KnockBackForceMagnitude = 1000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Knockback")
+	float KnockBackChance = 0.f;
 	
 	UFUNCTION(BlueprintPure)
 	FTaggedMontage GetRandomTaggedMontage(const TArray<FTaggedMontage>& TaggedMontages) const;

@@ -225,6 +225,9 @@ public:
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);
 	static void ShowFloatingText(const FEffectProperties& Props, float LocalIncomingDamage, bool bBlockedHit, bool bCriticalHit);
+	void HandleDeBuff(const FEffectProperties& Props);
+	void HandleIncomingDamage(const FEffectProperties& Props);
+	void HandleIncomingExp(const FEffectProperties& Props);
 	static void SendXpEvent(const FEffectProperties& Props);
 	bool bTopOfHealth = false;
 	bool bTopOfMana = false;

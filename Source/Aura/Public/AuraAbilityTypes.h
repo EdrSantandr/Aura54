@@ -66,6 +66,7 @@ public:
 	void SetDeBuffDamage(float InDeBuffDamage) { DeBuffDamage = InDeBuffDamage; }
 	void SetDeBuffDuration(float InDeBuffDuration) { DeBuffDuration = InDeBuffDuration; }
 	void SetDeBuffFrequency(float InDeBuffFrequency) { DeBuffFrequency = InDeBuffFrequency; }
+	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType) { DamageType = InDamageType;}
 	
 	virtual UScriptStruct* GetScriptStruct() const override
 	{

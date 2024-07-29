@@ -30,6 +30,7 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 	Params.DeBuffDamage = DeBuffDamage.GetValueAtLevel(GetAbilityLevel());
 	Params.DeBuffDuration = DeBuffDuration.GetValueAtLevel(GetAbilityLevel());
 	Params.DeBuffFrequency = DeBuffFrequency.GetValueAtLevel(GetAbilityLevel());
+	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;
 	return Params;
 }
 

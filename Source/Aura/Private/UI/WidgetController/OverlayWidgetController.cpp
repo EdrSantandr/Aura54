@@ -3,6 +3,7 @@
 
 #include "UI/WidgetController/OverlayWidgetController.h"
 
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
@@ -61,32 +62,31 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 			}
 		);
 
-		if (GetAuraASC()!=nullptr)
+		if (GetAuraASC()->bStartupAbilitiesGiven)
 		{
-			if (GetAuraASC()->bStartupAbilitiesGiven)
-			{
-				BroadcastAbilityInfo();
-			}
-			else
-			{
-				GetAuraASC()->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);	
-			}
+			BroadcastAbilityInfo();
+		}
+		else
+		{
+			GetAuraASC()->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);	
+		}
 			
-			GetAuraASC()->EffectAssetTags.AddLambda(
-				[this](const FGameplayTagContainer& AssetTags)
+		GetAuraASC()->EffectAssetTags.AddLambda(
+			[this](const FGameplayTagContainer& AssetTags)
+			{
+				for(const FGameplayTag& Tag : AssetTags)
 				{
-					for(const FGameplayTag& Tag : AssetTags)
+					FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+					if (Tag.MatchesTag(MessageTag))
 					{
-						FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
-						if (Tag.MatchesTag(MessageTag))
-						{
-							const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-							MessageWidgetRowSignature.Broadcast(*Row);	
-						}
+						const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+						MessageWidgetRowSignature.Broadcast(*Row);	
 					}
 				}
-			);
-		} 
+			}
+		);
+		
+		GetAuraASC()->AbilityEquippedDelegate.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);
 	}
 }
 
@@ -112,4 +112,23 @@ void UOverlayWidgetController::OnXpChanged(int32 NewXp)
 			OnXpPercentChangedDelegate.Broadcast(XpBarPercent);
 		}
 	}
+}
+
+void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, const FGameplayTag& SlotInputTag, const FGameplayTag& PrevSlotInputTag) const
+{
+	const FAuraGameplayTags AuraGameplayTags = FAuraGameplayTags::Get(); 
+
+	//Clear the old slot
+	FAuraAbilityInfo LastSlotInfo;
+	LastSlotInfo.StatusTag = AuraGameplayTags.Abilities_Status_Unlocked;
+	LastSlotInfo.InputTag = PrevSlotInputTag;
+	LastSlotInfo.AbilityTag = AuraGameplayTags.Abilities_None;
+	//Broadcast empty info if PreviousSlot is a valid slot. Only if equipping an already-equipped spell
+	AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+	//Fill the new slot
+	FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+	Info.StatusTag = StatusTag;
+	Info.InputTag = SlotInputTag;
+	AbilityInfoDelegate.Broadcast(Info);
 }

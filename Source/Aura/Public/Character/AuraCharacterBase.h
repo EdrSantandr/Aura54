@@ -30,7 +30,7 @@ public:
 
 	/* Combat Interface*/
 	// Die function will handle things on the server only
-	virtual void Die() override;
+	virtual void Die(const FVector& DeathImpulse) override;
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag) override;
@@ -49,7 +49,7 @@ public:
 	
 	// This MulticastHandleDeath will handle death on server and client 
 	UFUNCTION(NetMulticast, Reliable)
-	virtual void MulticastHandleDeath();
+	virtual void MulticastHandleDeath(const FVector& DeathImpulse);
 
 	//This Array holds relations between montages and attack gameplay tags
 	UPROPERTY(EditAnywhere, Category="Combat")

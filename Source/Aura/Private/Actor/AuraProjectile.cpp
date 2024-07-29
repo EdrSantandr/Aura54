@@ -60,7 +60,6 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
 	if(SourceAvatarActor == OtherActor) return;
 	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return;
-	
 	if(!bHit) OnHit();
 	
 	if (HasAuthority())
@@ -68,6 +67,8 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 		//The effect should be server only
 		if (UAbilitySystemComponent* TargetAsc = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
+			const FVector DeathImpulseVector = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
+			DamageEffectParams.DeathImpulse = DeathImpulseVector;
 			DamageEffectParams.TargetAbilitySystemComponent = TargetAsc;
 			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}

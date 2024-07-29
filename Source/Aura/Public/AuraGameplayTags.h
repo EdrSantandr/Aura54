@@ -59,6 +59,11 @@ public:
 	FGameplayTag DeBuff_Arcane;
 	FGameplayTag DeBuff_Physical;
 
+	FGameplayTag DeBuff_Chance;
+	FGameplayTag DeBuff_Damage;
+	FGameplayTag DeBuff_Duration;
+	FGameplayTag DeBuff_Frequency;
+
 	FGameplayTag Abilities_Attack;
 	FGameplayTag Abilities_Summon;
 	FGameplayTag Abilities_HitReact;

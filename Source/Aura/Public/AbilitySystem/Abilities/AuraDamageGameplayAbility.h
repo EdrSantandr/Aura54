@@ -28,6 +28,18 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="Damage")
 	FScalableFloat Damage;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DeBuffChance = 20.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DeBuffDamage = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DeBuffFrequency = 1.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Damage")
+	float DeBuffDuration = 5.f;
 	
 	UFUNCTION(BlueprintPure)
 	FTaggedMontage GetRandomTaggedMontage(const TArray<FTaggedMontage>& TaggedMontages) const;

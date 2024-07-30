@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/Abilities/AuraDamageBeamSpell.h"
+#include "GameFramework/Character.h"
 
 void UAuraDamageBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 {
@@ -16,10 +17,11 @@ void UAuraDamageBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 	}
 }
 
-void UAuraDamageBeamSpell::StoreOwnerPlayerController()
+void UAuraDamageBeamSpell::StoreOwnerVariables()
 {
 	if (CurrentActorInfo)
 	{
-		OwnerPlayerController = CurrentActorInfo->PlayerController.Get();	
+		OwnerPlayerController = CurrentActorInfo->PlayerController.Get();
+		OwnerCharacter = Cast<ACharacter>(CurrentActorInfo->AvatarActor);
 	}
 }

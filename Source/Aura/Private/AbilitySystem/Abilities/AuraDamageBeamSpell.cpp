@@ -78,7 +78,18 @@ void UAuraDamageBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditional
 
 	//int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel()-1, MaxNumTargets);
 	int32 NumAdditionalTargets = 5;
-
-	UAuraAbilitySystemLibrary::GetClosestTargets(NumAdditionalTargets, OverlappingActors, OutAdditionalTargets, MouseHitActor->GetActorLocation());
+	if(OverlappingActors.Num() <= NumAdditionalTargets)
+	{
+		OutAdditionalTargets = OverlappingActors;
+	}
+	else
+	{
+		Algo::Sort(OverlappingActors, FSortByDistance(MouseHitActor->GetActorLocation()));
+		for(int32 i=0;i < NumAdditionalTargets;i++)
+		{
+			OutAdditionalTargets.Add(OverlappingActors[i]);
+		}
+	}
+	//UAuraAbilitySystemLibrary::GetClosestTargets(NumAdditionalTargets, OverlappingActors, OutAdditionalTargets, MouseHitActor->GetActorLocation());
 }
 

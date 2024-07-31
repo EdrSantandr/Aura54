@@ -6,6 +6,23 @@
 #include "AbilitySystem/Abilities/AuraDamageGameplayAbility.h"
 #include "AuraDamageBeamSpell.generated.h"
 
+struct FSortByDistance
+{
+	explicit FSortByDistance(const FVector& InSourceLocation)
+		: SourceLocation(InSourceLocation) {}
+
+	/* The Location to use in our Sort comparison. */
+	FVector SourceLocation = FVector::Zero();
+
+	bool operator()(const AActor* A, const AActor* B) const
+	{
+		float DistanceA = FVector::DistSquared(SourceLocation, A->GetActorLocation());
+		float DistanceB = FVector::DistSquared(SourceLocation, B->GetActorLocation());
+
+		return DistanceA < DistanceB;
+	}
+};
+
 /**
  * 
  */

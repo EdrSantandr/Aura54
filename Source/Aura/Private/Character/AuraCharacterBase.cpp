@@ -86,6 +86,11 @@ FOnDeathSignature* AAuraCharacterBase::GetOnDeathDelegate()
 	return &OnDeathDelegate;
 }
 
+USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()
+{
+	return Weapon;
+}
+
 void AAuraCharacterBase::Die(const FVector& DeathImpulse)
 {
 	//Drop the weapon

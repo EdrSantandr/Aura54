@@ -60,6 +60,13 @@ void UAuraDamageBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation)
 			}
 		}
 	}
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor))
+	{
+		if (!CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraDamageBeamSpell::PrimaryTargetDied))
+		{
+			CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraDamageBeamSpell::PrimaryTargetDied);
+		}
+	}
 }
 
 void UAuraDamageBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets)
@@ -76,8 +83,8 @@ void UAuraDamageBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditional
 		850.f,
 		MouseHitActor->GetActorLocation());
 
-	//int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel()-1, MaxNumTargets);
-	int32 NumAdditionalTargets = 5;
+	int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel()-1, MaxNumTargets);
+	//int32 NumAdditionalTargets = 5; Just for testing
 	if(OverlappingActors.Num() <= NumAdditionalTargets)
 	{
 		OutAdditionalTargets = OverlappingActors;
@@ -91,5 +98,15 @@ void UAuraDamageBeamSpell::StoreAdditionalTargets(TArray<AActor*>& OutAdditional
 		}
 	}
 	//UAuraAbilitySystemLibrary::GetClosestTargets(NumAdditionalTargets, OverlappingActors, OutAdditionalTargets, MouseHitActor->GetActorLocation());
+	for(AActor* Target : OutAdditionalTargets)
+	{
+		if(ICombatInterface* CombatInterface = Cast<ICombatInterface>(Target))
+		{
+			if (!CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraDamageBeamSpell::AdditionalTargetDied))
+			{
+				CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraDamageBeamSpell::AdditionalTargetDied);	
+			}
+		}
+	}
 }
 

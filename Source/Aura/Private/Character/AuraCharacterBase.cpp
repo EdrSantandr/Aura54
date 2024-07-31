@@ -20,6 +20,10 @@ AAuraCharacterBase::AAuraCharacterBase()
 	BurnDeBuffComponent->SetupAttachment(GetRootComponent());
 	BurnDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Burn;
 
+	StunDeBuffComponent = CreateDefaultSubobject<UDeBuffNiagaraComponent>("StunDeBuffComponent");
+	StunDeBuffComponent->SetupAttachment(GetRootComponent());
+	StunDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Stun;
+
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
@@ -35,6 +39,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AAuraCharacterBase, bIsStunned);
+	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
 }
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
@@ -84,7 +89,7 @@ ECharacterClass AAuraCharacterBase::GetCharacterClass_Implementation()
 	return CharacterClass;
 }
 
-FOnAscRegisteredSignature AAuraCharacterBase::GetOnAscRegisteredDelegate()
+FOnAscRegisteredSignature& AAuraCharacterBase::GetOnAscRegisteredDelegate()
 {
 	return OnAscRegisteredDelegate;
 }
@@ -145,6 +150,10 @@ void AAuraCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 Ne
 }
 
 void AAuraCharacterBase::OnRep_Stunned()
+{
+}
+
+void AAuraCharacterBase::OnRep_Burned()
 {
 }
 

@@ -41,7 +41,7 @@ public:
 	virtual int32 GetMinionCount_Implementation() override;
 	virtual void IncrementMinionCount_Implementation(int32 AdditionalMinions) override;
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
-	virtual FOnAscRegisteredSignature GetOnAscRegisteredDelegate() override;
+	virtual FOnAscRegisteredSignature& GetOnAscRegisteredDelegate() override;
 	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 
@@ -59,8 +59,14 @@ public:
 	UPROPERTY(ReplicatedUsing=OnRep_Stunned, BlueprintReadOnly)
 	bool bIsStunned = false;
 
+	UPROPERTY(ReplicatedUsing=OnRep_Burned, BlueprintReadOnly)
+	bool bIsBurned = false;
+	
 	UFUNCTION()
 	virtual void OnRep_Stunned();
+
+	UFUNCTION()
+	virtual void OnRep_Burned();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -139,6 +145,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category="Character Debuff Effect")
 	TObjectPtr<UDeBuffNiagaraComponent> BurnDeBuffComponent;
+
+	UPROPERTY(VisibleAnywhere, Category="Character Debuff Effect")
+	TObjectPtr<UDeBuffNiagaraComponent> StunDeBuffComponent;
 	
 private:
 	UPROPERTY(EditAnywhere, Category="Abilities")

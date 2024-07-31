@@ -81,9 +81,9 @@ FOnAscRegisteredSignature AAuraCharacterBase::GetOnAscRegisteredDelegate()
 	return OnAscRegisteredDelegate;
 }
 
-FOnDeathSignature* AAuraCharacterBase::GetOnDeathDelegate()
+FOnDeathSignature& AAuraCharacterBase::GetOnDeathDelegate()
 {
-	return &OnDeathDelegate;
+	return OnDeathDelegate;
 }
 
 USkeletalMeshComponent* AAuraCharacterBase::GetWeapon_Implementation()

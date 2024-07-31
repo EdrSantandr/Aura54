@@ -66,36 +66,38 @@ void AAuraProjectile::Destroyed()
 void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                      UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
-	if(SourceAvatarActor == OtherActor) return;
-	if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return;
-	if(!bHit) OnHit();
+	if (AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor())
+	{
+		if(SourceAvatarActor == OtherActor) return;
+		if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return;
+		if(!bHit) OnHit();
 	
-	if (HasAuthority())
-	{
-		//The effect should be server only
-		if (UAbilitySystemComponent* TargetAsc = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+		if (HasAuthority())
 		{
-			const FVector DeathImpulseVector = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
-			DamageEffectParams.DeathImpulse = DeathImpulseVector;
-			const bool bKnockBack = FMath::RandRange(1,100) < DamageEffectParams.KnockBackChance;
-			if (bKnockBack)
+			//The effect should be server only
+			if (UAbilitySystemComponent* TargetAsc = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 			{
-				FRotator Rotation = GetActorRotation();
-				Rotation.Pitch = 45.f;
+				const FVector DeathImpulseVector = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
+				DamageEffectParams.DeathImpulse = DeathImpulseVector;
+				const bool bKnockBack = FMath::RandRange(1,100) < DamageEffectParams.KnockBackChance;
+				if (bKnockBack)
+				{
+					FRotator Rotation = GetActorRotation();
+					Rotation.Pitch = 45.f;
 				
-				const FVector KnockBackDirection = Rotation.Vector();
-				const FVector KnockBackForce = KnockBackDirection * DamageEffectParams.KnockBackForceMagnitude;
-				DamageEffectParams.KnockBackForce = KnockBackForce;
-			}
+					const FVector KnockBackDirection = Rotation.Vector();
+					const FVector KnockBackForce = KnockBackDirection * DamageEffectParams.KnockBackForceMagnitude;
+					DamageEffectParams.KnockBackForce = KnockBackForce;
+				}
 			
-			DamageEffectParams.TargetAbilitySystemComponent = TargetAsc;
-			UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+				DamageEffectParams.TargetAbilitySystemComponent = TargetAsc;
+				UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+			}
+			Destroy();
 		}
-		Destroy();
-	}
-	else
-	{
-		bHit = true;
+		else
+		{
+			bHit = true;
+		}
 	}
 }

@@ -42,7 +42,7 @@ public:
 	virtual void IncrementMinionCount_Implementation(int32 AdditionalMinions) override;
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	virtual FOnAscRegisteredSignature GetOnAscRegisteredDelegate() override;
-	virtual FOnDeathSignature* GetOnDeathDelegate() override;
+	virtual FOnDeathSignature& GetOnDeathDelegate() override;
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 
 	FOnAscRegisteredSignature OnAscRegisteredDelegate;

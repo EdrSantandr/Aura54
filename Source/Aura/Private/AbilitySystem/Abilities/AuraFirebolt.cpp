@@ -93,6 +93,4 @@ void UAuraFirebolt::SpawnSpreadProjectiles(const FVector& ProjectileTargetLocati
 
 		Projectile->FinishSpawning(SpawnTransform);
 	}
-	
-	
 }

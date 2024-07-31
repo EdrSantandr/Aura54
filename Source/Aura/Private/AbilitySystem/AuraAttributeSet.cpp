@@ -149,10 +149,20 @@ void UAuraAttributeSet::HandleDeBuff(const FEffectProperties& Props)
 	DeBuffEffect->Period = DeBuffFrequency;
 	DeBuffEffect->DurationMagnitude = FScalableFloat(DeBuffDuration);
 
+	const FGameplayTag DeBuffTag = AuraGameplayTags.DamageTypesToDeBuffs[DamageType];
 	FInheritedTagContainer TagContainer = FInheritedTagContainer();
 	UTargetTagsGameplayEffectComponent& AssetTagsComponent = DeBuffEffect->FindOrAddComponent<UTargetTagsGameplayEffectComponent>();
 	FInheritedTagContainer InheritedTagContainer;
-	InheritedTagContainer.Added.AddTag(AuraGameplayTags.DamageTypesToDeBuffs[DamageType]);
+	InheritedTagContainer.Added.AddTag(DeBuffTag);
+	// This is needed to check out if the character is stunned
+	if (DeBuffTag.MatchesTagExact(AuraGameplayTags.DeBuff_Stun))
+	{
+		InheritedTagContainer.Added.AddTag(AuraGameplayTags.Player_Block_CursorTrace);
+		InheritedTagContainer.Added.AddTag(AuraGameplayTags.Player_Block_InputHeld);
+		InheritedTagContainer.Added.AddTag(AuraGameplayTags.Player_Block_InputPressed);
+		InheritedTagContainer.Added.AddTag(AuraGameplayTags.Player_Block_InputReleased);
+	}
+	
 	AssetTagsComponent.SetAndApplyTargetTagChanges(InheritedTagContainer);
 
 	DeBuffEffect->StackingType = EGameplayEffectStackingType::AggregateBySource;

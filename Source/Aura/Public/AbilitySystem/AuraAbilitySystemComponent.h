@@ -60,6 +60,7 @@ public:
 	UFUNCTION(Server, Reliable)
 	void ServerEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& SlotInputTag);
 
+	UFUNCTION(Client, Reliable)
 	void ClientEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, const FGameplayTag& SlotInputTag, const FGameplayTag& PrevSlotInputTag);
 
 	bool GetDescriptionsByAbilityTag(const FGameplayTag AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);

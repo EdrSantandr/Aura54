@@ -265,7 +265,7 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FString("Tag for Passive HaloOfProtection ability"));
 	
 	/* Status Abilities*/
-	GameplayTags.Abilities_Passive_LifeSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	GameplayTags.Abilities_Status_Eligible = UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Abilities.Status.Eligible"),
 			FString("Tag for Status Eligible for ability"));
 

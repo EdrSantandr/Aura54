@@ -43,9 +43,16 @@ public:
 	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	FGameplayTag GetStatusFromAbilityTag(const FGameplayTag& AbilityTag);
-	FGameplayTag GetInputTagFromAbilityTag(const FGameplayTag& AbilityTag);
+	FGameplayTag GetSlotInputTagFromAbilityTag(const FGameplayTag& AbilityTag);
+	bool SlotIsEmpty(const FGameplayTag& SlotInputTag);
+	static bool AbilityHasSlotInputTag(const FGameplayAbilitySpec& Spec, const FGameplayTag& SlotInputTag);
+	static bool AbilityHasAnySlotInputTag(const FGameplayAbilitySpec& Spec);
+	FGameplayAbilitySpec* GetSpecBySlotInputTag(const FGameplayTag& SlotInputTag);
+	bool IsPassiveAbility(const FGameplayAbilitySpec& Spec) const;
+	static void AssignSlotInputTagToAbility(FGameplayAbilitySpec& Spec, const FGameplayTag& SlotInputTag);
 
 	FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
+	
 	
 	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 
@@ -65,7 +72,7 @@ public:
 
 	bool GetDescriptionsByAbilityTag(const FGameplayTag AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
 
-	void ClearSlot(FGameplayAbilitySpec* Spec);
+	static void ClearSlot(FGameplayAbilitySpec* Spec);
 
 	void ClearAbilitiesOfSlotInputTag(const FGameplayTag& SlotInputTag);
 

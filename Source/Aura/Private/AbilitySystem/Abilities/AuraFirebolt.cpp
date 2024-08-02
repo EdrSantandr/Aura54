@@ -26,14 +26,14 @@ FString UAuraFirebolt::GetDescription(int32 Level)
 	else
 	{
 		return FString::Printf(TEXT(
-			"<Title>Fire Bolt</>\n\n"
+			"<Title>FIRE BOLT</>\n\n"
 			"<Small>Level: </><Level>%d</>\n"
 			"<Small>ManaCost: </><ManaCost>%.1f</>\n"
 			"<Small>Cooldown: </><Cooldown>%.1f</>\n\n"
 			"<Default>Launches %d bolts of fire, exploding and dealing </>"
 			"<Damage>%d</><Default> fire damage with a chance to burn</>"
 			),
-			Level, ManaCost, Cooldown, FMath::Min(0,NumProjectiles), ScaledDamage);
+			Level, ManaCost, Cooldown, FMath::Min(Level,NumProjectiles), ScaledDamage);
 	}
 }
 
@@ -50,7 +50,7 @@ FString UAuraFirebolt::GetNextLevelDescription(int32 Level)
 			"<Default>Launches %d bolts of fire, exploding and dealing </>"
 			"<Damage>%d</><Default> fire damage with a chance to burn</>"
 			),
-			Level, ManaCost, Cooldown, FMath::Min(0,NumProjectiles), ScaledDamage);
+			Level, ManaCost, Cooldown, FMath::Min(Level,NumProjectiles), ScaledDamage);
 }
 
 void UAuraFirebolt::SpawnSpreadProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bOverridePitch, float PitchOverride, AActor* HomingTarget)

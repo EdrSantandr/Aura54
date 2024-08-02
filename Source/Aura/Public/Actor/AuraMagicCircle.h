@@ -14,9 +14,10 @@ class AURA_API AAuraMagicCircle : public AActor
 public:	
 	AAuraMagicCircle();
 	virtual void Tick(float DeltaTime) override;
-protected:
-	virtual void BeginPlay() override;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MagicCircleEffect")
 	TObjectPtr<UDecalComponent> MagicCircleDecal;
+
+protected:
+	virtual void BeginPlay() override;
 };

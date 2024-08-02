@@ -229,3 +229,19 @@ int32 AAuraCharacter::GetSpellPoints_Implementation() const
 	}
 	return 0;
 }
+
+void AAuraCharacter::ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial)
+{
+	if (AAuraPlayerController* AuraPC = Cast<AAuraPlayerController>(GetController()))
+	{
+		AuraPC->ShowMagicCircle(DecalMaterial);
+	}
+}
+
+void AAuraCharacter::HideMagicCircle_Implementation()
+{
+	if (const AAuraPlayerController* AuraPC = Cast<AAuraPlayerController>(GetController()))
+	{
+		AuraPC->HideMagicCircle();
+	}	
+}

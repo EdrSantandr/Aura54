@@ -69,11 +69,11 @@ void AAuraPlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
 	}
 }
 
-void AAuraPlayerController::HideMagicCircle() const
+void AAuraPlayerController::HideMagicCircle()
 {
 	if (IsValid(MagicCircle))
 	{
-		MagicCircle->Destroy();	
+		MagicCircle->Destroy();
 	}
 }
 

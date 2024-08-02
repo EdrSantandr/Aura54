@@ -17,6 +17,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	
-	UPROPERTY(VisibleAnywhere, Category="MagicCircleEffect")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="MagicCircleEffect")
 	TObjectPtr<UDecalComponent> MagicCircleDecal;
 };

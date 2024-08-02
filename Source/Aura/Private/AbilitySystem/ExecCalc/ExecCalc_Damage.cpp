@@ -11,6 +11,7 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Aura/AuraLogChannels.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 struct AuraDamageStatics
 {
@@ -138,6 +139,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 	
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
@@ -157,13 +159,37 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		const FGameplayTag ResistanceTag = Pair.Value;
 		checkf(TagsToCaptureDefs.Contains(ResistanceTag), TEXT("TagsToCaptureDefs dies not contain tag: [%s]"), *ResistanceTag.ToString());
 		const FGameplayEffectAttributeCaptureDefinition CaptureDefinition = TagsToCaptureDefs[ResistanceTag];
-		
+		/* Scale by the resistance of the character*/
 		float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag, false);
 		float Resistance = 0.f;
 		ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CaptureDefinition, EvaluateParameters, Resistance);
 		Resistance = FMath::Clamp(Resistance, 0.f, 100.f);
-
 		DamageTypeValue *= (100.f - Resistance)/100.f;
+		/* Scale the damage if it's radial on inner or outer to the origin*/
+		if (UAuraAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
+		{
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetAvatar))
+			{
+				CombatInterface->GetOnDamageDelegate().AddLambda(
+					[&](float DamageAmount)
+					{
+						DamageTypeValue = DamageAmount;
+					});
+			}
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetAvatar,
+				DamageTypeValue,
+				0.f,
+				UAuraAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle),
+				UAuraAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle),
+				1.f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceAvatar,
+				nullptr);
+		}
+		
 		DamageMagnitude += DamageTypeValue;
 	}
 	/* Capture BlockChance on target and determine ir there was a successful block*/
@@ -202,8 +228,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	/*Get CriticalHitResistance Target from CharacterClassInfo*/
 	const FRealCurve* CriticalHitResCurve = CharacterClassInfo->DamageCalculationsCoefficients->FindCurve(FName("CriticalHitResistance"), FString());
 	const float CriticalHitResCoefficient = CriticalHitResCurve->Eval(TargetPlayerLevel);
-	/* Get the AuraGameplayEffect context handle*/
-	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 	
 	/******** MAKE THE LOGIC USING THE VALUES AND COEFFICIENTS *******/
 	/* Block chance to reduce damage in a half*/

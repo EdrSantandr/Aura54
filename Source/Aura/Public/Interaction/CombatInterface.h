@@ -15,6 +15,7 @@ class UAbilitySystemComponent;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnAscRegisteredSignature, UAbilitySystemComponent*);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeathSignature, AActor*, DeadActor);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnDamageSignature, float /*DamageAmount*/);
 
 USTRUCT(BlueprintType)
 struct FTaggedMontage
@@ -90,6 +91,8 @@ public:
 	virtual FOnAscRegisteredSignature& GetOnAscRegisteredDelegate() = 0;
 
 	virtual FOnDeathSignature& GetOnDeathDelegate() = 0;
+
+	virtual FOnDamageSignature& GetOnDamageDelegate() = 0;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void SetInShockLoop(bool bInLoop);

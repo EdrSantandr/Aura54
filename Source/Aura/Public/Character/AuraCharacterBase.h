@@ -27,6 +27,8 @@ public:
 	AAuraCharacterBase();
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	// Each actor can override this function
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet()const {return AttributeSet; }
 
@@ -48,9 +50,11 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual bool GetIsBeingShocked_Implementation() const override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
+	virtual FOnDamageSignature& GetOnDamageDelegate() override;
 
 	FOnAscRegisteredSignature OnAscRegisteredDelegate;
 	FOnDeathSignature OnDeathDelegate;
+	FOnDamageSignature OnDamageDelegate;
 	
 	// This MulticastHandleDeath will handle death on server and client 
 	UFUNCTION(NetMulticast, Reliable)

@@ -307,6 +307,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Cooldown_Lightning_Electrocute = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Lightning.Electrocute"),
 		FString("Tag for Lightning_Electrocute cooldown"));
+
+	GameplayTags.Cooldown_Arcane_ArcaneShards = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Arcane.ArcaneShards"),
+		FString("Tag for Arcane_ArcaneShards cooldown"));
 	
 	/* Player*/
 	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(

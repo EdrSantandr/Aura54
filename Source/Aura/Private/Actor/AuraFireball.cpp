@@ -5,7 +5,10 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
+#include "GameplayCueManager.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Components/AudioComponent.h"
 
 void AAuraFireball::BeginPlay()
 {
@@ -13,8 +16,25 @@ void AAuraFireball::BeginPlay()
 	StartOutgoingTimeline();
 }
 
+void AAuraFireball::OnHit()
+{
+	//execute gameplay cue locally
+	if (GetOwner())
+	{
+		FGameplayCueParameters CueParameters;
+		CueParameters.Location = GetActorLocation();
+		UGameplayCueManager::ExecuteGameplayCue_NonReplicated(GetOwner(), FAuraGameplayTags::Get().GameplayCue_FireBlast, CueParameters);
+	}
+	if (LoopingSoundComponent)
+	{
+		LoopingSoundComponent->Stop();
+		LoopingSoundComponent->DestroyComponent();
+	}
+	bHit = true;
+}
+
 void AAuraFireball::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                                   UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (DamageEffectParams.SourceAbilitySystemComponent == nullptr) return; 
 	if (AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor())

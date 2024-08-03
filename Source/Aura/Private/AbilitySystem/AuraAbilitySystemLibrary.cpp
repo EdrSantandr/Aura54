@@ -478,7 +478,6 @@ void UAuraAbilitySystemLibrary::SetKnockBackDirection(FDamageEffectParams& Damag
 	{
 		DamageEffectParams.KnockBackForce = KnockBackDirection*DamageEffectParams.KnockBackForceMagnitude;	
 	}
-	
 }
 
 void UAuraAbilitySystemLibrary::SetDeathImpulseDirection(FDamageEffectParams& DamageEffectParams, FVector DeathImpulseDirection, float Magnitude)
@@ -492,8 +491,6 @@ void UAuraAbilitySystemLibrary::SetDeathImpulseDirection(FDamageEffectParams& Da
 	{
 		DamageEffectParams.DeathImpulse = DeathImpulseDirection*DamageEffectParams.DeathImpulseMagnitude;	
 	}
-	
-	
 }
 
 TArray<FRotator> UAuraAbilitySystemLibrary::EvenlySpreadRotators(const FVector& Forward, const FVector& Axis, float Spread, int32 NumRotators)

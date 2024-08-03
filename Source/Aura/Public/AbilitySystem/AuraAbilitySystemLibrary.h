@@ -149,9 +149,22 @@ public:
 	UFUNCTION(BlueprintPure,Category="AuraAbilitySystemLibrary|GameplayMechanics")
 	static TArray<FVector> EvenlySpreadVectors(const FVector& Forward, const FVector& Axis, float Spread, int32 NumVectors);
 
+	static int32 GetXpRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
+
 	/* Damage effect*/
 	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|DamageEffect")
 	static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
+
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|DamageEffect")
+	static void SetIsRadialDamageEffectParam(UPARAM(ref)FDamageEffectParams& DamageEffectParams, bool bIsRadial, float InnerRadius, float OuterRadius, FVector Origin);
+
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|DamageEffect")
+	static void SetEffectParamsTargetAsc(UPARAM(ref)FDamageEffectParams& DamageEffectParams, UAbilitySystemComponent* InTargetAsc);
+
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|DamageEffect")
+	static void SetKnockBackDirection(UPARAM(ref)FDamageEffectParams& DamageEffectParams, FVector KnockBackDirection, float Magnitude =-1.f);
+
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|DamageEffect")
+	static void SetDeathImpulseDirection(UPARAM(ref)FDamageEffectParams& DamageEffectParams, FVector DeathImpulseDirection, float Magnitude =-1.f);
 	
-	static int32 GetXpRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
 };

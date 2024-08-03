@@ -39,13 +39,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<USphereComponent> SphereComponent;
+
+	bool bHit = false;
 	
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	float LifeSpan = 15.f;
-	
-	bool bHit = false;
+	float LifeSpan = 15.f;	
 	
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UNiagaraSystem> ImpactEffect;

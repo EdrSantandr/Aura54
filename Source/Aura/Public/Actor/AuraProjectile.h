@@ -34,7 +34,7 @@ protected:
 	virtual void Destroyed() override;
 
 	UFUNCTION()
-	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<USphereComponent> SphereComponent;
@@ -42,7 +42,7 @@ protected:
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-	float LifeSpan = 5.f;
+	float LifeSpan = 15.f;
 	
 	bool bHit = false;
 	

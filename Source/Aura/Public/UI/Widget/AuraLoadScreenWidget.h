@@ -13,5 +13,8 @@ UCLASS()
 class AURA_API UAuraLoadScreenWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+public:
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void BlueprintInitializeWidget();
 };

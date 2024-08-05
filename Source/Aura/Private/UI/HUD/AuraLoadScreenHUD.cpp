@@ -12,7 +12,9 @@ void AAuraLoadScreenHUD::BeginPlay()
 	Super::BeginPlay();
 
 	LoadScreenViewModel = NewObject<UMVVM_LoadScreen>(this, LoadScreenViewModelClass);
+	LoadScreenViewModel->InitializeLoadSlots();
 	
 	LoadScreenWidget = CreateWidget<UAuraLoadScreenWidget>(GetWorld(), LoadScreenWidgetClass);
 	LoadScreenWidget->AddToViewport();
+	LoadScreenWidget->BlueprintInitializeWidget();
 }

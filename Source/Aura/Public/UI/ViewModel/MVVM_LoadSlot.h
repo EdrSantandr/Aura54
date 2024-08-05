@@ -23,17 +23,20 @@ public:
 	void InitializeSlot();
 	
 	void SetLoadSlotName(FString InLoadSlotName);
+	void SetPlayerName(FString InPlayerName);
 
 	FString GetLoadSlotName() const { return LoadSlotName; };
-
-	UPROPERTY()
-	FString PlayerName;
+	FString GetPlayerName() const { return PlayerName; }
 
 	UPROPERTY()
 	FString LoadSlot;
 
 	UPROPERTY()
 	FString SlotIndex;
+
+	/*Field notifies*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Setter, Getter)
+	FString PlayerName;
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, FieldNotify, Setter, Getter, meta=(AllowPrivateAccess="true"))

@@ -48,6 +48,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
+	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
+
 protected:
 	virtual void BeginPlay() override;
 };

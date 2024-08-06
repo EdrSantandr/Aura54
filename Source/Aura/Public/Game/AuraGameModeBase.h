@@ -36,4 +36,16 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;
+
+	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
+	FString DefaultMapName;
+
+	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
+	TSoftObjectPtr<UWorld> DefaultMap;
+
+	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
+	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
+
+protected:
+	virtual void BeginPlay() override;
 };

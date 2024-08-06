@@ -17,4 +17,6 @@ void AAuraLoadScreenHUD::BeginPlay()
 	LoadScreenWidget = CreateWidget<UAuraLoadScreenWidget>(GetWorld(), LoadScreenWidgetClass);
 	LoadScreenWidget->AddToViewport();
 	LoadScreenWidget->BlueprintInitializeWidget();
+
+	LoadScreenViewModel->LoadData();
 }

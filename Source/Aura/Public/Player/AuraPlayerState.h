@@ -45,6 +45,8 @@ public:
 	
 	void SetXP(int32 InXp);
 	void SetLevel(int32 InLevel);
+	void SetAttributePoints(int32 InAttributePoints);
+	void SetSpellPoints(int32 InSpellPoints);
 	
 	UFUNCTION(BlueprintCallable)
 	int32 GetCurrentXP() const {return XP; }

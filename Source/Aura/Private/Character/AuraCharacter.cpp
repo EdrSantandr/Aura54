@@ -102,7 +102,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 			AuraHUD->InitOverlay(AuraPlayerController, AuraPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
-	InitializeDefaultAttributes();
 }
 
 void AAuraCharacter::MulticastLevelUpParticles_Implementation() const
@@ -122,7 +121,37 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 	//init ability actor info for the server
 	InitAbilityActorInfo();
-	AddCharacterAbilities();
+	LoadProgress();
+	//todo: load abilities from disk
+}
+
+void AAuraCharacter::LoadProgress()
+{
+	if (AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
+	{
+		ULoadScreenSaveGame* SaveData = AuraGameModeBase->RetrieveInGameSaveData();
+		if (SaveData == nullptr) return;
+
+		if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
+		{
+			/* Player Stats*/
+			AuraPlayerState->SetLevel(SaveData->PlayerLevel);
+			AuraPlayerState->SetXP(SaveData->XP);
+			AuraPlayerState->SetAttributePoints(SaveData->AttributePoints);
+			AuraPlayerState->SetSpellPoints(SaveData->SpellPoints);
+			
+			/* First Time loading*/
+			if (SaveData->bFirstTimeLoadIn)
+			{
+				InitializeDefaultAttributes();
+				AddCharacterAbilities();
+			}
+			else
+			{
+				/*Player Attributes*/
+			}
+		}
+	}
 }
 
 void AAuraCharacter::OnRep_PlayerState()
@@ -261,8 +290,10 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckPointTag)
 		if (SaveData == nullptr) return;
 		/* Checkpoint tag*/
 		SaveData->PlayerStartTag = CheckPointTag;
+		/* First Time Load in*/
+		SaveData->bFirstTimeLoadIn = false;
 		/* Player Stats */
-		if (AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
+		if (const AAuraPlayerState* AuraPlayerState = Cast<AAuraPlayerState>(GetPlayerState()))
 		{
 			SaveData->PlayerLevel = AuraPlayerState->GetPlayerLevel();
 			SaveData->XP = AuraPlayerState->GetXP();

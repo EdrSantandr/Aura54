@@ -16,7 +16,6 @@
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "AbilitySystem/DeBuff/DeBuffNiagaraComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Game/AuraGameInstance.h"
 #include "Game/AuraGameModeBase.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -124,6 +123,10 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	//init ability actor info for the server
 	InitAbilityActorInfo();
 	LoadProgress();
+	if (AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
+	{
+		AuraGameModeBase->LoadWorldState(GetWorld());
+	}
 }
 
 void AAuraCharacter::LoadProgress()

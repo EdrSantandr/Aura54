@@ -25,21 +25,27 @@ struct FSavedAbility
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ClassDefaults")
 	TSubclassOf<UGameplayAbility> GameplayAbility;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ClassDefaults")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="ClassDefaults")
 	FGameplayTag AbilityTag = FGameplayTag();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ClassDefaults")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="ClassDefaults")
 	FGameplayTag AbilityStatus = FGameplayTag();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ClassDefaults")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="ClassDefaults")
 	FGameplayTag AbilitySlot = FGameplayTag();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ClassDefaults")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="ClassDefaults")
 	FGameplayTag AbilityType = FGameplayTag();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="ClassDefaults")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="ClassDefaults")
 	int32 AbilityLevel;
 };
+
+inline bool operator==(const FSavedAbility& Left, const FSavedAbility& Right)
+{
+	return Left.AbilityTag.MatchesTagExact(Right.AbilityTag);
+}
+
 /**
  * 
  */
@@ -97,5 +103,6 @@ public:
 	float Vigor = 0.f;
 
 	/* Abilities*/
+	UPROPERTY()
 	TArray<FSavedAbility> SavedAbilities;
 };

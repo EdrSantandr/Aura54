@@ -273,6 +273,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 			FName("Abilities.Passive.HaloOfProtection"),
 			FString("Tag for Passive HaloOfProtection ability"));
 	
+	GameplayTags.Abilities_Passive_ListenForEvent = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Passive.ListenForEvent"),
+			FString("Tag for Passive ListenForEvent ability for dev settings"));
+	
 	/* Status Abilities*/
 	GameplayTags.Abilities_Status_Eligible = UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Abilities.Status.Eligible"),

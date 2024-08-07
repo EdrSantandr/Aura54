@@ -50,9 +50,15 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
 	TSubclassOf<UGameplayEffect> ResistanceAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
+	TSubclassOf<UGameplayEffect> ResistanceAttributesInfinite;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
+	TSubclassOf<UGameplayEffect> SecondaryAttributesInfinite;
 
 	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
 	TSubclassOf<UGameplayEffect> VitalAttributes;

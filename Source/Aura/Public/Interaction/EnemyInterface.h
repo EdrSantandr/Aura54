@@ -21,8 +21,6 @@ class AURA_API IEnemyInterface
 	GENERATED_BODY()
 
 public:
-	virtual void HighlightActor() = 0; //=0 makes a pure virtual function
-	virtual void UnHighlightActor() = 0;
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void SetCombatTarget(AActor* InCombatTarget);

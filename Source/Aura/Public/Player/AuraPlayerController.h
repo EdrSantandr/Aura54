@@ -8,6 +8,7 @@
 #include "AuraPlayerController.generated.h"
 
 
+class IHighlightInterface;
 class AAuraMagicCircle;
 class UNiagaraSystem;
 class UDamageTextWidgetComponent;
@@ -16,7 +17,6 @@ class UAuraInputConfig;
 struct FInputActionValue;
 class UInputMappingContext;
 class UInputAction;
-class IEnemyInterface;
 class UAuraAbilitySystemComponent;
 
 /**
@@ -62,8 +62,8 @@ private:
 	bool bShiftKeyDown = false;
 
 	void CursorTrace();
-	TScriptInterface<IEnemyInterface> LastActor;
-	TScriptInterface<IEnemyInterface> ThisActor;
+	TScriptInterface<IHighlightInterface> LastActor;
+	TScriptInterface<IHighlightInterface> ThisActor;
 	FHitResult CursorHit;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);

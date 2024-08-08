@@ -33,8 +33,11 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneComponent> MoveToComponent;
 		
-	UPROPERTY(BlueprintReadOnly, SaveGame)
+	UPROPERTY(BlueprintReadWrite, SaveGame)
 	bool bReached = false;
+
+	UPROPERTY(EditAnywhere)
+	bool bBindCallOverlapCallback = true;
 	
 protected:
 	UFUNCTION()
@@ -48,6 +51,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void CheckPointReach(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
+	UFUNCTION(BlueprintCallable)
 	void HandleGlowEffects(); 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

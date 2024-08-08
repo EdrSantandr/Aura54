@@ -32,7 +32,10 @@ AAuraCheckPoint::AAuraCheckPoint(const FObjectInitializer& ObjectInitializer) : 
 
 void AAuraCheckPoint::HighlightActor_Implementation()
 {
-	CheckPointMesh->SetRenderCustomDepth(true);
+	if (!bReached)
+	{
+		CheckPointMesh->SetRenderCustomDepth(true);
+	}
 }
 
 void AAuraCheckPoint::UnHighlightActor_Implementation()
@@ -61,7 +64,10 @@ void AAuraCheckPoint::LoadActor_Implementation()
 void AAuraCheckPoint::BeginPlay()
 {
 	Super::BeginPlay();
-	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AAuraCheckPoint::OnBeginOverlap);
+	if (bBindCallOverlapCallback)
+	{
+		SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AAuraCheckPoint::OnBeginOverlap);	
+	}
 }
 
 void AAuraCheckPoint::HandleGlowEffects()

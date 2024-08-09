@@ -49,6 +49,11 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString EnteredNam
 			AuraGameInstance->PlayerStartTag = AuraGameModeBase->DefaultPlayerStartTag;
 		} 
 	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(1, 15.f, FColor::Magenta, FString("Please switch to single player."));
+		return;
+	}
 }
 
 void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
@@ -102,24 +107,23 @@ void UMVVM_LoadScreen::PlayButtonPressed()
 
 void UMVVM_LoadScreen::LoadData()
 {
-	if (AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
+	AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (!IsValid(AuraGameMode)) return;
+	for (const TTuple<int32, UMVVM_LoadSlot*> LoadSlot : LoadSlots)
 	{
-		for (const TTuple<int32, UMVVM_LoadSlot*> LoadSlot : LoadSlots)
+		if ( const ULoadScreenSaveGame* SaveObject = AuraGameMode->GetSavedSlotData(LoadSlot.Value->GetLoadSlotName(), LoadSlot.Key))
 		{
-			if ( const ULoadScreenSaveGame* SaveObject = AuraGameMode->GetSavedSlotData(LoadSlot.Value->GetLoadSlotName(), LoadSlot.Key))
-			{
-				const FString PlayerName = SaveObject->PlayerName;
-				const TEnumAsByte<ESaveSlotStatus> SaveSlotStatus = SaveObject->SaveSlotStatus;
+			const FString PlayerName = SaveObject->PlayerName;
+			const TEnumAsByte<ESaveSlotStatus> SaveSlotStatus = SaveObject->SaveSlotStatus;
 			
-				LoadSlot.Value->SlotStatus = SaveSlotStatus;
-				LoadSlot.Value->SetPlayerName(PlayerName);
-				LoadSlot.Value->SetPlayerLevel(SaveObject->PlayerLevel);
-				LoadSlot.Value->SetMapName(SaveObject->MapName);
-				LoadSlot.Value->PlayerStartTag = SaveObject->PlayerStartTag;
-				LoadSlot.Value->InitializeSlot();	
-			}
+			LoadSlot.Value->SlotStatus = SaveSlotStatus;
+			LoadSlot.Value->SetPlayerName(PlayerName);
+			LoadSlot.Value->SetPlayerLevel(SaveObject->PlayerLevel);
+			LoadSlot.Value->SetMapName(SaveObject->MapName);
+			LoadSlot.Value->PlayerStartTag = SaveObject->PlayerStartTag;
+			LoadSlot.Value->InitializeSlot();	
 		}
-	} 
+	}
 }
 
 void UMVVM_LoadScreen::SetNumLoadSlots(int32 InNumLoadSlots)

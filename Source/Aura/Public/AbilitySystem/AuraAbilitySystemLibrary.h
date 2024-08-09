@@ -9,6 +9,7 @@
 #include "AuraAbilitySystemLibrary.generated.h"
 
 
+class ULootTiersInfo;
 class ULoadScreenSaveGame;
 struct FDamageEffectParams;
 class UAbilityInfo;
@@ -57,6 +58,10 @@ public:
 	/* Ability info*/
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|AbilityInfo")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
+
+	/* Loot tiers info*/
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|LootTiers", meta=(DefaultToSelf="WorldContextObject"))
+	static ULootTiersInfo* GetLootTiersInfo(const UObject* WorldContextObject);
 
 	/* Gameplay Effects contexts getters and setters*/
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|GameplayEffects")

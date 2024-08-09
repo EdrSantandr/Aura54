@@ -31,6 +31,7 @@ void AAuraMapEntrance::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 		bReached = true;
 		if (const AAuraGameModeBase* AuraGm = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
 		{
+			
 			AuraGm->SaveWorldState(GetWorld(), DestinationMap.ToSoftObjectPath().GetAssetName());
 		}
 		IPlayerInterface::Execute_SaveProgress(OtherActor, DestinationPlayerStartTag);

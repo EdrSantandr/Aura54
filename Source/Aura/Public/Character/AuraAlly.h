@@ -16,7 +16,7 @@ class AAuraAIController;
  * 
  */
 UCLASS()
-class AURA_API AAuraAlly : public AAuraCharacter, public IEnemyInterface, public IHighlightInterface
+class AURA_API AAuraAlly : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 

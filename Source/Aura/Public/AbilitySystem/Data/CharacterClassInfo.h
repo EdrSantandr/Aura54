@@ -15,7 +15,11 @@ enum class ECharacterClass :uint8
 {
 	Elementalist,
 	Warrior,
-	Ranger
+	Ranger,
+	SentinelFire,
+	SentinelPhysical,
+	SentinelArcane,
+	SentinelLightning
 };
 
 USTRUCT()
@@ -45,23 +49,32 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 
-	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
-	TSubclassOf<UGameplayEffect> PrimaryAttributes_SetByCaller;
+	UPROPERTY(EditDefaultsOnly, Category="Allies Common Class defaults")
+	TSubclassOf<UGameplayEffect> AlliesResistanceAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category="Allies Common Class defaults")
+	TSubclassOf<UGameplayEffect> AlliesVitalAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category="Allies Common Class defaults")
+	TSubclassOf<UGameplayEffect> AlliesSecondaryAttributes;
 	
-	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
+	UPROPERTY(EditDefaultsOnly, Category="Enemies Common Class defaults")
 	TSubclassOf<UGameplayEffect> ResistanceAttributes;
 
-	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
-	TSubclassOf<UGameplayEffect> ResistanceAttributesInfinite;
-	
-	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
+	UPROPERTY(EditDefaultsOnly, Category="Enemies Common Class defaults")
+	TSubclassOf<UGameplayEffect> VitalAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category="Enemies Common Class defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
-	TSubclassOf<UGameplayEffect> SecondaryAttributesInfinite;
+	TSubclassOf<UGameplayEffect> ResistanceAttributesInfinite;
+    
+	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
+	TSubclassOf<UGameplayEffect> PrimaryAttributes_SetByCaller;
 
 	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
-	TSubclassOf<UGameplayEffect> VitalAttributes;
+	TSubclassOf<UGameplayEffect> SecondaryAttributesInfinite;
 
 	UPROPERTY(EditDefaultsOnly, Category="Common Class defaults")
 	TArray<TSubclassOf<UGameplayAbility>> CommonAbilities;

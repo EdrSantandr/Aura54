@@ -59,6 +59,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 	void UpdateFacingTarget(const FVector& Target);
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void ScalingRotatingMesh(const FVector& Target);
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
 	

@@ -132,7 +132,7 @@ protected:
 	void AddCharacterAbilities() const;
 
 	//Dissolve effect
-	void Dissolve();
+	virtual void Dissolve();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartMeshDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);

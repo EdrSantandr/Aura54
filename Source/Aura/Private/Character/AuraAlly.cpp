@@ -11,13 +11,22 @@
 #include "Aura/Aura.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
 
 AAuraAlly::AAuraAlly()
 {
-	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
+	MeshComponent->SetupAttachment(GetRootComponent());
+	MeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	MeshComponent->SetCollisionResponseToAllChannels(ECR_Block);
+	MeshComponent->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
+	MeshComponent->MarkRenderStateDirty();
+
+	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(false);
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
@@ -29,9 +38,6 @@ AAuraAlly::AAuraAlly()
 
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
 	HealthBar->SetupAttachment(GetRootComponent());
-
-	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
-	GetMesh()->MarkRenderStateDirty();
 	
 	BaseWalkSpeed = 0; // Trees won't move
 }
@@ -50,14 +56,12 @@ void AAuraAlly::PossessedBy(AController* NewController)
 
 void AAuraAlly::HighlightActor_Implementation()
 {
-	GetMesh()->SetRenderCustomDepth(true);
-	Weapon->SetRenderCustomDepth(true);
+	MeshComponent->SetRenderCustomDepth(true);
 }
 
 void AAuraAlly::UnHighlightActor_Implementation()
 {
-	GetMesh()->SetRenderCustomDepth(false);
-	Weapon->SetRenderCustomDepth(false);
+	MeshComponent->SetRenderCustomDepth(false);
 }
 
 void AAuraAlly::SetMoveToLocation_Implementation(FVector& OutDestination)
@@ -85,6 +89,30 @@ void AAuraAlly::Die(const FVector& DeathImpulse)
 	SetLifeSpan(Lifespan);
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	Super::Die(FVector::ZeroVector);
+}
+
+void AAuraAlly::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
+{
+	//Things here will de done in server and client
+	Weapon->SetSimulatePhysics(true);
+	Weapon->SetEnableGravity(true);
+	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	Weapon->AddImpulse(DeathImpulse * 0.1f, NAME_None, true);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Dissolve();
+	bDead = true;
+	OnDeathDelegate.Broadcast(this);
+}
+
+void AAuraAlly::Dissolve()
+{
+	if (IsValid(DissolveMaterialInstance))
+	{
+		UMaterialInstanceDynamic* DynamicMatIns = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
+		MeshComponent->SetMaterial(0, DynamicMatIns);
+		StartMeshDissolveTimeline(DynamicMatIns);
+	}
 }
 
 void AAuraAlly::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)

@@ -36,6 +36,10 @@ public:
 	/* CombatInterface*/
 	virtual int32 GetPlayerLevel_Implementation() override;
 	virtual void Die(const FVector& DeathImpulse) override;
+	
+	virtual void MulticastHandleDeath_Implementation(const FVector& DeathImpulse) override;
+
+	virtual void Dissolve() override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	
@@ -72,7 +76,9 @@ protected:
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	FGameplayTag EnchantedType;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	TObjectPtr<UStaticMeshComponent> MeshComponent;
 };

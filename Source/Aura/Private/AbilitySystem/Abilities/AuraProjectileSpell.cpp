@@ -41,4 +41,33 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation,const F
 	
 	Projectile->FinishSpawning(SpawnTransform);
 }
+
+void UAuraProjectileSpell::SpawnProjectileAtLocation(const FVector& TargetLocation, const FVector& SpawnLocation, bool bOverridePitch, float PitchOverride)
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	if (!bIsServer) return;
+	
+	FRotator Rotation = (TargetLocation - SpawnLocation).Rotation();
+	if (bOverridePitch)
+	{
+		Rotation.Pitch = PitchOverride;
+	}
+	
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(SpawnLocation);
+	SpawnTransform.SetRotation(Rotation.Quaternion());
+		
+	AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+		ProjectileClass,
+		SpawnTransform,
+		GetOwningActorFromActorInfo(),
+		Cast<APawn>(GetOwningActorFromActorInfo()),
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	
+	Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+	
+	Projectile->FinishSpawning(SpawnTransform);
+}
+
+
 	

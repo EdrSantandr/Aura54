@@ -103,6 +103,12 @@ public:
 	FGameplayTag Montage_Attack_3;
 	FGameplayTag Montage_Attack_4;
 
+	FGameplayTag Tree_Enchanted_None;
+	FGameplayTag Tree_Enchanted_Fire;
+	FGameplayTag Tree_Enchanted_Lightning;
+	FGameplayTag Tree_Enchanted_Arcane;
+	FGameplayTag Tree_Enchanted_Physical;
+
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 	TMap<FGameplayTag, FGameplayTag> DamageTypesToDeBuffs;
 	

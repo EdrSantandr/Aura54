@@ -345,4 +345,25 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.GameplayCue_FireBlast = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("GameplayCue.FireBlast"),
 		FString("Tag for GameplayCue FireBlast"));
+
+	/* Tree Enchanted Types */
+	GameplayTags.Tree_Enchanted_None = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Tree.Enchanted.None"),
+		FString("Tag for Tree Enchanted None"));
+
+	GameplayTags.Tree_Enchanted_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Tree.Enchanted.Arcane"),
+		FString("Tag for Tree Enchanted Arcane"));
+
+	GameplayTags.Tree_Enchanted_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Tree.Enchanted.Fire"),
+		FString("Tag for Tree Enchanted Fire"));
+	
+	GameplayTags.Tree_Enchanted_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Tree.Enchanted.Lightning"),
+		FString("Tag for Tree Enchanted Lightning"));
+	
+	GameplayTags.Tree_Enchanted_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Tree.Enchanted.Physical"),
+		FString("Tag for Tree Enchanted Physical"));
 }

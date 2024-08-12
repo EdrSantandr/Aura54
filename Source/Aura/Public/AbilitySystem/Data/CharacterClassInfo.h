@@ -31,6 +31,9 @@ struct FCharacterClassDefaultInfo
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category="Class defaults")
+	TObjectPtr<UMaterialInterface> DecalMaterial =  nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category="Class defaults")
 	TArray<TSubclassOf<UGameplayAbility>> CharacterClassAbilities;
 
 	UPROPERTY(EditDefaultsOnly, Category="Class defaults")

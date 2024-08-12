@@ -42,6 +42,12 @@ public:
 	virtual void Dissolve() override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	void ShowDecal() const;
+
+	UFUNCTION(BlueprintCallable, Category="Combat")
+	void HideDecal() const;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Combat")
 	bool bHitReacting = false;
@@ -75,9 +81,6 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-	FGameplayTag EnchantedType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	TObjectPtr<UStaticMeshComponent> MeshComponent;

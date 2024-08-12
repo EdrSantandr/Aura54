@@ -12,6 +12,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/DecalComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UI/Widget/AuraUserWidget.h"
@@ -68,6 +69,22 @@ void AAuraAlly::UnHighlightActor_Implementation()
 void AAuraAlly::SetMoveToLocation_Implementation(FVector& OutDestination)
 {
 	// DO nothing
+}
+
+void AAuraAlly::ShowDecal() const
+{
+	UE_LOG(LogTemp, Warning, TEXT("Show decal implementation on AuraAlly"));
+	//CharacterDecal->SetVisibleFlag(true);
+	CharacterDecal->SetVisibility(true);
+	CharacterDecal->Activate();
+}
+
+void AAuraAlly::HideDecal() const
+{
+	UE_LOG(LogTemp, Warning, TEXT("HIDE HIDE decal implementation on AuraAlly"));
+	//CharacterDecal->SetVisibleFlag(false);
+	CharacterDecal->SetVisibility(false);
+	CharacterDecal->Deactivate();
 }
 
 void AAuraAlly::SetCombatTarget_Implementation(AActor* InCombatTarget)
@@ -178,6 +195,9 @@ void AAuraAlly::InitAbilityActorInfo()
 		InitializeDefaultAttributes();	
 	}
 	OnAscRegisteredDelegate.Broadcast(AbilitySystemComponent);
+	// Get the Decal material
+	UMaterialInterface* DecalMaterial = UAuraAbilitySystemLibrary::GetMaterialDecalByCharacterClass(this, CharacterClass);
+	CharacterDecal->SetMaterial(0, DecalMaterial);
 }
 
 void AAuraAlly::InitializeDefaultAttributes() const

@@ -51,7 +51,7 @@ public:
 	virtual bool GetIsBeingShocked_Implementation() const override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
 	virtual FOnDamageSignature& GetOnDamageDelegate() override;
-
+	
 	FOnAscRegisteredSignature OnAscRegisteredDelegate;
 	FOnDeathSignature OnDeathDelegate;
 	FOnDamageSignature OnDamageDelegate;
@@ -159,6 +159,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Class Defaults")
 	ECharacterClass CharacterClass = ECharacterClass::Warrior;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Character Class Defaults")
+	TObjectPtr<UDecalComponent> CharacterDecal;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	FGameplayTag CharacterDecalType;
 
 	UPROPERTY(VisibleAnywhere, Category="Character Debuff Effect")
 	TObjectPtr<UDeBuffNiagaraComponent> BurnDeBuffComponent;

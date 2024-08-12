@@ -9,6 +9,7 @@
 #include "AbilitySystem/Passive/PassiveNiagaraComponent.h"
 #include "Aura/Aura.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/DecalComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
@@ -47,6 +48,11 @@ AAuraCharacterBase::AAuraCharacterBase()
 	ManaSiphonNiagaraComponent = CreateDefaultSubobject<UPassiveNiagaraComponent>("ManaSiphonComponent");
 	ManaSiphonNiagaraComponent->SetupAttachment(EffectAttachComponent);
 	ManaSiphonNiagaraComponent->PassiveSpellTag = FAuraGameplayTags::Get().Abilities_Passive_ManaSiphon;
+
+	CharacterDecal = CreateDefaultSubobject<UDecalComponent>("CharacterDecalComponent");
+	CharacterDecal->SetupAttachment(GetRootComponent());
+	CharacterDecal->SetVisibleFlag(false);
+	CharacterDecal->Deactivate();
 }
 
 void AAuraCharacterBase::Tick(float DeltaSeconds)

@@ -73,16 +73,12 @@ void AAuraAlly::SetMoveToLocation_Implementation(FVector& OutDestination)
 
 void AAuraAlly::ShowDecal() const
 {
-	UE_LOG(LogTemp, Warning, TEXT("Show decal implementation on AuraAlly"));
-	//CharacterDecal->SetVisibleFlag(true);
 	CharacterDecal->SetVisibility(true);
 	CharacterDecal->Activate();
 }
 
 void AAuraAlly::HideDecal() const
 {
-	UE_LOG(LogTemp, Warning, TEXT("HIDE HIDE decal implementation on AuraAlly"));
-	//CharacterDecal->SetVisibleFlag(false);
 	CharacterDecal->SetVisibility(false);
 	CharacterDecal->Deactivate();
 }

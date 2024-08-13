@@ -5,6 +5,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "Actor/AuraProjectile.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 #include "Interaction/CombatInterface.h"
 
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
@@ -42,12 +43,13 @@ void UAuraProjectileSpell::SpawnProjectile(const FVector& TargetLocation,const F
 	Projectile->FinishSpawning(SpawnTransform);
 }
 
-void UAuraProjectileSpell::SpawnProjectileAtLocation(const FVector& TargetLocation, const FVector& SpawnLocation, bool bOverridePitch, float PitchOverride)
+void UAuraProjectileSpell::SpawnProjectileAtLocation(AActor* HomingTarget, const FVector& SpawnLocation, bool bOverridePitch, float PitchOverride)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
-	
-	FRotator Rotation = (TargetLocation - SpawnLocation).Rotation();
+	const FVector ProjectileTargetLocation = HomingTarget->GetActorLocation();
+	FRotator Rotation = (ProjectileTargetLocation - SpawnLocation).Rotation();
+	 
 	if (bOverridePitch)
 	{
 		Rotation.Pitch = PitchOverride;
@@ -65,6 +67,19 @@ void UAuraProjectileSpell::SpawnProjectileAtLocation(const FVector& TargetLocati
 		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 	
 	Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+
+	if(HomingTarget && HomingTarget->Implements<UCombatInterface>())
+	{
+		Projectile->ProjectileMovementComponent->HomingTargetComponent = HomingTarget->GetRootComponent();
+	}
+	else
+	{
+		Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+		Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+		Projectile->ProjectileMovementComponent->HomingTargetComponent= Projectile->HomingTargetSceneComponent;
+	}
+	Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin,HomingAccelerationMax);
+	Projectile->ProjectileMovementComponent->bIsHomingProjectile = true;
 	
 	Projectile->FinishSpawning(SpawnTransform);
 }

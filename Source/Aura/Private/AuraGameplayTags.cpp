@@ -342,6 +342,35 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Abilities_Type_Passive = UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Abilities.Type.Passive"),
 			FString("Tag for Type Passive ability"));
+
+	GameplayTags.Abilities_Type_Enchant = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Type.Enchant"),
+			FString("Tag for Type Enchant ability"));
+
+	/* Enchant Abilities*/
+	GameplayTags.Abilities_Enchant_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Enchant.Arcane"),
+			FString("Tag for Type Enchant Arcane ability"));
+
+	GameplayTags.Abilities_Enchant_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Enchant.Fire"),
+			FString("Tag for Type Enchant Fire ability"));
+
+	GameplayTags.Abilities_Enchant_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Enchant.Lightning"),
+			FString("Tag for Type Enchant Lightning ability"));
+
+	GameplayTags.Abilities_Enchant_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Enchant.Physical"),
+			FString("Tag for Type Enchant Physical ability"));
+
+	GameplayTags.Abilities_Enchant_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Enchant.Poison"),
+			FString("Tag for Type Enchant Poison ability"));
+
+	GameplayTags.Abilities_Enchant_Wind = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Enchant.Wind"),
+			FString("Tag for Type Enchant Wind ability"));
 	
 	/* Cooldowns*/
 	GameplayTags.Cooldown_Fire_Firebolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -359,6 +388,30 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Cooldown_Arcane_ArcaneShards = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Arcane.ArcaneShards"),
 		FString("Tag for Arcane_ArcaneShards cooldown"));
+
+	GameplayTags.Cooldown_Enchant_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Enchant.Arcane"),
+		FString("Tag for Enchant Arcane cooldown"));
+
+	GameplayTags.Cooldown_Enchant_Fire = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Enchant.Fire"),
+		FString("Tag for Enchant Fire cooldown"));
+
+	GameplayTags.Cooldown_Enchant_Lightning = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Enchant.Lightning"),
+		FString("Tag for Enchant Lightning cooldown"));
+
+	GameplayTags.Cooldown_Enchant_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Enchant.Physical"),
+		FString("Tag for Enchant Physical cooldown"));
+
+	GameplayTags.Cooldown_Enchant_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Enchant.Poison"),
+		FString("Tag for Enchant Poison cooldown"));
+
+	GameplayTags.Cooldown_Enchant_Wind = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Enchant.Wind"),
+		FString("Tag for Enchant Wind cooldown"));
 	
 	/* Player*/
 	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(

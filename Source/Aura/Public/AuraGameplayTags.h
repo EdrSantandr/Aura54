@@ -83,6 +83,7 @@ public:
 	FGameplayTag Abilities_Status_Unlocked;
 	FGameplayTag Abilities_Status_Equipped;
 
+	FGameplayTag Abilities_Type_Enchant;
 	FGameplayTag Abilities_Type_Offensive;
 	FGameplayTag Abilities_Type_Passive;
 	FGameplayTag Abilities_Type_None;
@@ -92,6 +93,13 @@ public:
 	FGameplayTag Abilities_Lightning_Electrocute;
 	FGameplayTag Abilities_Arcane_ArcaneShards;
 
+	FGameplayTag Abilities_Enchant_Fire;
+	FGameplayTag Abilities_Enchant_Lightning;
+	FGameplayTag Abilities_Enchant_Arcane;
+	FGameplayTag Abilities_Enchant_Physical;
+	FGameplayTag Abilities_Enchant_Poison;
+	FGameplayTag Abilities_Enchant_Wind;
+	
 	FGameplayTag Abilities_Passive_HaloOfProtection;
 	FGameplayTag Abilities_Passive_LifeSiphon;
 	FGameplayTag Abilities_Passive_ManaSiphon;
@@ -101,6 +109,12 @@ public:
 	FGameplayTag Cooldown_Fire_Fireblast;
 	FGameplayTag Cooldown_Lightning_Electrocute;
 	FGameplayTag Cooldown_Arcane_ArcaneShards;
+	FGameplayTag Cooldown_Enchant_Fire;
+	FGameplayTag Cooldown_Enchant_Lightning;
+	FGameplayTag Cooldown_Enchant_Arcane;
+	FGameplayTag Cooldown_Enchant_Physical;
+	FGameplayTag Cooldown_Enchant_Poison;
+	FGameplayTag Cooldown_Enchant_Wind;
 	
 	FGameplayTag CombatSocket_Weapon;
 	FGameplayTag CombatSocket_RightHand;

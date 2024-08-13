@@ -11,7 +11,7 @@ class UGameplayAbility;
 class UGameplayEffect;
 
 UENUM()
-enum class ECharacterClass :uint8
+enum class ECharacterClass :uint16
 {
 	Elementalist,
 	Warrior,
@@ -19,7 +19,9 @@ enum class ECharacterClass :uint8
 	SentinelFire,
 	SentinelPhysical,
 	SentinelArcane,
-	SentinelLightning
+	SentinelLightning,
+	SentinelPoison,
+	SentinelWind
 };
 
 USTRUCT()

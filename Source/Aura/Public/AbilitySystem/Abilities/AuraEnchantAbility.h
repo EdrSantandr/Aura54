@@ -16,6 +16,6 @@ class AURA_API UAuraEnchantAbility : public UAuraGameplayAbility
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category="Enchanting")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Enchanting")
 	ECharacterClass CharacterClass;
 };

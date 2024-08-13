@@ -96,13 +96,49 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("InputTag.4"),
 		FString("Input tag for 4 key button"));
 
+	GameplayTags.InputTag_5 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.5"),
+		FString("Input tag for 5 key button"));
+
+	GameplayTags.InputTag_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.6"),
+		FString("Input tag for 6 key button"));
+
+	GameplayTags.InputTag_Q = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.Q"),
+		FString("Input tag for Q key button"));
+
+	GameplayTags.InputTag_W = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.W"),
+		FString("Input tag for W key button"));
+
+	GameplayTags.InputTag_E = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.E"),
+		FString("Input tag for E key button"));
+	
+	GameplayTags.InputTag_R = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.R"),
+		FString("Input tag for R key button"));
+
+	GameplayTags.InputTag_A = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.A"),
+		FString("Input tag for A key button"));
+
+	GameplayTags.InputTag_S = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.S"),
+		FString("Input tag for S key button"));
+
+	GameplayTags.InputTag_ESC = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.ESC"),
+		FString("Input tag for ESC key button"));
+
 	GameplayTags.InputTag_Passive_1 = UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("InputTag.Passive.1"),
-			FString("Input tag for passive 1"));
+		FName("InputTag.Passive.1"),
+		FString("Input tag for passive 1"));
 
 	GameplayTags.InputTag_Passive_2 = UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("InputTag.Passive.2"),
-			FString("Input tag for passive 2"));
+		FName("InputTag.Passive.2"),
+		FString("Input tag for passive 2"));
 	
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage"),

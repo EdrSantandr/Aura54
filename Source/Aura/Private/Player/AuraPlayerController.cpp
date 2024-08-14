@@ -123,6 +123,11 @@ void AAuraPlayerController::SetupInputComponent()
 		AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
     	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 	}
+	if (IsValid(ConfirmAction))
+	{
+		AuraInputComponent->BindAction(ConfirmAction, ETriggerEvent::Started, this, &AAuraPlayerController::ConfirmPressed);
+		AuraInputComponent->BindAction(ConfirmAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ConfirmReleased);
+	}
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &AAuraPlayerController::AbilityInputTagPressed, &AAuraPlayerController::AbilityInputTagReleased, &AAuraPlayerController::AbilityInputTagHeld);
 }
 
@@ -144,6 +149,16 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
+}
+
+void AAuraPlayerController::ConfirmPressed()
+{
+	UE_LOG(LogTemp, Warning, TEXT("cONFIRM HERE VALIDATE"));
+	if (GetASC())
+	{
+		GetASC()->GenericLocalConfirmCallbacks.Broadcast();
+	}
+	bConfirmKeyDown = true;
 }
 
 void AAuraPlayerController::CursorTrace()

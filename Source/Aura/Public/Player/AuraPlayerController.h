@@ -62,12 +62,18 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
 
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> ConfirmAction;
+	
 	void Move(const FInputActionValue& InputActionValue);
 
 	void ShiftPressed() { bShiftKeyDown = true;}
 	void ShiftReleased() { bShiftKeyDown = false;}
 	bool bShiftKeyDown = false;
 
+	void ConfirmPressed();
+	void ConfirmReleased() { bConfirmKeyDown = false;}
+	bool bConfirmKeyDown = false;
 	void CursorTrace();
 
 	UPROPERTY()

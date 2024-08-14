@@ -21,7 +21,8 @@ enum class ECharacterClass :uint16
 	SentinelArcane,
 	SentinelLightning,
 	SentinelPoison,
-	SentinelWind
+	SentinelWind,
+	SentinelBase
 };
 
 USTRUCT()

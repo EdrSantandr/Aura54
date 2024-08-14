@@ -78,14 +78,20 @@ void AAuraAlly::SetMoveToLocation_Implementation(FVector& OutDestination)
 
 void AAuraAlly::ShowDecal() const
 {
-	CharacterDecal->SetVisibility(true);
-	CharacterDecal->Activate();
+	if (IsValid(CharacterDecal->GetDecalMaterial()))
+	{
+		CharacterDecal->SetVisibility(true);
+		CharacterDecal->Activate();	
+	}
 }
 
 void AAuraAlly::HideDecal() const
 {
-	CharacterDecal->SetVisibility(false);
-	CharacterDecal->Deactivate();
+	if (IsValid(CharacterDecal->GetDecalMaterial()))
+	{
+		CharacterDecal->SetVisibility(false);
+		CharacterDecal->Deactivate();
+	}
 }
 
 void AAuraAlly::SetCombatTarget_Implementation(AActor* InCombatTarget)
@@ -197,8 +203,10 @@ void AAuraAlly::InitAbilityActorInfo()
 	}
 	OnAscRegisteredDelegate.Broadcast(AbilitySystemComponent);
 	// Get the Decal material
-	UMaterialInterface* DecalMaterial = UAuraAbilitySystemLibrary::GetMaterialDecalByCharacterClass(this, CharacterClass);
-	CharacterDecal->SetMaterial(0, DecalMaterial);
+	if (UMaterialInterface* DecalMaterial = UAuraAbilitySystemLibrary::GetMaterialDecalByCharacterClass(this, CharacterClass))
+	{
+		CharacterDecal->SetMaterial(0, DecalMaterial);	
+	}
 }
 
 void AAuraAlly::InitializeDefaultAttributes() const

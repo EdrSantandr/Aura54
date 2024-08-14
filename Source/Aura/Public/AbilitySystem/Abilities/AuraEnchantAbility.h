@@ -17,11 +17,14 @@ class AURA_API UAuraEnchantAbility : public UAuraGameplayAbility
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Enchanting")
-	ECharacterClass CharacterClass;
+	ECharacterClass NewCharacterClass;
 
 	UFUNCTION(BlueprintCallable)
 	void ChangeToConfirmInputMapping();
 
 	UFUNCTION(BlueprintCallable)
 	void ChangeToLiriaInputMapping();
+
+	UFUNCTION(BlueprintCallable)
+	void EnchantAlly(AActor* InAlly);
 };

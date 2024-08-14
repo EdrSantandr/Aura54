@@ -6,6 +6,8 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
+#include "Character/AuraAlly.h"
+#include "Character/AuraCharacterBase.h"
 #include "Game/AuraGameModeBase.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "Interaction/CombatInterface.h"
@@ -131,13 +133,13 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributesFromSaveData(const UO
 	
 }
 
-void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* Asc, ECharacterClass CharacterClass)
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* Asc, ECharacterClass CharacterClass, float AbilitiesLevel)
 {
 	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
 	if (CharacterClassInfo == nullptr) return;
 	for (const TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
 	{
-		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, AbilitiesLevel);
 		Asc->GiveAbility(AbilitySpec);
 	}
 	const FCharacterClassDefaultInfo DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
@@ -419,6 +421,25 @@ void UAuraAbilitySystemLibrary::SetRadialDamageOrigin(FGameplayEffectContextHand
 	if (FAuraGameplayEffectContext* AuraGameplayEffectContext = static_cast< FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		AuraGameplayEffectContext->SetRadialDamageOrigin(InRadialDamageOrigin);
+	}
+}
+
+void UAuraAbilitySystemLibrary::ChangeAllyClass(const UObject* WorldContextObject, const ECharacterClass NewCharacterClass, AActor*& Ally)
+{
+	if (AAuraAlly* AuraAlly = Cast<AAuraAlly>(Ally))
+	{
+		if (UAbilitySystemComponent* Asc = AuraAlly->GetAbilitySystemComponent())
+		{
+			TArray<FGameplayAbilitySpecHandle> OutAbilityHandles;
+			Asc->GetAllAbilities(OutAbilityHandles);
+			for (FGameplayAbilitySpecHandle Ability : OutAbilityHandles)
+			{
+				Asc->ClearAbility(Ability);
+			}
+			GiveStartupAbilities(WorldContextObject, Asc, NewCharacterClass);
+			AuraAlly->SetDecalMaterial(GetMaterialDecalByCharacterClass(WorldContextObject, NewCharacterClass));
+		}
+		AuraAlly->SetCharacterClass(NewCharacterClass);
 	}
 }
 

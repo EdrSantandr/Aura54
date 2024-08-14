@@ -150,6 +150,11 @@ void AAuraAlly::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCoun
 	}
 }
 
+void AAuraAlly::SetDecalMaterial(UMaterialInterface* InDecalMaterial) const
+{
+	CharacterDecal->SetMaterial(0, InDecalMaterial);
+}
+
 void AAuraAlly::BeginPlay()
 {
 	Super::BeginPlay();

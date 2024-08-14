@@ -62,6 +62,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category="Combat")
 	TObjectPtr<AActor> CombatTarget;
 
+	UFUNCTION()
+	void SetDecalMaterial(UMaterialInterface* InDecalMaterial) const;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;

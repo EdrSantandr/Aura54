@@ -48,9 +48,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassInfo")
 	static void InitializeDefaultAttributesFromSaveData(const UObject* WorldContextObject, UAbilitySystemComponent* Asc, ULoadScreenSaveGame* SaveGame);
-
+	
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassInfo")
-	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* Asc, ECharacterClass CharacterClass);
+	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* Asc, ECharacterClass CharacterClass, float AbilitiesLevel = 1.f);
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassInfo")
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
@@ -146,6 +146,9 @@ public:
 	static void SetRadialDamageOrigin(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, const FVector& InRadialDamageOrigin);
 
 	/* Gameplay mechanics*/
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|GameplayMechanics", meta=(DefaultToSelf="WorldContextObject"))
+	static void ChangeAllyClass(const UObject* WorldContextObject, const ECharacterClass NewCharacterClass, AActor*& Ally);
+	
 	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|GameplayMechanics", meta=(DefaultToSelf="WorldContextObject"))
 	static AActor* GetHighLightedActor(const UObject* WorldContextObject);
 	

@@ -51,6 +51,12 @@ public:
 
 	UFUNCTION()
 	void BindConfirmAndCancel();
+
+	UFUNCTION()
+	void ChangeToConfirmInputMapping() const;
+
+	UFUNCTION()
+	void ChangeToLiriaInputMapping() const;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -59,6 +65,9 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputMappingContext> AuraContext;
+
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputMappingContext> ConfirmContext;
 	
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;

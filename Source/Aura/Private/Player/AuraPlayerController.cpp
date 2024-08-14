@@ -123,6 +123,28 @@ void AAuraPlayerController::BindConfirmAndCancel()
 	}
 }
 
+void AAuraPlayerController::ChangeToConfirmInputMapping() const
+{
+	check(ConfirmContext);
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (Subsystem)
+	{
+		Subsystem->RemoveMappingContext(AuraContext);
+		Subsystem->AddMappingContext(ConfirmContext, 0);
+	}
+}
+
+void AAuraPlayerController::ChangeToLiriaInputMapping() const
+{
+	check(AuraContext);
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	if (Subsystem)
+	{
+		Subsystem->RemoveMappingContext(ConfirmContext);
+		Subsystem->AddMappingContext(AuraContext, 0);
+	}
+}
+
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();

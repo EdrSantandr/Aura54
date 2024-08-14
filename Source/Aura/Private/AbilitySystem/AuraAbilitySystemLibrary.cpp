@@ -10,6 +10,7 @@
 #include "Game/LoadScreenSaveGame.h"
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
 #include "UI/HUD/AuraHUD.h"
 #include "UI/WidgetController/AuraWidgetController.h"
@@ -418,6 +419,22 @@ void UAuraAbilitySystemLibrary::SetRadialDamageOrigin(FGameplayEffectContextHand
 	if (FAuraGameplayEffectContext* AuraGameplayEffectContext = static_cast< FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		AuraGameplayEffectContext->SetRadialDamageOrigin(InRadialDamageOrigin);
+	}
+}
+
+void UAuraAbilitySystemLibrary::ChangeToConfirmImc(const UObject* WorldContextObject)
+{
+	if (AAuraPlayerController* AuraPc = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))
+	{
+		AuraPc->ChangeToConfirmInputMapping();
+	}
+}
+
+void UAuraAbilitySystemLibrary::ChangeToLiriaImc(const UObject* WorldContextObject)
+{
+	if (AAuraPlayerController* AuraPc = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))
+	{
+		AuraPc->ChangeToLiriaInputMapping();
 	}
 }
 

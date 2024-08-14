@@ -65,6 +65,9 @@ public:
 	UFUNCTION()
 	void SetDecalMaterial(UMaterialInterface* InDecalMaterial) const;
 
+	UFUNCTION()
+	void SpawnVisualEffectActor();
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;
@@ -86,9 +89,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category="AI")
 	TObjectPtr<UBehaviorTree> BehaviorTree;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effect")
+	float EffectHeight = 50.f;
+
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	TObjectPtr<UStaticMeshComponent> MeshComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<AActor> VisualEffectActor;
 };

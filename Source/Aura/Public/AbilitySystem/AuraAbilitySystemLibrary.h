@@ -58,6 +58,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassInfo")
 	static UMaterialInterface* GetMaterialDecalByCharacterClass(const UObject* WorldContextObject, ECharacterClass CharacterClass);
 
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassInfo")
+	static TSubclassOf<AActor> GetVisualEffectByCharacterClass(const UObject* WorldContextObject, ECharacterClass CharacterClass);
+
 	/* Ability info*/
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|AbilityInfo")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);

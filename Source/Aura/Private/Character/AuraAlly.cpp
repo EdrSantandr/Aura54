@@ -15,6 +15,7 @@
 #include "Components/DecalComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "UI/Widget/AuraUserWidget.h"
 
 AAuraAlly::AAuraAlly()
@@ -111,6 +112,8 @@ int32 AAuraAlly::GetPlayerLevel_Implementation()
 
 void AAuraAlly::Die(const FVector& DeathImpulse)
 {
+	//REMOVE ACTORS
+	if (VisualEffectActor && IsValid(VisualEffectActor)) VisualEffectActor->Destroy();
 	SetLifeSpan(Lifespan);
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	Super::Die(FVector::ZeroVector);
@@ -197,6 +200,28 @@ void AAuraAlly::BeginPlay()
 	
 }
 
+void AAuraAlly::SpawnVisualEffectActor()
+{
+	if (VisualEffectActor && IsValid(VisualEffectActor))
+	{
+		VisualEffectActor->Destroy();
+		VisualEffectActor = nullptr;
+	}
+	if (VisualEffectActor == nullptr)
+	{
+		if (const TSubclassOf<AActor> VisualEffectClass = UAuraAbilitySystemLibrary::GetVisualEffectByCharacterClass(this, CharacterClass))
+		{
+			FTransform SpawnTransform;
+			FVector EffectSpawnLocation = GetActorLocation();
+			EffectSpawnLocation += FVector(0.f,0.f,EffectHeight);
+			SpawnTransform.SetLocation(EffectSpawnLocation);
+			SpawnTransform.SetRotation(GetActorRotation().Quaternion());
+			VisualEffectActor = GetWorld()->SpawnActorDeferred<AActor>(VisualEffectClass, SpawnTransform, this, Cast<APawn>(this), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+			VisualEffectActor->FinishSpawning(SpawnTransform);
+		}	
+	}
+}
+
 void AAuraAlly::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
@@ -212,6 +237,8 @@ void AAuraAlly::InitAbilityActorInfo()
 	{
 		CharacterDecal->SetMaterial(0, DecalMaterial);	
 	}
+	// Get the VisualEffect
+	SpawnVisualEffectActor();
 }
 
 void AAuraAlly::InitializeDefaultAttributes() const

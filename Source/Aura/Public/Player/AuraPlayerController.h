@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/PlayerController.h"
+#include "Input/AuraInputComponent.h"
 #include "AuraPlayerController.generated.h"
 
 
@@ -48,6 +49,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HideMagicCircle();
 
+	UFUNCTION()
+	void BindConfirmAndCancel();
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -61,19 +65,13 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
-
-	UPROPERTY(EditAnywhere, Category="Input")
-	TObjectPtr<UInputAction> ConfirmAction;
 	
 	void Move(const FInputActionValue& InputActionValue);
 
 	void ShiftPressed() { bShiftKeyDown = true;}
 	void ShiftReleased() { bShiftKeyDown = false;}
 	bool bShiftKeyDown = false;
-
-	void ConfirmPressed();
-	void ConfirmReleased() { bConfirmKeyDown = false;}
-	bool bConfirmKeyDown = false;
+	
 	void CursorTrace();
 
 	UPROPERTY()

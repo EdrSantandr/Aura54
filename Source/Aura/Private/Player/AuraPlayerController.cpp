@@ -16,6 +16,7 @@
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "GameFramework/Character.h"
+#include "Interaction/AllyInterface.h"
 #include "Interaction/EnemyInterface.h"
 #include "Interaction/HighlightInterface.h"
 #include "UI/Widget/DamageTextWidgetComponent.h"
@@ -109,6 +110,19 @@ void AAuraPlayerController::BeginPlay()
 	SetInputMode(InputModeData);
 }
 
+void AAuraPlayerController::BindConfirmAndCancel()
+{
+	if (UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent))
+	{
+		if (GetASC())
+		{
+			const FAuraGameplayTags AuraGameplayTags = FAuraGameplayTags::Get();
+			AuraInputComponent->BindNativeAction(InputConfig,AuraGameplayTags.InputTag_Confirm, ETriggerEvent::Triggered, GetASC(), &UAbilitySystemComponent::LocalInputConfirm, false);
+			AuraInputComponent->BindNativeAction(InputConfig,AuraGameplayTags.InputTag_Cancel, ETriggerEvent::Triggered, GetASC(), &UAbilitySystemComponent::LocalInputCancel, false);
+		}	
+	}
+}
+
 void AAuraPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -122,11 +136,6 @@ void AAuraPlayerController::SetupInputComponent()
 	{
 		AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
     	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
-	}
-	if (IsValid(ConfirmAction))
-	{
-		AuraInputComponent->BindAction(ConfirmAction, ETriggerEvent::Started, this, &AAuraPlayerController::ConfirmPressed);
-		AuraInputComponent->BindAction(ConfirmAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ConfirmReleased);
 	}
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &AAuraPlayerController::AbilityInputTagPressed, &AAuraPlayerController::AbilityInputTagReleased, &AAuraPlayerController::AbilityInputTagHeld);
 }
@@ -149,16 +158,6 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
-}
-
-void AAuraPlayerController::ConfirmPressed()
-{
-	UE_LOG(LogTemp, Warning, TEXT("cONFIRM HERE VALIDATE"));
-	if (GetASC())
-	{
-		GetASC()->GenericLocalConfirmCallbacks.Broadcast();
-	}
-	bConfirmKeyDown = true;
 }
 
 void AAuraPlayerController::CursorTrace()
@@ -191,7 +190,6 @@ void AAuraPlayerController::CursorTrace()
 		HighLightActor(ThisActor);
 	}
 }
-
 
 void AAuraPlayerController::HighLightActor(AActor* InActor)
 {

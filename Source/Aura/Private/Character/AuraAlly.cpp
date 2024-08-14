@@ -56,6 +56,11 @@ void AAuraAlly::PossessedBy(AController* NewController)
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), RangedAttacker);
 }
 
+ECharacterClass AAuraAlly::GetCharacterClass_Implementation()
+{
+	return CharacterClass;
+}
+
 void AAuraAlly::HighlightActor_Implementation()
 {
 	MeshComponent->SetRenderCustomDepth(true);

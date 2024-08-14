@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Character/AuraCharacter.h"
+#include "Interaction/AllyInterface.h"
 #include "Interaction/EnemyInterface.h"
 #include "Interaction/HighlightInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
@@ -16,7 +17,7 @@ class AAuraAIController;
  * 
  */
 UCLASS()
-class AURA_API AAuraAlly : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface
+class AURA_API AAuraAlly : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface, public IAllyInterface
 {
 	GENERATED_BODY()
 
@@ -24,6 +25,9 @@ public:
 	AAuraAlly();
 	virtual void PossessedBy(AController* NewController) override;
 
+	/* Ally Interface*/
+	virtual ECharacterClass GetCharacterClass_Implementation() override;
+	
 	/* HighlightInterface*/
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;

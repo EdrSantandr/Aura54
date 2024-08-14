@@ -140,6 +140,14 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("InputTag.Passive.2"),
 		FString("Input tag for passive 2"));
 	
+	GameplayTags.InputTag_Confirm = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.Confirm"),
+		FString("Input tag for Confirm"));
+
+	GameplayTags.InputTag_Cancel = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.Cancel"),
+		FString("Input tag for Cancel"));
+	
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage"),
 		FString("Tag for damage"));

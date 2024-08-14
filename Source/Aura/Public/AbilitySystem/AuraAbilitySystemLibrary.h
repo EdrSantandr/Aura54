@@ -146,6 +146,9 @@ public:
 	static void SetRadialDamageOrigin(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, const FVector& InRadialDamageOrigin);
 
 	/* Gameplay mechanics*/
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|GameplayMechanics", meta=(DefaultToSelf="WorldContextObject"))
+	static AActor* GetHighLightedActor(const UObject* WorldContextObject);
+	
 	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|GameplayMechanics")
 	static void ChangeToConfirmImc(const UObject* WorldContextObject);
 

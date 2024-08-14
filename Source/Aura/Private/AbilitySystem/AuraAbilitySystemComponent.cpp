@@ -73,18 +73,6 @@ void UAuraAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSub
 	}
 }
 
-void UAuraAbilitySystemComponent::LocalInputConfirm()
-{
-	Super::LocalInputConfirm();
-	UE_LOG(LogTemp, Warning, TEXT("AURAASC INPUT CONFIRM"));
-}
-
-void UAuraAbilitySystemComponent::LocalInputCancel()
-{
-	Super::LocalInputCancel();
-	UE_LOG(LogTemp, Warning, TEXT("AURAASC INPUT CANCEL"));
-}
-
 void UAuraAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
 {
 	if(!InputTag.IsValid()) return;

@@ -57,6 +57,9 @@ public:
 
 	UFUNCTION()
 	void ChangeToLiriaInputMapping() const;
+
+	UFUNCTION()
+	AActor* GetHighLightedActor() { return ThisActor; }
 	
 protected:
 	virtual void BeginPlay() override;

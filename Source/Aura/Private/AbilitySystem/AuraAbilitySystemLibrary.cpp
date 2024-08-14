@@ -422,6 +422,15 @@ void UAuraAbilitySystemLibrary::SetRadialDamageOrigin(FGameplayEffectContextHand
 	}
 }
 
+AActor* UAuraAbilitySystemLibrary::GetHighLightedActor(const UObject* WorldContextObject)
+{
+	if (AAuraPlayerController* AuraPc = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))
+	{
+		return AuraPc->GetHighLightedActor();
+	}
+	return nullptr;
+}
+
 void UAuraAbilitySystemLibrary::ChangeToConfirmImc(const UObject* WorldContextObject)
 {
 	if (AAuraPlayerController* AuraPc = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, 0)))

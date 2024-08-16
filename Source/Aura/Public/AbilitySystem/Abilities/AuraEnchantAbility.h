@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+#include "AuraDamageBeamSpell.h"
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AuraEnchantAbility.generated.h"
 
@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class AURA_API UAuraEnchantAbility : public UAuraGameplayAbility
+class AURA_API UAuraEnchantAbility : public UAuraDamageBeamSpell
 {
 	GENERATED_BODY()
 

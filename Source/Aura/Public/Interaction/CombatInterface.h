@@ -108,4 +108,13 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetIsBeingShocked(bool bInShock);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool GetIsCasting() const;
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetIsCastingLoop(bool bInCastingLoop);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetIsCasting(bool bInCasting);
 };

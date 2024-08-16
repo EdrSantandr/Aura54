@@ -51,6 +51,9 @@ public:
 	virtual bool GetIsBeingShocked_Implementation() const override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
 	virtual FOnDamageSignature& GetOnDamageDelegate() override;
+	virtual bool GetIsCasting_Implementation() const override;
+	virtual void SetIsCasting_Implementation(bool bInCasting) override;
+	
 	
 	FOnAscRegisteredSignature OnAscRegisteredDelegate;
 	FOnDeathSignature OnDeathDelegate;
@@ -64,6 +67,9 @@ public:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	TArray<FTaggedMontage> AttackMontages;
 
+	UPROPERTY(ReplicatedUsing=OnRep_Casting, BlueprintReadOnly)
+	bool bIsCasting = false;
+	
 	UPROPERTY(ReplicatedUsing=OnRep_Stunned, BlueprintReadOnly)
 	bool bIsStunned = false;
 
@@ -72,6 +78,9 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	bool bIsBeingShocked = false;
+
+	UFUNCTION()
+	virtual void OnRep_Casting();
 	
 	UFUNCTION()
 	virtual void OnRep_Stunned();

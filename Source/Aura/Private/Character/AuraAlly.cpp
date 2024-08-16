@@ -22,10 +22,13 @@ AAuraAlly::AAuraAlly()
 {
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
 	MeshComponent->SetupAttachment(GetRootComponent());
-	MeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	MeshComponent->SetCollisionResponseToAllChannels(ECR_Block);
+	MeshComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
 	MeshComponent->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
+	MeshComponent->SetGenerateOverlapEvents(false);
 	MeshComponent->MarkRenderStateDirty();
+	
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Block);
 
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
 	GetMesh()->SetGenerateOverlapEvents(false);

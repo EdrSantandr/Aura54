@@ -147,6 +147,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.InputTag_Cancel = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("InputTag.Cancel"),
 		FString("Input tag for Cancel"));
+
+	GameplayTags.InputTag_F1 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("InputTag.F1"),
+		FString("Input tag for F1"));
 	
 	GameplayTags.Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage"),

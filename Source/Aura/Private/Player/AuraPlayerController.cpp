@@ -16,7 +16,6 @@
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "GameFramework/Character.h"
-#include "Interaction/AllyInterface.h"
 #include "Interaction/EnemyInterface.h"
 #include "Interaction/HighlightInterface.h"
 #include "Interaction/PlayerInterface.h"
@@ -161,6 +160,11 @@ void AAuraPlayerController::SetupInputComponent()
 		AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &AAuraPlayerController::ShiftPressed);
     	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &AAuraPlayerController::ShiftReleased);
 	}
+	if (IsValid(F1Action))
+	{
+		AuraInputComponent->BindAction(F1Action, ETriggerEvent::Started, this, &AAuraPlayerController::F1Pressed);
+		AuraInputComponent->BindAction(F1Action, ETriggerEvent::Completed, this, &AAuraPlayerController::F1Released);
+	}
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &AAuraPlayerController::AbilityInputTagPressed, &AAuraPlayerController::AbilityInputTagReleased, &AAuraPlayerController::AbilityInputTagHeld);
 }
 
@@ -181,6 +185,20 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 	{
 		ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+	}
+}
+
+void AAuraPlayerController::F1Released()
+{
+	bF1KeyDown = false;
+	/*Remove camera movement*/
+	if (GetPawn() && GetPawn()->Implements<UPlayerInterface>())
+	{
+		IPlayerInterface::Execute_FocusCharacterCamera(GetPawn());
+		bUpperYLimit = false;
+		bLowerYLimit = false;
+		bLowerXLimit = false;
+		bUpperXLimit = false;
 	}
 }
 
@@ -217,23 +235,14 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::CursorCameraMovement()
 {
-	/*Get the actual position of the MouseCursor*/
 	FVector2d Mouse = FVector2d();
 	GetMousePosition(Mouse.X, Mouse.Y);
-	/*Get view port size*/
 	int32 ViewPortX = 0.f;
 	int32 ViewPortY = 0.f;
 	GetViewportSize(ViewPortX, ViewPortY);
-	/*Setup limits for X movement*/
-	bool bLowerXLimit = false;
-	bool bUpperXLimit = false;
 	CheckLimitsCoordinate(bLowerXLimit, bUpperXLimit, Mouse.X, XCameraLimitPercentage ,ViewPortX);
-	/*Setup limits for Y movement*/
-	bool bLowerYLimit = false;
-	bool bUpperYLimit = false;
 	CheckLimitsCoordinate(bUpperYLimit, bLowerYLimit, Mouse.Y, YCameraLimitPercentage, ViewPortY);
 	/*Move the Camera*/
-	/*The camera component is on the character*/
 	if (GetPawn() && GetPawn()->Implements<UPlayerInterface>())
 	{
 		if (bLowerXLimit || bUpperXLimit || bLowerYLimit || bUpperYLimit)

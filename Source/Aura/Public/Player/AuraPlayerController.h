@@ -78,6 +78,9 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
 
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> F1Action;
+
 	UPROPERTY(EditAnywhere, Category="CameraLimitsPercentage")
 	float XCameraLimitPercentage = 0.1f;
 
@@ -92,6 +95,10 @@ private:
 	void ShiftPressed() { bShiftKeyDown = true;}
 	void ShiftReleased() { bShiftKeyDown = false;}
 	bool bShiftKeyDown = false;
+
+	void F1Pressed() { bF1KeyDown = true;}
+	void F1Released();
+	bool bF1KeyDown = false;
 	
 	void CursorTrace();
 	void CursorCameraMovement();
@@ -121,6 +128,12 @@ private:
 
 	UAuraAbilitySystemComponent* GetASC();
 
+	/* Camera*/
+	bool bLowerXLimit = false;
+	bool bUpperXLimit = false;
+	bool bLowerYLimit = false;
+	bool bUpperYLimit = false;
+	
 	FVector CachedDestination = FVector::ZeroVector;
 	float FollowTime = 0.f;
 	float ShortPressThreshold = 0.5f;

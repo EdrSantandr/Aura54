@@ -379,3 +379,8 @@ void AAuraCharacter::MoveCamera_Implementation(const bool bMoveLeft, const bool 
 	}
 	TopDownCameraComponent->AddRelativeLocation(MoveVector);
 }
+
+void AAuraCharacter::FocusCharacterCamera_Implementation()
+{
+	TopDownCameraComponent->SetRelativeLocation(SpringArmComponent->GetSocketLocation(USpringArmComponent::SocketName));
+}

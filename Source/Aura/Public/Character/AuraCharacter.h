@@ -49,6 +49,7 @@ public:
 	virtual void HideMagicCircle_Implementation() override;
 	virtual void SaveProgress_Implementation(const FName& CheckPointTag) override;
 	virtual void MoveCamera_Implementation(const bool bMoveLeft, const bool bMoveRight, const bool bMoveBottom, const bool bMoveTop, const float CameraSpeed) override;
+	virtual void FocusCharacterCamera_Implementation() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
@@ -67,6 +68,5 @@ private:
 	TObjectPtr<UCameraComponent> TopDownCameraComponent;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USpringArmComponent> SpringArmComponent;
-	
+	TObjectPtr<USpringArmComponent> SpringArmComponent;	
 };

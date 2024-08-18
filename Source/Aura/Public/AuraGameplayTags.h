@@ -50,6 +50,7 @@ public:
 	FGameplayTag InputTag_ESC;
 	FGameplayTag InputTag_Confirm;
 	FGameplayTag InputTag_Cancel;
+	FGameplayTag InputTag_F1;
 	FGameplayTag InputTag_Passive_1;
 	FGameplayTag InputTag_Passive_2;
 

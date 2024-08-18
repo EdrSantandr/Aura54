@@ -55,6 +55,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void LevelUp();
 
+	UFUNCTION(BlueprintNativeEvent)
+	void MoveCamera(const bool bMoveLeft, const bool bMoveRight, const bool bMoveBottom, const bool bMoveTop, const float CameraSpeed);
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ShowMagicCircle(UMaterialInterface* DecalMaterial = nullptr);
 

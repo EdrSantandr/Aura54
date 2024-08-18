@@ -19,7 +19,6 @@
 #include "Game/AuraGameModeBase.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Input/AuraInputComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/HUD/AuraHUD.h"
 
@@ -129,6 +128,8 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	{
 		AuraGameModeBase->LoadWorldState(GetWorld());
 	}
+	/* camera unnatached*/
+	TopDownCameraComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 }
 
 void AAuraCharacter::LoadProgress()
@@ -361,4 +362,20 @@ void AAuraCharacter::SaveProgress_Implementation(const FName& CheckPointTag)
 		/* Send the object with data to save*/
 		AuraGameModeBase->SaveInGameProgressData(SaveData);
 	}
+}
+
+void AAuraCharacter::MoveCamera_Implementation(const bool bMoveLeft, const bool bMoveRight, const bool bMoveBottom, const bool bMoveTop, const float CameraSpeed)
+{
+	FVector MoveVector = FVector(0.f, 0.f, 0.f);
+	if (bMoveTop || bMoveBottom)
+	{
+		if (bMoveTop) MoveVector.X = CameraSpeed;
+		if (bMoveBottom) MoveVector.X = -1.0f * CameraSpeed;	
+	}
+	if (bMoveRight || bMoveLeft)
+	{
+		if (bMoveRight) MoveVector.Y = CameraSpeed;
+		if (bMoveLeft) MoveVector.Y = -1.0f * CameraSpeed;
+	}
+	TopDownCameraComponent->AddRelativeLocation(MoveVector);
 }

@@ -48,6 +48,7 @@ public:
 	virtual void ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial) override;
 	virtual void HideMagicCircle_Implementation() override;
 	virtual void SaveProgress_Implementation(const FName& CheckPointTag) override;
+	virtual void MoveCamera_Implementation(const bool bMoveLeft, const bool bMoveRight, const bool bMoveBottom, const bool bMoveTop, const float CameraSpeed) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;

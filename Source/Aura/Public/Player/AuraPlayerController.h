@@ -79,10 +79,13 @@ private:
 	TObjectPtr<UInputAction> ShiftAction;
 
 	UPROPERTY(EditAnywhere, Category="CameraLimitsPercentage")
-	float XCameraLimitPercentage = 0.05f;
+	float XCameraLimitPercentage = 0.1f;
 
 	UPROPERTY(EditAnywhere, Category="CameraLimitsPercentage")
-	float YCameraLimitPercentage = 0.05f;
+	float YCameraLimitPercentage = 0.12f;
+
+	UPROPERTY(EditAnywhere, Category="CameraLimitsPercentage")
+	float CameraSpeed = 15.f;
 	
 	void Move(const FInputActionValue& InputActionValue);
 

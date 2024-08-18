@@ -19,6 +19,7 @@
 #include "Interaction/AllyInterface.h"
 #include "Interaction/EnemyInterface.h"
 #include "Interaction/HighlightInterface.h"
+#include "Interaction/PlayerInterface.h"
 #include "UI/Widget/DamageTextWidgetComponent.h"
 
 AAuraPlayerController::AAuraPlayerController()
@@ -226,20 +227,18 @@ void AAuraPlayerController::CursorCameraMovement()
 	/*Setup limits for X movement*/
 	bool bLowerXLimit = false;
 	bool bUpperXLimit = false;
-
 	CheckLimitsCoordinate(bLowerXLimit, bUpperXLimit, Mouse.X, XCameraLimitPercentage ,ViewPortX);
 	/*Setup limits for Y movement*/
 	bool bLowerYLimit = false;
 	bool bUpperYLimit = false;
-	CheckLimitsCoordinate(bLowerYLimit, bUpperYLimit, Mouse.Y, YCameraLimitPercentage, ViewPortY);
-	
-	UE_LOG(LogTemp, Warning, TEXT("bLowerLimitX [%s]"), bLowerXLimit? *FString("TRUE"): *FString("FALSE") );
-	UE_LOG(LogTemp, Warning, TEXT("bUpperLimitX [%s]"), bUpperXLimit? *FString("TRUE"): *FString("FALSE") );
-	UE_LOG(LogTemp, Warning, TEXT("bLowerLimitY [%s]"), bLowerYLimit? *FString("TRUE"): *FString("FALSE") );
-	UE_LOG(LogTemp, Warning, TEXT("bUpperLimitY [%s]"), bUpperYLimit? *FString("TRUE"): *FString("FALSE") );
+	CheckLimitsCoordinate(bUpperYLimit, bLowerYLimit, Mouse.Y, YCameraLimitPercentage, ViewPortY);
 	/*Move the Camera*/
-	/*The component is on the character*/
-	
+	/*The camera component is on the character*/
+	if (GetPawn() && GetPawn()->Implements<UPlayerInterface>())
+	{
+		if (bLowerXLimit || bUpperXLimit || bLowerYLimit || bUpperYLimit)
+			IPlayerInterface::Execute_MoveCamera(GetPawn(), bLowerXLimit, bUpperXLimit, bLowerYLimit, bUpperYLimit, CameraSpeed);
+	}
 }
 
 bool AAuraPlayerController::CheckCameraLimit(float InMouseCoordinate, float LowerLimit, float UpperLimit)

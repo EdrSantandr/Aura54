@@ -77,6 +77,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ShiftAction;
+
+	UPROPERTY(EditAnywhere, Category="CameraLimitsPercentage")
+	float XCameraLimitPercentage = 0.05f;
+
+	UPROPERTY(EditAnywhere, Category="CameraLimitsPercentage")
+	float YCameraLimitPercentage = 0.05f;
 	
 	void Move(const FInputActionValue& InputActionValue);
 
@@ -85,6 +91,9 @@ private:
 	bool bShiftKeyDown = false;
 	
 	void CursorTrace();
+	void CursorCameraMovement();
+	bool CheckCameraLimit(float InMouseCoordinate, float LowerLimit, float UpperLimit);
+	void CheckLimitsCoordinate(bool& InLowerLimit, bool& InUpperLimit, float MouseCoordinate, float Percentage, int32 ViewPort);
 
 	UPROPERTY()
 	TObjectPtr<AActor> LastActor;

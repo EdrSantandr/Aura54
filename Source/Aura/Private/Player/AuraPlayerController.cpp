@@ -55,6 +55,7 @@ void AAuraPlayerController::UpdateMagicCircleLocation()
 void AAuraPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	CursorCameraMovement();
 	CursorTrace();
 	AutoRun();
 	UpdateMagicCircleLocation();
@@ -211,6 +212,46 @@ void AAuraPlayerController::CursorTrace()
 		UnHighLightActor(LastActor);
 		HighLightActor(ThisActor);
 	}
+}
+
+void AAuraPlayerController::CursorCameraMovement()
+{
+	/*Get the actual position of the MouseCursor*/
+	FVector2d Mouse = FVector2d();
+	GetMousePosition(Mouse.X, Mouse.Y);
+	/*Get view port size*/
+	int32 ViewPortX = 0.f;
+	int32 ViewPortY = 0.f;
+	GetViewportSize(ViewPortX, ViewPortY);
+	/*Setup limits for X movement*/
+	bool bLowerXLimit = false;
+	bool bUpperXLimit = false;
+
+	CheckLimitsCoordinate(bLowerXLimit, bUpperXLimit, Mouse.X, XCameraLimitPercentage ,ViewPortX);
+	/*Setup limits for Y movement*/
+	bool bLowerYLimit = false;
+	bool bUpperYLimit = false;
+	CheckLimitsCoordinate(bLowerYLimit, bUpperYLimit, Mouse.Y, YCameraLimitPercentage, ViewPortY);
+	
+	UE_LOG(LogTemp, Warning, TEXT("bLowerLimitX [%s]"), bLowerXLimit? *FString("TRUE"): *FString("FALSE") );
+	UE_LOG(LogTemp, Warning, TEXT("bUpperLimitX [%s]"), bUpperXLimit? *FString("TRUE"): *FString("FALSE") );
+	UE_LOG(LogTemp, Warning, TEXT("bLowerLimitY [%s]"), bLowerYLimit? *FString("TRUE"): *FString("FALSE") );
+	UE_LOG(LogTemp, Warning, TEXT("bUpperLimitY [%s]"), bUpperYLimit? *FString("TRUE"): *FString("FALSE") );
+	/*Move the Camera*/
+	/*The component is on the character*/
+	
+}
+
+bool AAuraPlayerController::CheckCameraLimit(float InMouseCoordinate, float LowerLimit, float UpperLimit)
+{
+	return LowerLimit <= InMouseCoordinate && InMouseCoordinate <= UpperLimit;
+}
+
+void AAuraPlayerController::CheckLimitsCoordinate(bool& InLowerLimit, bool& InUpperLimit, float MouseCoordinate, float Percentage, int32 ViewPort)
+{
+	/* Just Check one of the sides, It's impossible to be in both sides and taking upper limits cause the design will lead you in that direction*/
+	InUpperLimit = CheckCameraLimit(MouseCoordinate, ViewPort - ViewPort*Percentage, ViewPort);
+	if (!InUpperLimit) InLowerLimit = CheckCameraLimit(MouseCoordinate, 0.f, ViewPort*Percentage);
 }
 
 void AAuraPlayerController::HighLightActor(AActor* InActor)

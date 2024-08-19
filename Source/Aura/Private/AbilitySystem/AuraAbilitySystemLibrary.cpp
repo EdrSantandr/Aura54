@@ -184,6 +184,20 @@ int32 UAuraAbilitySystemLibrary::GetNumberOfLives(const UObject* WorldContextObj
 	return AuraGameModeBase->GetNumberOfLives();
 }
 
+void UAuraAbilitySystemLibrary::ReduceNumberOfLives(const UObject* WorldContextObject, const int32 InPoints)
+{
+	AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameModeBase == nullptr) return;
+	AuraGameModeBase->ReduceLivePoints(InPoints);
+}
+
+void UAuraAbilitySystemLibrary::IncrementNumberOfLives(const UObject* WorldContextObject, const int32 InPoints)
+{
+	AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameModeBase == nullptr) return;
+	AuraGameModeBase->IncrementLivePoints(InPoints);
+}
+
 UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
 {
 	const AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));

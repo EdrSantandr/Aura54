@@ -64,6 +64,12 @@ public:
 	/* Liria Gameplay Parameters*/
 	UFUNCTION(BlueprintCallable, Category="LiriaAbilitySystemLibrary|Parameters")
 	static int32 GetNumberOfLives(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|GameplayMechanics")
+	static void ReduceNumberOfLives(const UObject* WorldContextObject, const int32 InPoints);
+
+	UFUNCTION(BlueprintCallable,Category="AuraAbilitySystemLibrary|GameplayMechanics")
+	static void IncrementNumberOfLives(const UObject* WorldContextObject, const int32 InPoints);
 	
 	/* Ability info*/
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|AbilityInfo")

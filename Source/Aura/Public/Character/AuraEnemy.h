@@ -32,6 +32,7 @@ public:
 	/** Enemy Interface*/
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
+	virtual int32 GetDamagePoints_Implementation() const override;
 
 	/** Combat Interface*/
 	virtual int32 GetPlayerLevel_Implementation() override;
@@ -58,6 +59,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Class Defaults")
 	int32 Level = 1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	int32 DamageLife = 1;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;

@@ -46,6 +46,12 @@ public:
 
 	UFUNCTION()
 	int32 GetNumberOfLives() const { return NumberOfLives; }
+
+	UFUNCTION()
+	void ReduceLivePoints(const int32 InMinusPoints) { NumberOfLives -=InMinusPoints; }
+
+	UFUNCTION()
+	void IncrementLivePoints(const int32 InPlusPoints) { NumberOfLives +=InPlusPoints; }
 	
 	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;

@@ -6,6 +6,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Actor/AuraLifePoint.h"
 #include "Components/SphereComponent.h"
+#include "Interaction/EnemyInterface.h"
 
 // Sets default values
 AAuraMainGoal::AAuraMainGoal()
@@ -49,6 +50,16 @@ void AAuraMainGoal::SpawnLifePoints(int32 NumberOfLives)
 	}
 }
 
+void AAuraMainGoal::EliminateLifePoints(const int32 InLifePoints)
+{
+	const int32 TotalLives = LifePoints.Num();
+	for(int32 Index = TotalLives-1; TotalLives-InLifePoints-1 < Index; Index--)
+	{
+		LifePoints[Index]->DestroyLifePoint();
+		LifePoints.RemoveAt(Index);
+	}
+}
+
 TSubclassOf<AAuraLifePoint> AAuraMainGoal::GetRandomLifePointClass()
 {
 	const int32 RandomIndex = FMath::RandRange(0, LifePointsClasses.Num()-1);
@@ -58,10 +69,26 @@ TSubclassOf<AAuraLifePoint> AAuraMainGoal::GetRandomLifePointClass()
 void AAuraMainGoal::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Collision with a pawn"));
-	//Check if this is an enemy
-	//Check the number of lives of each enemy if he gets to the main tree
-	// Reduce the number of lives
-	//Send the information to the game mode and finish the game
+	//TODO: UNCOMMENT THIS SECTION BEFORE SETTING UP ENEMIES BEHAVIOR TREE 
+	/*
+	if (OtherActor && !OtherActor->Implements<UEnemyInterface>()) return;
+	const int32 EnemyDamage = IEnemyInterface::Execute_GetDamagePoints(OtherActor);
+	*/
+	int32 EnemyDamage = 5;
+	int32 CurrentNumLives = UAuraAbilitySystemLibrary::GetNumberOfLives(this);
+	if (CurrentNumLives - EnemyDamage < 0)
+	{
+		EnemyDamage = CurrentNumLives;
+	}
+	UAuraAbilitySystemLibrary::ReduceNumberOfLives(this, EnemyDamage);
+	EliminateLifePoints(EnemyDamage);
+	
+	CurrentNumLives = UAuraAbilitySystemLibrary::GetNumberOfLives(this);
+	if (CurrentNumLives <= 0)
+	{
+		//todo: if Current Number of lives == 0 do something
+		UE_LOG(LogTemp, Warning, TEXT("Should finish the game Numlives [%i]"), CurrentNumLives);
+	}
 }
 
 

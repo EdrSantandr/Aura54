@@ -34,6 +34,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="LifePoint")
 	float TimeBeforeDestroy = 2.f;
 
+	UPROPERTY(EditDefaultsOnly, Category="LifePoint")
+	float MinScale = 0.90f;
+
+	UPROPERTY(EditDefaultsOnly, Category="LifePoint")
+	float MaxScale = 1.1f;
+
 	FTimerHandle TimerHandle;
 	FTimerDelegate TimerDelegate;
 

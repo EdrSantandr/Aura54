@@ -27,6 +27,8 @@ void AAuraLifePoint::Destroyed()
 	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	Super::Destroyed();
+	const float RandomScale = FMath::FRandRange(MinScale, MaxScale);
+	LifePointMesh->SetWorldScale3D(FVector(RandomScale, RandomScale, RandomScale));
 }
 
 void AAuraLifePoint::BeginPlay()

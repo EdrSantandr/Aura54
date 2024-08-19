@@ -71,11 +71,27 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
 	int32 NumberOfLives = 20;
 
+	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
+	FVector OriginPoint = FVector(0.f,0.f, 0.f);
+
+	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
+	FVector FinalPoint = FVector(1500.f,1500.f, 0.f);
+
+	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
+	float YPathDimension = 1000.f;
+
 	FString GetMapNameFromMapAssetName(const FString& MapAssetName) const;
 	
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	void PlayerDied(const ACharacter* DeadCharacter) const;
+
+	UPROPERTY()
+	TArray<AActor*> BestPath;
+	
 protected:
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void CreatePaths();
 };

@@ -518,6 +518,28 @@ void UAuraAbilitySystemLibrary::GetLivePlayersWithinRadius(const UObject* WorldC
 	}
 }
 
+void UAuraAbilitySystemLibrary::GetPathPointsInsideBox(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappedActors, const TArray<AActor*>& ActorsToIgnore, FVector InOrigin, FVector InFinal, const float XDimension, const float YDimension, const float ZDimension)
+{
+	FCollisionQueryParams BoxParams;
+	BoxParams.AddIgnoredActors(ActorsToIgnore);
+	FVector Direction = InFinal - InOrigin;
+	Direction.Normalize();
+	FVector Center = (InFinal - InOrigin)/2.f;
+	Center += InOrigin;
+	FVector HalfExtent = FVector(XDimension, YDimension, ZDimension);
+	FCollisionShape RectangleBox = FCollisionShape::MakeBox(HalfExtent);
+	
+	TArray<FOverlapResult> OverlapsResults;
+	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		World->OverlapMultiByObjectType(OverlapsResults,Center,Direction.ToOrientationQuat(),FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects),RectangleBox,BoxParams);
+		for(FOverlapResult& Overlap: OverlapsResults)
+		{
+			OutOverlappedActors.Add(Overlap.GetActor());
+		}
+	}
+}
+
 void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray<AActor*>& Actors, TArray<AActor*>& OutClosetsTargets, const FVector& Origin)
 {
 	if (Actors.Num()<=MaxTargets)

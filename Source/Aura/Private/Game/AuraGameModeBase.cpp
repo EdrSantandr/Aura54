@@ -4,6 +4,7 @@
 #include "Game/AuraGameModeBase.h"
 
 #include "EngineUtils.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Game/AuraGameInstance.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/Character.h"
@@ -232,4 +233,21 @@ void AAuraGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 	Maps.Add(DefaultMapName,DefaultMap);
+	CreatePaths();
+}
+
+void AAuraGameModeBase::CreatePaths()
+{
+	//Todo: find the location of the main tree
+	DrawDebugSphere(GetWorld(), OriginPoint, 40.f, 12,FColor::Cyan, false, 10.f);
+	DrawDebugSphere(GetWorld(), FinalPoint, 40.f, 12,FColor::Red, false, 10.f);
+	TArray<AActor*> ActorsFound;
+	TArray<AActor*> ActorsToIgnore;
+	const float XPathDimension = (FinalPoint - OriginPoint).Length();
+	UAuraAbilitySystemLibrary::GetPathPointsInsideBox(GetWorld(), ActorsFound, ActorsToIgnore, OriginPoint, FinalPoint, XPathDimension, YPathDimension);
+	for(AActor* Actor: ActorsFound)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ActorName: [%s]"), *Actor->GetName());
+	}
+	/*Sort Actors */
 }

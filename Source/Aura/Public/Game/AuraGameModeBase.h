@@ -59,6 +59,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
+	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
+	int32 NumberOfLives = 20;
+
 	FString GetMapNameFromMapAssetName(const FString& MapAssetName) const;
 	
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;

@@ -17,7 +17,6 @@ AAuraLifePoint::AAuraLifePoint()
 
 void AAuraLifePoint::DestroyLifePoint()
 {
-	//TimerDelegate.BindUFunction(this, "LifePoint_Elapsed");
 	TimerDelegate.BindUObject(this, &AAuraLifePoint::LifePoint_Elapsed);
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, TimeBeforeDestroy, false);
 	if (DestroyEffect) NiagaraSpawned = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, DestroyEffect, GetActorLocation());
@@ -37,7 +36,6 @@ void AAuraLifePoint::BeginPlay()
 
 void AAuraLifePoint::LifePoint_Elapsed()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Life Point time elapsed"));
 	if (NiagaraSpawned) NiagaraSpawned->Deactivate();
 	Destroy();
 }

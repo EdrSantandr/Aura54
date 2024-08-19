@@ -61,6 +61,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassInfo")
 	static TSubclassOf<AActor> GetVisualEffectByCharacterClass(const UObject* WorldContextObject, ECharacterClass CharacterClass);
 
+	/* Liria Gameplay Parameters*/
+	UFUNCTION(BlueprintCallable, Category="LiriaAbilitySystemLibrary|Parameters")
+	static int32 GetNumberOfLives(const UObject* WorldContextObject);
+	
 	/* Ability info*/
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|AbilityInfo")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);

@@ -3,6 +3,7 @@
 
 #include "Actor/AuraMainGoal.h"
 
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Components/SphereComponent.h"
 
 // Sets default values
@@ -26,6 +27,9 @@ void AAuraMainGoal::BeginPlay()
 {
 	Super::BeginPlay();
 	// todo: Need to retrieve Number of LifePoints from the game mode
+	const int32 NumLives = UAuraAbilitySystemLibrary::GetNumberOfLives(this);
+	UE_LOG(LogTemp, Warning, TEXT("Number of Lives [%i]"), NumLives);
+	// todo: Spawn a Number of LifePoints to spawn around the MainGoal
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AAuraMainGoal::OnBeginOverlap);
 }
 
@@ -34,6 +38,7 @@ void AAuraMainGoal::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	UE_LOG(LogTemp, Warning, TEXT("Collision with a pawn"));
 	//Check if this is an enemy
 	//Check the number of lives of each enemy if he gets to the main tree
+	// Reduce the number of lives
 	//Send the information to the game mode and finish the game
 }
 

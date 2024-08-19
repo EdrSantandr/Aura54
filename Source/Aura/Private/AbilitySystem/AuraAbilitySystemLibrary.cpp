@@ -177,6 +177,13 @@ TSubclassOf<AActor> UAuraAbilitySystemLibrary::GetVisualEffectByCharacterClass(c
 	return DefaultInfo.VisualEffect;
 }
 
+int32 UAuraAbilitySystemLibrary::GetNumberOfLives(const UObject* WorldContextObject)
+{
+	const AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameModeBase == nullptr) return 0;
+	return AuraGameModeBase->GetNumberOfLives();
+}
+
 UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
 {
 	const AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));

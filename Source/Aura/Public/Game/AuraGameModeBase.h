@@ -43,6 +43,9 @@ public:
 	void LoadWorldState(UWorld* World) const;
 
 	void TravelToMap(UMVVM_LoadSlot* Slot);
+
+	UFUNCTION()
+	int32 GetNumberOfLives() const { return NumberOfLives; }
 	
 	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;

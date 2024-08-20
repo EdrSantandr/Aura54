@@ -18,7 +18,7 @@ void AAuraSpawnGate::CreatePathsFromGate(const int32 NumPaths, const FVector& In
 {
 	TArray<AActor*> ActorsFound;
 	TArray<AActor*> ActorsToIgnore; //todo: add actors to ignore
-	const float XPathDimension = (InFinalPoint - InOriginalPoint).Length() - 50.f; //This 50.f is just to don't consider Initial and FinalPoints
+	const float XPathDimension = (InFinalPoint - InOriginalPoint).Length()*0.5f - 25.f; //This 5.f is just to don't consider Initial and FinalPoints
 	UAuraAbilitySystemLibrary::GetPathPointsInsideBox(GetWorld(), ActorsFound, ActorsToIgnore, InOriginalPoint, InFinalPoint, XPathDimension, YPathDimension);
 	Algo::Sort(ActorsFound, FSortVectorByDistance(InOriginalPoint));
 	for (int32 i=0;i<NumPaths; i++)
@@ -51,9 +51,9 @@ TArray<FVector> AAuraSpawnGate::CreateSinglePath(const TArray<AActor*>& InActors
 	for (int32 Index=0;Index<FoundActors.Num();Index++)
 	{
 		if (FMath::FRandRange(0.f,1.f) < 0.7f) // this 0.7f just to make the path more consistent
-			{
+		{
 			Result.Add(FoundActors[Index]->GetActorLocation());
-			}
+		}
 	}
 	Result.Add(Final);
 	return Result;

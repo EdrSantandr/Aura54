@@ -11,6 +11,7 @@
 #include "Game/AuraGameModeBase.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "Interaction/CombatInterface.h"
+#include "Interaction/PathInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
@@ -535,7 +536,10 @@ void UAuraAbilitySystemLibrary::GetPathPointsInsideBox(const UObject* WorldConte
 		World->OverlapMultiByObjectType(OverlapsResults,Center,Direction.ToOrientationQuat(),FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects),RectangleBox,BoxParams);
 		for(FOverlapResult& Overlap: OverlapsResults)
 		{
-			OutOverlappedActors.Add(Overlap.GetActor());
+			if (Overlap.GetActor()->Implements<UPathInterface>())
+			{
+				OutOverlappedActors.Add(Overlap.GetActor());	
+			}
 		}
 	}
 }

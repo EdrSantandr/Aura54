@@ -235,7 +235,7 @@ void AAuraGameModeBase::BeginPlay()
 	Maps.Add(DefaultMapName,DefaultMap);
 	CreatePaths(3, OriginPoint, FinalPoint);// testing pathPoint
 
-	/* Test Draw path Points*/
+	/* Test Draw path Points */
 	for(int32 i=0;i<PathsByPoint.Num();i++)
 	{
 		for(int32 j=0;j<PathsByPoint[i].Num();j++)

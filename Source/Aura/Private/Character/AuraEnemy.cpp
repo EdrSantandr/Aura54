@@ -103,16 +103,23 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 void AAuraEnemy::SetPath(const TArray<FVector>& InPath)
 {
 	PathPoints = InPath;
+	CurrentPathIndex = 1; // The min amount of elements is Two so [1] is OK  
 }
 
-FVector AAuraEnemy::GetPathPoint(const int32 InIndex)
+FVector AAuraEnemy::GetPathPoint()
 {
-	if(0 <= InIndex && InIndex <= PathPoints.Num()-1)
+	if(0 <= CurrentPathIndex && CurrentPathIndex <= PathPoints.Num()-1)
 	{
-		return PathPoints[InIndex];
+		return PathPoints[CurrentPathIndex];
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Error in PathPointsArray"));
 	return FVector::ZeroVector;
+}
+
+void AAuraEnemy::IncrementPathPoint()
+{
+	CurrentPathIndex++;
+	CurrentPathIndex = FMath::Min(CurrentPathIndex, PathPoints.Num()-1);
 }
 
 void AAuraEnemy::BeginPlay()

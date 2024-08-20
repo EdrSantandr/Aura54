@@ -68,13 +68,8 @@ TSubclassOf<AAuraLifePoint> AAuraMainGoal::GetRandomLifePointClass()
 
 void AAuraMainGoal::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Collision with a pawn"));
-	//TODO: UNCOMMENT THIS SECTION BEFORE SETTING UP ENEMIES BEHAVIOR TREE 
-	/*
 	if (OtherActor && !OtherActor->Implements<UEnemyInterface>()) return;
-	const int32 EnemyDamage = IEnemyInterface::Execute_GetDamagePoints(OtherActor);
-	*/
-	int32 EnemyDamage = 5;
+	int32 EnemyDamage = IEnemyInterface::Execute_GetDamagePoints(OtherActor);	
 	int32 CurrentNumLives = UAuraAbilitySystemLibrary::GetNumberOfLives(this);
 	if (CurrentNumLives - EnemyDamage < 0)
 	{

@@ -5,8 +5,6 @@
 
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Character/AuraEnemy.h"
-#include "Game/AuraGameModeBase.h"
-#include "Kismet/GameplayStatics.h"
 
 AAuraSpawnGate::AAuraSpawnGate()
 {

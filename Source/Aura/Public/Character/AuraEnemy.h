@@ -54,7 +54,13 @@ public:
 	void SetPath(const TArray<FVector>& InPath); 
 
 	UFUNCTION(BlueprintCallable, Category="Liria")
-	FVector GetPathPoint(const int32 InIndex);
+	FVector GetPathPoint();
+
+	UFUNCTION(BlueprintCallable, Category="Liria")
+	void IncrementPathPoint();
+
+	UFUNCTION(BlueprintCallable, Category="Liria")
+	int32 GetCurrentIndex() const { return CurrentPathIndex; }
 	
 protected:
 	virtual void BeginPlay() override;

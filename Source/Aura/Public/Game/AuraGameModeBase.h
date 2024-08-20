@@ -13,6 +13,22 @@ class UMVVM_LoadSlot;
 class UAbilityInfo;
 class UCharacterClassInfo;
 
+struct FSortVectorByDistance
+{
+	explicit FSortVectorByDistance(const FVector& InSourceLocation)
+		: SourceLocation(InSourceLocation) {}
+	
+	FVector SourceLocation = FVector::Zero();
+
+	bool operator()(const AActor* A, const AActor* B) const
+	{
+		float DistanceA = FVector::DistSquared(SourceLocation, A->GetActorLocation());
+		float DistanceB = FVector::DistSquared(SourceLocation, B->GetActorLocation());
+
+		return DistanceA < DistanceB;
+	}
+};
+
 /**
  * 
  */
@@ -89,9 +105,13 @@ public:
 	UPROPERTY()
 	TArray<AActor*> BestPath;
 	
+	TArray<TArray<FVector>> PathsByPoint; 
+
 protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void CreatePaths();
+	void CreatePaths(const int32 NumPaths, const FVector& InOriginalPoint, const FVector& InFinalPoint);
+
+	static TArray<FVector> CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint, const FVector& InFinalPoint);
 };

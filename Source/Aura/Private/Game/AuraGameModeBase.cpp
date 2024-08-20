@@ -233,21 +233,53 @@ void AAuraGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 	Maps.Add(DefaultMapName,DefaultMap);
-	CreatePaths();
+	CreatePaths(3, OriginPoint, FinalPoint);// testing pathPoint
+
+	/* Test Draw path Points*/
+	for(int32 i=0;i<PathsByPoint.Num();i++)
+	{
+		for(int32 j=0;j<PathsByPoint[i].Num();j++)
+		{
+			if (i==0)
+				DrawDebugSphere(GetWorld(), PathsByPoint[i][j], 50.f, 12, FColor::Red, false, 10.f);
+
+			if (i==1)
+				DrawDebugSphere(GetWorld(), PathsByPoint[i][j], 50.f, 15, FColor::Yellow, false, 10.f );
+
+			if (i==2)
+				DrawDebugSphere(GetWorld(), PathsByPoint[i][j], 50.f, 18, FColor::Blue, false, 10.f );
+		}		
+	}
 }
 
-void AAuraGameModeBase::CreatePaths()
+void AAuraGameModeBase::CreatePaths(const int32 NumPaths, const FVector& InOriginalPoint, const FVector& InFinalPoint)
 {
-	//Todo: find the location of the main tree
-	DrawDebugSphere(GetWorld(), OriginPoint, 40.f, 12,FColor::Cyan, false, 10.f);
-	DrawDebugSphere(GetWorld(), FinalPoint, 40.f, 12,FColor::Red, false, 10.f);
 	TArray<AActor*> ActorsFound;
-	TArray<AActor*> ActorsToIgnore;
-	const float XPathDimension = (FinalPoint - OriginPoint).Length();
-	UAuraAbilitySystemLibrary::GetPathPointsInsideBox(GetWorld(), ActorsFound, ActorsToIgnore, OriginPoint, FinalPoint, XPathDimension, YPathDimension);
-	for(AActor* Actor: ActorsFound)
+	TArray<AActor*> ActorsToIgnore; //todo: add actors to ignore
+	const float XPathDimension = (InFinalPoint - InOriginalPoint).Length() - 50.f; //This 50.f is just to don't consider Initial and FinalPoints
+	UAuraAbilitySystemLibrary::GetPathPointsInsideBox(GetWorld(), ActorsFound, ActorsToIgnore, InOriginalPoint, InFinalPoint, XPathDimension, YPathDimension);
+	Algo::Sort(ActorsFound, FSortVectorByDistance(InOriginalPoint));
+	for (int32 i=0;i<NumPaths; i++)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ActorName: [%s]"), *Actor->GetName());
+		TArray<FVector> PathToGoal = CreateSinglePath(ActorsFound, InOriginalPoint, InFinalPoint);
+		PathsByPoint.Add(PathToGoal);
 	}
-	/*Sort Actors */
+}
+
+TArray<FVector> AAuraGameModeBase::CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint, const FVector& InFinalPoint)
+{
+	TArray<FVector> Result;
+	TArray<AActor*> FoundActors = InActors;
+	FVector const Origin = InOriginalPoint;
+	FVector const Final = InFinalPoint;
+	Result.Add(Origin);
+	for (int32 Index=0;Index<FoundActors.Num();Index++)
+	{
+		if (FMath::FRandRange(0.f,1.f) < 0.7f) // this 0.7f just to make the path more consistent
+		{
+			Result.Add(FoundActors[Index]->GetActorLocation());
+		}
+	}
+	Result.Add(Final);
+	return Result;
 }

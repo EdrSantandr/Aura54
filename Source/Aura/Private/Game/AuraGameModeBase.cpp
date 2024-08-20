@@ -241,13 +241,13 @@ void AAuraGameModeBase::BeginPlay()
 		for(int32 j=0;j<PathsByPoint[i].Num();j++)
 		{
 			if (i==0)
-				DrawDebugSphere(GetWorld(), PathsByPoint[i][j], 50.f, 12, FColor::Red, false, 10.f);
+				DrawDebugSphere(GetWorld(), PathsByPoint[i][j] + FVector(0.f,0.f, 60.f), 20.f, 12, FColor::Red, false, 100.f);
 
 			if (i==1)
-				DrawDebugSphere(GetWorld(), PathsByPoint[i][j], 50.f, 15, FColor::Yellow, false, 10.f );
+				DrawDebugSphere(GetWorld(), PathsByPoint[i][j] + FVector(0.f,0.f, 100.f), 20.f, 15, FColor::Yellow, false, 100.f );
 
 			if (i==2)
-				DrawDebugSphere(GetWorld(), PathsByPoint[i][j], 50.f, 18, FColor::Blue, false, 10.f );
+				DrawDebugSphere(GetWorld(), PathsByPoint[i][j] + FVector(0.f,0.f, 140.f), 20.f, 18, FColor::Blue, false, 100.f );
 		}		
 	}
 }

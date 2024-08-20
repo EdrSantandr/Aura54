@@ -11,6 +11,22 @@ class AAuraMainGoal;
 class AAuraEnemy;
 class AAuraCharacterBase;
 
+struct FSortVectorByDistance
+{
+	explicit FSortVectorByDistance(const FVector& InSourceLocation)
+		: SourceLocation(InSourceLocation) {}
+	
+	FVector SourceLocation = FVector::Zero();
+
+	bool operator()(const AActor* A, const AActor* B) const
+	{
+		float DistanceA = FVector::DistSquared(SourceLocation, A->GetActorLocation());
+		float DistanceB = FVector::DistSquared(SourceLocation, B->GetActorLocation());
+
+		return DistanceA < DistanceB;
+	}
+};
+
 UCLASS()
 class AURA_API AAuraSpawnGate : public AActor
 {
@@ -48,14 +64,28 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
 	int32 SpawnApertures = 4;
+
+	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
+	float YPathDimension = 1000.f;
 	
 	UFUNCTION()
 	void SpawnEnemy();
 
 	UFUNCTION()
 	FTransform GenerateRandomTransform();
+
+	UFUNCTION()
+	TArray<FVector> GetEnemyPath();
 	
 private:
+	
+	TArray<TArray<FVector>> PathsByPoint;
+
+	UFUNCTION()
+	void CreatePathsFromGate(const int32 NumPaths, const FVector& InOriginalPoint, const FVector& InFinalPoint);
+	
+	static TArray<FVector> CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint, const FVector& InFinalPoint);
+	
 	FTimerDelegate TimerDelegate;
 	FTimerHandle TimerHandle;
 

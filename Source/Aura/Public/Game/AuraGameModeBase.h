@@ -13,22 +13,6 @@ class UMVVM_LoadSlot;
 class UAbilityInfo;
 class UCharacterClassInfo;
 
-struct FSortVectorByDistance
-{
-	explicit FSortVectorByDistance(const FVector& InSourceLocation)
-		: SourceLocation(InSourceLocation) {}
-	
-	FVector SourceLocation = FVector::Zero();
-
-	bool operator()(const AActor* A, const AActor* B) const
-	{
-		float DistanceA = FVector::DistSquared(SourceLocation, A->GetActorLocation());
-		float DistanceB = FVector::DistSquared(SourceLocation, B->GetActorLocation());
-
-		return DistanceA < DistanceB;
-	}
-};
-
 /**
  * 
  */
@@ -87,31 +71,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
 	int32 NumberOfLives = 20;
 
-	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
-	FVector OriginPoint = FVector(0.f,0.f, 0.f);
-
-	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
-	FVector FinalPoint = FVector(1500.f,1500.f, 0.f);
-
-	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
-	float YPathDimension = 1000.f;
-
 	FString GetMapNameFromMapAssetName(const FString& MapAssetName) const;
 	
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	void PlayerDied(const ACharacter* DeadCharacter) const;
 
-	UPROPERTY()
-	TArray<AActor*> BestPath;
-	
-	TArray<TArray<FVector>> PathsByPoint; 
-
 protected:
 	virtual void BeginPlay() override;
-
-	UFUNCTION()
-	void CreatePaths(const int32 NumPaths, const FVector& InOriginalPoint, const FVector& InFinalPoint);
-
-	static TArray<FVector> CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint, const FVector& InFinalPoint);
+	
 };

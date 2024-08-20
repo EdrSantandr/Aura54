@@ -50,6 +50,11 @@ public:
 	TObjectPtr<AActor> CombatTarget;
 
 	void SetLevel(int32 InLevel) {Level = InLevel;}
+
+	void SetPath(const TArray<FVector>& InPath); 
+
+	UFUNCTION(BlueprintCallable, Category="Liria")
+	FVector GetPathPoint(const int32 InIndex);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -80,4 +85,10 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void SpawnLoot();
+
+	UPROPERTY()
+	TArray<FVector> PathPoints;
+
+	UPROPERTY()
+	int32 CurrentPathIndex = 0;
 };

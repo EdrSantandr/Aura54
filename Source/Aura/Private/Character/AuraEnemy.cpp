@@ -100,6 +100,21 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 	Super::Die(DeathImpulse);
 }
 
+void AAuraEnemy::SetPath(const TArray<FVector>& InPath)
+{
+	PathPoints = InPath;
+}
+
+FVector AAuraEnemy::GetPathPoint(const int32 InIndex)
+{
+	if(0 <= InIndex && InIndex <= PathPoints.Num()-1)
+	{
+		return PathPoints[InIndex];
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Error in PathPointsArray"));
+	return FVector::ZeroVector;
+}
+
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();

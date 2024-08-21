@@ -88,7 +88,7 @@ private:
 	float YCameraLimitPercentage = 0.12f;
 
 	UPROPERTY(EditAnywhere, Category="CameraLimitsPercentage")
-	float CameraSpeed = 15.f;
+	float CameraSpeed = 30.f;
 	
 	void Move(const FInputActionValue& InputActionValue);
 

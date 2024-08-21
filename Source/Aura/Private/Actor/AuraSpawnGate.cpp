@@ -38,7 +38,9 @@ void AAuraSpawnGate::BeginPlay()
 	}
 	TimerDelegate.BindUObject(this, &AAuraSpawnGate::SpawnEnemy);
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, SpawnInterval, true);
-	SpawnLocations = UAuraAbilitySystemLibrary::EvenlySpreadVectors(GetActorForwardVector(), FVector::ZAxisVector, AngleSpread, SpawnApertures);
+	FVector Direction = MainGoal->GetActorLocation() - GetActorLocation();
+	Direction.Normalize();
+	SpawnLocations = UAuraAbilitySystemLibrary::EvenlySpreadVectors(Direction, FVector::ZAxisVector, AngleSpread, SpawnApertures);
 }
 
 TArray<FVector> AAuraSpawnGate::CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint, const FVector& InFinalPoint)

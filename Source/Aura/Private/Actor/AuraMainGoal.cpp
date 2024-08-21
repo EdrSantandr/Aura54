@@ -35,7 +35,7 @@ void AAuraMainGoal::BeginPlay()
 
 void AAuraMainGoal::SpawnLifePoints(int32 NumberOfLives)
 {
-	TArray<FVector> Directions = UAuraAbilitySystemLibrary::EvenlySpreadVectors(GetActorForwardVector(), FVector::ZAxisVector, 360.f, 20);
+	TArray<FVector> Directions = UAuraAbilitySystemLibrary::EvenlySpreadVectors(GetActorForwardVector(), FVector::ZAxisVector, 360.f, NumberOfLives);
 	const FVector ForwardActor = GetActorForwardVector();
 	for(int Index = 0; Index < NumberOfLives; Index ++)
 	{
@@ -48,6 +48,7 @@ void AAuraMainGoal::SpawnLifePoints(int32 NumberOfLives)
 		AAuraLifePoint* Life = GetWorld()->SpawnActor<AAuraLifePoint>(GetRandomLifePointClass(),Location,Rotation, ActorSpawnParameters);
 		LifePoints.Add(Life);
 	}
+	UE_LOG(LogTemp, Warning,TEXT("num lifepoints: [%i]"), LifePoints.Num());
 }
 
 void AAuraMainGoal::EliminateLifePoints(const int32 InLifePoints)

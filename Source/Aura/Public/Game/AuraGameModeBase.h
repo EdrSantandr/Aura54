@@ -69,7 +69,7 @@ public:
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
 	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
-	int32 NumberOfLives = 20;
+	int32 NumberOfLives = 50;
 
 	FString GetMapNameFromMapAssetName(const FString& MapAssetName) const;
 	

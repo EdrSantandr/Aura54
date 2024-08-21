@@ -34,13 +34,13 @@ void AAuraSpawnGate::BeginPlay()
 	//Create paths
 	if (IsValid(MainGoal))
 	{
-		CreatePathsFromGate(3, GetActorLocation(), MainGoal->GetActorLocation());	
+		CreatePathsFromGate(3, GetActorLocation(), MainGoal->GetActorLocation());
+		FVector Direction = MainGoal->GetActorLocation() - GetActorLocation();
+		Direction.Normalize();
+		SpawnLocations = UAuraAbilitySystemLibrary::EvenlySpreadVectors(Direction, FVector::ZAxisVector, AngleSpread, SpawnApertures);
 	}
 	TimerDelegate.BindUObject(this, &AAuraSpawnGate::SpawnEnemy);
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, SpawnInterval, true);
-	FVector Direction = MainGoal->GetActorLocation() - GetActorLocation();
-	Direction.Normalize();
-	SpawnLocations = UAuraAbilitySystemLibrary::EvenlySpreadVectors(Direction, FVector::ZAxisVector, AngleSpread, SpawnApertures);
 }
 
 TArray<FVector> AAuraSpawnGate::CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint, const FVector& InFinalPoint)

@@ -126,6 +126,10 @@ int32 AAuraAlly::GetPlayerLevel_Implementation()
 
 void AAuraAlly::Die(const FVector& DeathImpulse)
 {
+	if (bIsGate)
+	{
+		SpawnSentinel();
+	}
 	//REMOVE ACTORS
 	if (VisualEffectActor && IsValid(VisualEffectActor)) VisualEffectActor->Destroy();
 	SetLifeSpan(Lifespan);
@@ -170,6 +174,16 @@ void AAuraAlly::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCoun
 void AAuraAlly::SetDecalMaterial(UMaterialInterface* InDecalMaterial) const
 {
 	CharacterDecal->SetMaterial(0, InDecalMaterial);
+}
+
+void AAuraAlly::SpawnSentinel() const
+{
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn; 
+	AAuraAlly* Sentinel = GetWorld()->SpawnActorDeferred<AAuraAlly>(SentinelSpawnClass, GetTransform());
+	Sentinel->SetCharacterClass(SentinelClass);
+	Sentinel->FinishSpawning(GetTransform());
+	Sentinel->SpawnDefaultController();
 }
 
 void AAuraAlly::BeginPlay()

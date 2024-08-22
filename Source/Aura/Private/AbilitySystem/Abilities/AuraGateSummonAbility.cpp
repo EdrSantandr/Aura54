@@ -8,13 +8,11 @@
 
 void UAuraGateSummonAbility::SpawnEnemy(const int32 InEnemiesSpawned, const int32 InNumberOfEnemiesToSpawn, TArray<FVector> InSpawnLocations)
 {
-	
 	if (InEnemiesSpawned < InNumberOfEnemiesToSpawn && SpawnClass)
 	{
 		if (AAuraAlly*AuraAlly = Cast<AAuraAlly>(GetActorInfo().AvatarActor))
 		{
 			const TArray<TArray<FVector>> PathsByPoint = AuraAlly->GetPathPoints();
-			UE_LOG(LogTemp, Warning, TEXT("Owner name [%s]"),*GetActorInfo().AvatarActor->GetName());
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn; 
 			AAuraEnemy* Enemy = GetWorld()->SpawnActorDeferred<AAuraEnemy>(SpawnClass, GetActorInfo().AvatarActor->GetActorTransform());
@@ -25,7 +23,7 @@ void UAuraGateSummonAbility::SpawnEnemy(const int32 InEnemiesSpawned, const int3
 			Enemy->SetPath(GetEnemyPath(PathsByPoint));
 			Enemy->FinishSpawning(GenerateRandomTransform(InSpawnLocations));
 			Enemy->SpawnDefaultController();
-			//todo: updatethe count on enemiesSpawned on AURAALLY EnemiesSpawned++;
+			AuraAlly->IncreaseEnemiesSpawned(1);
 		}
 	}
 	else

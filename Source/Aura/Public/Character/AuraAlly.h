@@ -96,6 +96,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category="SpawnGate")
 	TArray<FVector> GetSpawnLocations() const { return SpawnLocations; }
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="SpawnGate")
+	TSubclassOf<AAuraAlly> SentinelSpawnClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="SpawnGate")
+	ECharacterClass SentinelClass = ECharacterClass::SentinelFire;
+
+	UFUNCTION()
+	void SpawnSentinel() const;
+
+	void IncreaseEnemiesSpawned(int32 InAddNumber) { EnemiesSpawned += InAddNumber; }
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;

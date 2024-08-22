@@ -11,6 +11,7 @@
 #include "Aura/Aura.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Character/AuraEnemy.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/WidgetComponent.h"
@@ -52,14 +53,21 @@ void AAuraAlly::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 
 	if (!HasAuthority()) return; // This should only run on the server
-	if (bStartRunningBT)
+
+	AuraAIController = Cast<AAuraAIController>(NewController);
+	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	AuraAIController->RunBehaviorTree(BehaviorTree);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"),false);
+	const bool RangedAttacker = CharacterClass != ECharacterClass::Warrior;
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), RangedAttacker);
+	
+	if (bIsGate && MainGoal)
 	{
-		AuraAIController = Cast<AAuraAIController>(NewController);
-		AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
-		AuraAIController->RunBehaviorTree(BehaviorTree);
-		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"),false);
-		const bool RangedAttacker = CharacterClass != ECharacterClass::Warrior;
-		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), RangedAttacker);	
+		//Execute init ability for gate
+		CreatePathsFromGate(3, GetActorLocation(), MainGoal->GetActorLocation());
+		FVector Direction = MainGoal->GetActorLocation() - GetActorLocation();
+		Direction.Normalize();
+		SpawnLocations = UAuraAbilitySystemLibrary::EvenlySpreadVectors(Direction, FVector::ZAxisVector, AngleSpread, SpawnApertures);
 	}
 }
 
@@ -259,4 +267,37 @@ void AAuraAlly::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 	{
 		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"),bIsStunned);	
 	}
+}
+
+void AAuraAlly::CreatePathsFromGate(const int32 NumPaths, const FVector& InOriginalPoint, const FVector& InFinalPoint)
+{
+	TArray<AActor*> ActorsFound;
+	TArray<AActor*> ActorsToIgnore; //todo: add actors to ignore
+	const float XPathDimension = (InFinalPoint - InOriginalPoint).Length()*0.5f - 25.f; //This 5.f is just to don't consider Initial and FinalPoints
+	UAuraAbilitySystemLibrary::GetPathPointsInsideBox(GetWorld(), ActorsFound, ActorsToIgnore, InOriginalPoint, InFinalPoint, XPathDimension, YPathDimension);
+	Algo::Sort(ActorsFound, FSortVectorByLenght(InOriginalPoint));
+	for (int32 i=0;i<NumPaths; i++)
+	{
+		TArray<FVector> PathToGoal = CreateSinglePath(ActorsFound, InOriginalPoint, InFinalPoint);
+		PathsByPoint.Add(PathToGoal);
+	}
+}
+
+TArray<FVector> AAuraAlly::CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint,
+	const FVector& InFinalPoint)
+{
+	TArray<FVector> Result;
+	TArray<AActor*> FoundActors = InActors;
+	FVector const Origin = InOriginalPoint;
+	FVector const Final = InFinalPoint;
+	Result.Add(Origin);
+	for (int32 Index=0;Index<FoundActors.Num();Index++)
+	{
+		if (FMath::FRandRange(0.f,1.f) < 0.7f) // this 0.7f just to make the path more consistent
+			{
+			Result.Add(FoundActors[Index]->GetActorLocation());
+			}
+	}
+	Result.Add(Final);
+	return Result;
 }

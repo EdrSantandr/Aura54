@@ -10,12 +10,29 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraAlly.generated.h"
 
+class AAuraEnemy;
 class UWidgetComponent;
 class UBehaviorTree;
 class AAuraAIController;
 /**
  * 
  */
+
+struct FSortVectorByLenght
+{
+	explicit FSortVectorByLenght(const FVector& InSourceLocation)
+		: SourceLocation(InSourceLocation) {}
+	
+	FVector SourceLocation = FVector::Zero();
+
+	bool operator()(const AActor* A, const AActor* B) const
+	{
+		float DistanceA = FVector::DistSquared(SourceLocation, A->GetActorLocation());
+		float DistanceB = FVector::DistSquared(SourceLocation, B->GetActorLocation());
+
+		return DistanceA < DistanceB;
+	}
+};
 UCLASS()
 class AURA_API AAuraAlly : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface, public IAllyInterface
 {
@@ -67,6 +84,17 @@ public:
 
 	UFUNCTION()
 	void SpawnVisualEffectActor();
+	
+	TArray<TArray<FVector>> GetPathPoints() { return PathsByPoint;}
+
+	UFUNCTION(BlueprintCallable, Category="SpawnGate")
+	int32 GetEnemiesToSpawn() const { return NumberOfEnemiesToSpawn; }
+
+	UFUNCTION(BlueprintCallable, Category="SpawnGate")
+	int32 GetEnemiesSpawned() const { return EnemiesSpawned; }
+
+	UFUNCTION(BlueprintCallable, Category="SpawnGate")
+	TArray<FVector> GetSpawnLocations() const { return SpawnLocations; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -92,8 +120,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effect")
 	float EffectHeight = 50.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-	bool bStartRunningBT = true;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effect")
+	bool bIsGate = false;
 
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
@@ -103,4 +131,36 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<AActor> VisualEffectActor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SpawnGate")
+	TObjectPtr<AActor> MainGoal;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="SpawnGate")
+	TSubclassOf<AAuraEnemy> SpawnClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
+	int32 NumberOfEnemiesToSpawn = 5;
+
+	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
+	float SpawnInterval = 2.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
+	float AngleSpread = 90.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
+	int32 SpawnApertures = 4;
+
+	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
+	float YPathDimension = 1000.f;
+
+private:
+
+	UFUNCTION()
+	void CreatePathsFromGate(const int32 NumPaths, const FVector& InOriginalPoint, const FVector& InFinalPoint);
+	
+	static TArray<FVector> CreateSinglePath(const TArray<AActor*>& InActors, const FVector& InOriginalPoint, const FVector& InFinalPoint);
+	
+	TArray<TArray<FVector>> PathsByPoint;
+	TArray<FVector> SpawnLocations;
+	int32 EnemiesSpawned = 0;
 };

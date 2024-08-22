@@ -129,17 +129,21 @@ void AAuraAlly::Die(const FVector& DeathImpulse)
 	if (bIsGate)
 	{
 		SpawnSentinel();
+		SetLifeSpan(1.f);
+	}
+	else
+	{
+		SetLifeSpan(Lifespan);
 	}
 	//REMOVE ACTORS
 	if (VisualEffectActor && IsValid(VisualEffectActor)) VisualEffectActor->Destroy();
-	SetLifeSpan(Lifespan);
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	Super::Die(FVector::ZeroVector);
 }
 
 void AAuraAlly::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)
 {
-	//Things here will de done in server and client
+	UGameplayStatics::PlaySound2D(this, DeathSound);
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);

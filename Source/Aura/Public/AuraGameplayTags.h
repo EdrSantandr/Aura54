@@ -102,6 +102,7 @@ public:
 	FGameplayTag Abilities_Enchant_Physical;
 	FGameplayTag Abilities_Enchant_Poison;
 	FGameplayTag Abilities_Enchant_Wind;
+	FGameplayTag Abilities_Spawn;
 	
 	FGameplayTag Abilities_Passive_HaloOfProtection;
 	FGameplayTag Abilities_Passive_LifeSiphon;
@@ -118,6 +119,7 @@ public:
 	FGameplayTag Cooldown_Enchant_Physical;
 	FGameplayTag Cooldown_Enchant_Poison;
 	FGameplayTag Cooldown_Enchant_Wind;
+	FGameplayTag Cooldown_Spawn;
 	
 	FGameplayTag CombatSocket_Weapon;
 	FGameplayTag CombatSocket_RightHand;

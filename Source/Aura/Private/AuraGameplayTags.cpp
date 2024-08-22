@@ -383,6 +383,11 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Abilities_Enchant_Wind = UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Abilities.Enchant.Wind"),
 			FString("Tag for Type Enchant Wind ability"));
+
+	/* Gate Abilities*/
+	GameplayTags.Abilities_Spawn = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Abilities.Spawn"),
+			FString("Tag for Type Spawn ability"));
 	
 	/* Cooldowns*/
 	GameplayTags.Cooldown_Fire_Firebolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -424,6 +429,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Cooldown_Enchant_Wind = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Enchant.Wind"),
 		FString("Tag for Enchant Wind cooldown"));
+
+	GameplayTags.Cooldown_Spawn = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Spawn"),
+		FString("Tag for Spawn cooldown"));
 	
 	/* Player*/
 	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(

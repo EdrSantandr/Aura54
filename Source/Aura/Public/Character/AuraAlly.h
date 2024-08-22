@@ -92,6 +92,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effect")
 	float EffectHeight = 50.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	bool bStartRunningBT = true;
+
 	UPROPERTY()
 	TObjectPtr<AAuraAIController> AuraAIController;
 

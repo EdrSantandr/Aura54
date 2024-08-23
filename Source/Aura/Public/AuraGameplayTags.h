@@ -60,16 +60,22 @@ public:
 	FGameplayTag Damage_Lightning;
 	FGameplayTag Damage_Arcane;
 	FGameplayTag Damage_Physical;
+	FGameplayTag Damage_Poison;
+	FGameplayTag Damage_Wind;
 
 	FGameplayTag Attributes_Resistance_Fire;
 	FGameplayTag Attributes_Resistance_Lightning;
 	FGameplayTag Attributes_Resistance_Arcane;
 	FGameplayTag Attributes_Resistance_Physical;
+	FGameplayTag Attributes_Resistance_Poison;
+	FGameplayTag Attributes_Resistance_Wind;
 
 	FGameplayTag DeBuff_Burn;
 	FGameplayTag DeBuff_Stun;
 	FGameplayTag DeBuff_Arcane;
 	FGameplayTag DeBuff_Physical;
+	FGameplayTag DeBuff_Slow;
+	FGameplayTag DeBuff_Disarm;
 
 	FGameplayTag DeBuff_Chance;
 	FGameplayTag DeBuff_Damage;

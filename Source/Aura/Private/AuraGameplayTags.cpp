@@ -173,6 +173,14 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Damage.Physical"),
 		FString("Tag for damage Physical type"));
 
+	GameplayTags.Damage_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Damage.Poison"),
+		FString("Tag for damage Poison type"));
+
+	GameplayTags.Damage_Wind = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Damage.Wind"),
+		FString("Tag for damage Wind type"));
+
 	/* Resistances*/
 	GameplayTags.Attributes_Resistance_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Resistance.Arcane"),
@@ -190,6 +198,14 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Attributes.Resistance.Physical"),
 		FString("Tag for resistance to Physical"));
 
+	GameplayTags.Attributes_Resistance_Poison = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Resistance.Poison"),
+		FString("Tag for resistance to Poison"));
+	
+	GameplayTags.Attributes_Resistance_Wind = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Resistance.Wind"),
+		FString("Tag for resistance to Wind"));
+
 	/* DeBuffs*/
 	GameplayTags.DeBuff_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("DeBuff.Arcane"),
@@ -206,6 +222,14 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.DeBuff_Stun = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("DeBuff.Stun"),
 		FString("Tag for DeBuff to Stun Lightning"));
+
+	GameplayTags.DeBuff_Slow = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("DeBuff.Slow"),
+		FString("Tag for DeBuff to Slow Poison"));
+		
+	GameplayTags.DeBuff_Disarm = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	FName("DeBuff.Disarm"),
+	FString("Tag for DeBuff to Disarm wind"));
 
 	/* DeBuffs general info tags*/
 	GameplayTags.DeBuff_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -229,12 +253,16 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.DamageTypesToDeBuffs.Add(GameplayTags.Damage_Fire, GameplayTags.DeBuff_Burn);
 	GameplayTags.DamageTypesToDeBuffs.Add(GameplayTags.Damage_Lightning, GameplayTags.DeBuff_Stun);
 	GameplayTags.DamageTypesToDeBuffs.Add(GameplayTags.Damage_Physical, GameplayTags.DeBuff_Physical);
+	GameplayTags.DamageTypesToDeBuffs.Add(GameplayTags.Damage_Poison, GameplayTags.DeBuff_Slow);
+	GameplayTags.DamageTypesToDeBuffs.Add(GameplayTags.Damage_Wind, GameplayTags.DeBuff_Disarm);
 	
 	/* Map of DamageTypes to Resistances*/
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Arcane, GameplayTags.Attributes_Resistance_Arcane);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Fire, GameplayTags.Attributes_Resistance_Fire);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Lightning, GameplayTags.Attributes_Resistance_Lightning);
 	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Physical, GameplayTags.Attributes_Resistance_Physical);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Poison, GameplayTags.Attributes_Resistance_Poison);
+	GameplayTags.DamageTypesToResistances.Add(GameplayTags.Damage_Wind, GameplayTags.Attributes_Resistance_Wind);
 
 	/* CombatSockets*/
 	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(

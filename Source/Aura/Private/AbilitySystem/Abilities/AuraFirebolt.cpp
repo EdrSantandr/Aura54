@@ -53,12 +53,8 @@ FString UAuraFirebolt::GetNextLevelDescription(int32 Level)
 			Level, ManaCost, Cooldown, FMath::Min(Level,NumProjectiles), ScaledDamage);
 }
 
-void UAuraFirebolt::SpawnSpreadProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bOverridePitch, float PitchOverride, AActor* HomingTarget)
+void UAuraFirebolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, bool bOverridePitch, float PitchOverride, const AActor* HomingTarget, const FVector& SocketLocation)
 {
-	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
-	if (!bIsServer) return;
-	
-	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
 	FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 	if (bOverridePitch) Rotation.Pitch = PitchOverride;
 	
@@ -93,4 +89,18 @@ void UAuraFirebolt::SpawnSpreadProjectiles(const FVector& ProjectileTargetLocati
 
 		Projectile->FinishSpawning(SpawnTransform);
 	}
+}
+
+void UAuraFirebolt::SpawnSpreadProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bOverridePitch, float PitchOverride, AActor* HomingTarget)
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	if (!bIsServer) return;
+	
+	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
+	SpawnProjectiles(ProjectileTargetLocation, bOverridePitch, PitchOverride, HomingTarget, SocketLocation);
+}
+
+void UAuraFirebolt::SpawnSpreadProjectilesWithOrigin(const FVector& InProjectileTargetLocation, const FVector& InOriginLocation, bool bOverridePitch, float PitchOverride, AActor* HomingTarget)
+{
+	SpawnProjectiles(InProjectileTargetLocation, bOverridePitch, PitchOverride, HomingTarget, InOriginLocation);
 }

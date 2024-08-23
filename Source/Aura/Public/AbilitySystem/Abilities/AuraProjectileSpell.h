@@ -21,6 +21,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Validate")
 	bool CheckAbilityRange(const FVector InTargetLocation);
+
+	UFUNCTION(BlueprintCallable, Category="Projecttile")
+	static FVector GetSpawnProjectileLocationPoint(const FVector InActorLocation,const FVector InEnemyLocation, const float InDistance = 50.f);
 	
 protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;

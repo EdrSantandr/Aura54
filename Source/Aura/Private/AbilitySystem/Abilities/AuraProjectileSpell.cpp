@@ -13,6 +13,14 @@ bool UAuraProjectileSpell::CheckAbilityRange(const FVector InTargetLocation)
 	return (InTargetLocation - GetAvatarActorFromActorInfo()->GetActorLocation()).Length() <= ProjectileMaxRange;
 }
 
+FVector UAuraProjectileSpell::GetSpawnProjectileLocationPoint(const FVector InActorLocation, const FVector InEnemyLocation, const float InDistance)
+{
+	FVector Direction = InEnemyLocation - InActorLocation;
+	Direction.Normalize();
+	Direction *=InDistance;
+	return InActorLocation + Direction;
+}
+
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                            const FGameplayEventData* TriggerEventData)

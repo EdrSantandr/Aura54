@@ -21,7 +21,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SpawnSpreadProjectiles(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag, bool bOverridePitch, float PitchOverride, AActor* HomingTarget);
 
-protected:
+protected:	
 	UPROPERTY(EditDefaultsOnly, Category="Firebolt")
 	float ProjectileSpread = 90.f;
 

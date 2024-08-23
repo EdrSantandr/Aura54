@@ -8,6 +8,11 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Interaction/CombatInterface.h"
 
+bool UAuraProjectileSpell::CheckAbilityRange(const FVector InTargetLocation)
+{
+	return (InTargetLocation - GetAvatarActorFromActorInfo()->GetActorLocation()).Length() <= ProjectileMaxRange;
+}
+
 void UAuraProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                            const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                            const FGameplayEventData* TriggerEventData)

@@ -17,6 +17,11 @@ class AURA_API UAuraProjectileSpell : public UAuraDamageGameplayAbility
 {
 	GENERATED_BODY()
 
+public:
+
+	UFUNCTION(BlueprintCallable, Category="Validate")
+	bool CheckAbilityRange(const FVector InTargetLocation);
+	
 protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
@@ -31,6 +36,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	int32 NumProjectiles = 5;
+
+	UPROPERTY(EditDefaultsOnly, Category="Projecttile")
+	float ProjectileMaxRange = 500.f;
 	
 	UPROPERTY(EditDefaultsOnly, Category="Firebolt")
 	float HomingAccelerationMin = 1600.f;

@@ -57,6 +57,7 @@ public:
 	/* CombatInterface*/
 	virtual int32 GetPlayerLevel_Implementation() override;
 	virtual void Die(const FVector& DeathImpulse) override;
+	virtual UMeshComponent* GetBeamOriginComponent_Implementation() override;
 	
 	virtual void MulticastHandleDeath_Implementation(const FVector& DeathImpulse) override;
 
@@ -139,6 +140,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	TObjectPtr<UStaticMeshComponent> MeshComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	TObjectPtr<UStaticMeshComponent> BeamOriginComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<AActor> VisualEffectActor;

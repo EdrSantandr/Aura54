@@ -27,6 +27,11 @@ AAuraAlly::AAuraAlly()
 	MeshComponent->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
 	MeshComponent->SetGenerateOverlapEvents(false);
 	MeshComponent->MarkRenderStateDirty();
+
+	BeamOriginComponent = CreateDefaultSubobject<UStaticMeshComponent>("BeamOriginComponent");
+	BeamOriginComponent->SetupAttachment(GetRootComponent());
+	BeamOriginComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+	BeamOriginComponent->SetHiddenInGame(true);
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Block);
@@ -139,6 +144,11 @@ void AAuraAlly::Die(const FVector& DeathImpulse)
 	if (VisualEffectActor && IsValid(VisualEffectActor)) VisualEffectActor->Destroy();
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	Super::Die(FVector::ZeroVector);
+}
+
+UMeshComponent* AAuraAlly::GetBeamOriginComponent_Implementation()
+{
+	return BeamOriginComponent;
 }
 
 void AAuraAlly::MulticastHandleDeath_Implementation(const FVector& DeathImpulse)

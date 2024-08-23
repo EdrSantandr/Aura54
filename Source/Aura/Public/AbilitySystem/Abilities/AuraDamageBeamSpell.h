@@ -42,6 +42,9 @@ public:
 	void TraceFirstTarget(const FVector& BeamTargetLocation);
 
 	UFUNCTION(BlueprintCallable)
+	void SentinelTraceFirstTarget(const FVector& InBeamOriginLocation, const FVector& BeamTargetLocation);
+
+	UFUNCTION(BlueprintCallable)
 	void StoreAdditionalTargets(TArray<AActor*>& OutAdditionalTargets);
 
 	UFUNCTION(BlueprintImplementableEvent)

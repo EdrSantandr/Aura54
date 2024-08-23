@@ -104,6 +104,9 @@ public:
 	USkeletalMeshComponent* GetWeapon();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UMeshComponent* GetBeamOriginComponent();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool GetIsBeingShocked() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)

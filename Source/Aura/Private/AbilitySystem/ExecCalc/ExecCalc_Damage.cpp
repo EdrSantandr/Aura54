@@ -25,6 +25,8 @@ struct AuraDamageStatics
 	DECLARE_ATTRIBUTE_CAPTUREDEF(LightningResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ArcaneResistance);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(PhysicalResistance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(PoisonResistance);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(WindResistance);
 	
 	AuraDamageStatics()
 	{
@@ -38,6 +40,8 @@ struct AuraDamageStatics
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, LightningResistance, Target, false); //Defending
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, ArcaneResistance, Target, false); //Defending
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, PhysicalResistance, Target, false); //Defending
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, PoisonResistance, Target, false); //Defending
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UAuraAttributeSet, WindResistance, Target, false); //Defending
 	}
 };
 
@@ -60,6 +64,8 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().LightningResistanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().ArcaneResistanceDef);
 	RelevantAttributesToCapture.Add(DamageStatics().PhysicalResistanceDef);
+	RelevantAttributesToCapture.Add(DamageStatics().PoisonResistanceDef);
+	RelevantAttributesToCapture.Add(DamageStatics().WindResistanceDef);
 	
 }
 
@@ -120,6 +126,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	TagsToCaptureDefs.Add(Tags.Attributes_Resistance_Lightning, DamageStatics().LightningResistanceDef);
 	TagsToCaptureDefs.Add(Tags.Attributes_Resistance_Arcane, DamageStatics().ArcaneResistanceDef);
 	TagsToCaptureDefs.Add(Tags.Attributes_Resistance_Physical, DamageStatics().PhysicalResistanceDef);
+	TagsToCaptureDefs.Add(Tags.Attributes_Resistance_Poison, DamageStatics().PoisonResistanceDef);
+	TagsToCaptureDefs.Add(Tags.Attributes_Resistance_Wind, DamageStatics().WindResistanceDef);
 	
 	const UAbilitySystemComponent* SourceAsc = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetAsc = ExecutionParams.GetTargetAbilitySystemComponent();

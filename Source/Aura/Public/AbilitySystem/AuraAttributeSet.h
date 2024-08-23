@@ -143,6 +143,14 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PhysicalResistance, Category = "Resistance Attributes")
 	FGameplayAttributeData PhysicalResistance;
 	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PhysicalResistance);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_PoisonResistance, Category = "Resistance Attributes")
+	FGameplayAttributeData PoisonResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, PoisonResistance);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_WindResistance, Category = "Resistance Attributes")
+	FGameplayAttributeData WindResistance;
+	ATTRIBUTE_ACCESSORS(UAuraAttributeSet, WindResistance);
 	
 	/* VITAL ATTRIBUTES*/
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Vital Attributes")
@@ -221,6 +229,12 @@ public:
 
 	UFUNCTION()
 	void OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const;
+
+	UFUNCTION()
+	void OnRep_PoisonResistance(const FGameplayAttributeData& OldPoisonResistance) const;
+
+	UFUNCTION()
+	void OnRep_WindResistance(const FGameplayAttributeData& OldWindResistance) const;
 	
 private:
 	static void SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props);

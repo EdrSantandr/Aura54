@@ -113,6 +113,12 @@ public:
 	void SetIsBeingShocked(bool bInShock);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool GetIsSlowed() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetIsSlowed(bool bInSlowed);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool GetIsCasting() const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)

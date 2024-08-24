@@ -68,6 +68,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AAuraCharacterBase, bIsBurned);
 	DOREPLIFETIME(AAuraCharacterBase, bIsBeingShocked);
 	DOREPLIFETIME(AAuraCharacterBase, bIsCasting);
+	DOREPLIFETIME(AAuraCharacterBase, bIsSlowed);
 }
 
 float AAuraCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -164,6 +165,16 @@ void AAuraCharacterBase::SetIsCasting_Implementation(bool bInCasting)
 	bIsCasting = bInCasting;
 }
 
+bool AAuraCharacterBase::GetIsSlowed_Implementation() const
+{
+	return bIsSlowed;
+}
+
+void AAuraCharacterBase::SetIsSlowed_Implementation(bool bInSlowed)
+{
+	bIsSlowed = bInSlowed;
+}
+
 void AAuraCharacterBase::Die(const FVector& DeathImpulse)
 {
 	//Drop the weapon
@@ -207,6 +218,10 @@ void AAuraCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 Ne
 {
 	bIsStunned = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bIsStunned ? 0.f : BaseWalkSpeed;
+}
+
+void AAuraCharacterBase::OnRep_Slowed()
+{
 }
 
 void AAuraCharacterBase::OnRep_Casting()

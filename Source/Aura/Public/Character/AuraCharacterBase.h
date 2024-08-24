@@ -53,6 +53,8 @@ public:
 	virtual FOnDamageSignature& GetOnDamageDelegate() override;
 	virtual bool GetIsCasting_Implementation() const override;
 	virtual void SetIsCasting_Implementation(bool bInCasting) override;
+	virtual bool GetIsSlowed_Implementation() const override;
+	virtual void SetIsSlowed_Implementation(bool bInSlowed) override;
 	
 	
 	FOnAscRegisteredSignature OnAscRegisteredDelegate;
@@ -73,12 +75,18 @@ public:
 	UPROPERTY(ReplicatedUsing=OnRep_Stunned, BlueprintReadOnly)
 	bool bIsStunned = false;
 
+	UPROPERTY(ReplicatedUsing=OnRep_Slowed, BlueprintReadOnly)
+	bool bIsSlowed = false;
+
 	UPROPERTY(ReplicatedUsing=OnRep_Burned, BlueprintReadOnly)
 	bool bIsBurned = false;
 
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	bool bIsBeingShocked = false;
 
+	UFUNCTION()
+	virtual void OnRep_Slowed();
+	
 	UFUNCTION()
 	virtual void OnRep_Casting();
 	

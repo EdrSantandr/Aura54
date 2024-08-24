@@ -27,6 +27,9 @@ public:
 
 	UPROPERTY()
 	TObjectPtr<USceneComponent> HomingTargetSceneComponent;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnHitProjectile();
 	
 protected:
 	virtual void BeginPlay() override;

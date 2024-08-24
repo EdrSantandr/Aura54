@@ -26,6 +26,10 @@ AAuraCharacterBase::AAuraCharacterBase()
 	StunDeBuffComponent->SetupAttachment(GetRootComponent());
 	StunDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Stun;
 
+	PoisonDeBuffComponent = CreateDefaultSubobject<UDeBuffNiagaraComponent>("PoisonDeBuffComponent");
+	PoisonDeBuffComponent->SetupAttachment(GetRootComponent());
+	PoisonDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Slow;
+
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);

@@ -196,6 +196,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category="Character Debuff Effect")
 	TObjectPtr<UDeBuffNiagaraComponent> PhysicalDeBuffComponent;
+
+	UPROPERTY(VisibleAnywhere, Category="Character Debuff Effect")
+	TObjectPtr<UDeBuffNiagaraComponent> DisarmDeBuffComponent;
 	
 private:
 	UPROPERTY(EditAnywhere, Category="Abilities")

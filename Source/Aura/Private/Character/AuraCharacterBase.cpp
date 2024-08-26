@@ -38,6 +38,10 @@ AAuraCharacterBase::AAuraCharacterBase()
 	PhysicalDeBuffComponent->SetupAttachment(GetRootComponent());
 	PhysicalDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Physical;
 
+	DisarmDeBuffComponent = CreateDefaultSubobject<UDeBuffNiagaraComponent>("DisarmDeBuffComponent");
+	DisarmDeBuffComponent->SetupAttachment(GetRootComponent());
+	DisarmDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Disarm;
+	
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);

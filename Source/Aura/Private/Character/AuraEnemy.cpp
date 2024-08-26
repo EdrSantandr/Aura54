@@ -53,6 +53,7 @@ void AAuraEnemy::PossessedBy(AController* NewController)
 	AuraAIController->RunBehaviorTree(BehaviorTree);
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"),false);
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"),CharacterClass != ECharacterClass::Warrior);
+	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("ArcaneEffectState"),false);
 }
 
 void AAuraEnemy::HighlightActor_Implementation()
@@ -120,6 +121,20 @@ void AAuraEnemy::IncrementPathPoint()
 {
 	CurrentPathIndex++;
 	CurrentPathIndex = FMath::Min(CurrentPathIndex, PathPoints.Num()-1);
+	if (AuraAIController && AuraAIController->GetBlackboardComponent())
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("ArcaneEffectState"),false);
+	}
+}
+
+void AAuraEnemy::DecrementPathPoint()
+{
+	CurrentPathIndex--;
+	CurrentPathIndex = FMath::Max(0, CurrentPathIndex);
+	if (AuraAIController && AuraAIController->GetBlackboardComponent())
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("ArcaneEffectState"),true);
+	}
 }
 
 void AAuraEnemy::BeginPlay()

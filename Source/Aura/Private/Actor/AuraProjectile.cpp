@@ -94,7 +94,7 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 			
 				DamageEffectParams.TargetAbilitySystemComponent = TargetAsc;
 				UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
-				OnHitProjectile();
+				OnHitProjectile(OtherActor);
 			}
 			Destroy();
 		}

@@ -33,6 +33,10 @@ AAuraCharacterBase::AAuraCharacterBase()
 	ArcaneDeBuffComponent = CreateDefaultSubobject<UDeBuffNiagaraComponent>("ArcaneDeBuffComponent");
 	ArcaneDeBuffComponent->SetupAttachment(GetRootComponent());
 	ArcaneDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Arcane;
+	
+	PhysicalDeBuffComponent = CreateDefaultSubobject<UDeBuffNiagaraComponent>("PhysicalDeBuffComponent");
+	PhysicalDeBuffComponent->SetupAttachment(GetRootComponent());
+	PhysicalDeBuffComponent->DeBuffTag = FAuraGameplayTags::Get().DeBuff_Physical;
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);

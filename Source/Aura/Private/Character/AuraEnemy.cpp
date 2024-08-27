@@ -123,12 +123,6 @@ void AAuraEnemy::IncrementPathPoint()
 	CurrentPathIndex = FMath::Min(CurrentPathIndex, PathPoints.Num()-1);
 }
 
-void AAuraEnemy::DecrementPathPoint()
-{
-	CurrentPathIndex--;
-	CurrentPathIndex = FMath::Max(0, CurrentPathIndex);
-}
-
 void AAuraEnemy::BeginPlay()
 {
 	Super::BeginPlay();

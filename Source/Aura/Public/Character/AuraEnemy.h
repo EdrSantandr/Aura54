@@ -61,9 +61,6 @@ public:
 	void IncrementPathPoint();
 
 	UFUNCTION(BlueprintCallable, Category="Liria")
-	void DecrementPathPoint();
-
-	UFUNCTION(BlueprintCallable, Category="Liria")
 	int32 GetCurrentIndex() const { return CurrentPathIndex; }
 
 	void FinishDisarm();

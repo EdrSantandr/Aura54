@@ -223,6 +223,7 @@ void AAuraEnemy::StartDisarm_Implementation(float InDuration)
 	DisarmTimerDelegate.BindUObject(this, &AAuraEnemy::FinishDisarm);
 	GetWorld()->GetTimerManager().SetTimer(DisarmTimerHandle, DisarmTimerDelegate, InDuration, false);
 	Execute_SetIsDisarmed(this, true);
+	StartDisarmEffectTimeline(InDuration);
 }
 
 void AAuraEnemy::FinishDisarm()

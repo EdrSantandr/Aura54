@@ -85,6 +85,7 @@ void AAuraCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(AAuraCharacterBase, bIsBeingShocked);
 	DOREPLIFETIME(AAuraCharacterBase, bIsCasting);
 	DOREPLIFETIME(AAuraCharacterBase, bIsSlowed);
+	DOREPLIFETIME(AAuraCharacterBase, bIsDisarmed);
 }
 
 float AAuraCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -191,6 +192,16 @@ void AAuraCharacterBase::SetIsSlowed_Implementation(bool bInSlowed)
 	bIsSlowed = bInSlowed;
 }
 
+bool AAuraCharacterBase::GetIsDisarmed_Implementation() const
+{
+	return bIsDisarmed;
+}
+
+void AAuraCharacterBase::SetIsDisarmed_Implementation(bool bInDisarmed)
+{
+	bIsDisarmed = bInDisarmed;
+}
+
 void AAuraCharacterBase::Die(const FVector& DeathImpulse)
 {
 	//Drop the weapon
@@ -249,6 +260,10 @@ void AAuraCharacterBase::OnRep_Stunned()
 }
 
 void AAuraCharacterBase::OnRep_Burned()
+{
+}
+
+void AAuraCharacterBase::OnRep_Disarmed()
 {
 }
 

@@ -55,6 +55,8 @@ public:
 	virtual void SetIsCasting_Implementation(bool bInCasting) override;
 	virtual bool GetIsSlowed_Implementation() const override;
 	virtual void SetIsSlowed_Implementation(bool bInSlowed) override;
+	virtual bool GetIsDisarmed_Implementation() const override;
+	virtual void SetIsDisarmed_Implementation(bool bInDisarmed) override;
 	
 	
 	FOnAscRegisteredSignature OnAscRegisteredDelegate;
@@ -84,6 +86,9 @@ public:
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	bool bIsBeingShocked = false;
 
+	UPROPERTY(ReplicatedUsing=OnRep_Disarmed, BlueprintReadOnly)
+	bool bIsDisarmed = false;
+
 	UFUNCTION()
 	virtual void OnRep_Slowed();
 	
@@ -95,6 +100,9 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_Burned();
+
+	UFUNCTION()
+	virtual void OnRep_Disarmed();
 
 	void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
 protected:

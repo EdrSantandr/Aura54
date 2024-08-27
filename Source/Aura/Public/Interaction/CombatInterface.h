@@ -113,6 +113,12 @@ public:
 	void SetIsBeingShocked(bool bInShock);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	bool GetIsDisarmed() const;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void SetIsDisarmed(bool bInDisarmed);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	bool GetIsSlowed() const;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
@@ -126,4 +132,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetIsCasting(bool bInCasting);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void StartDisarm(float InDuration);
 };

@@ -98,6 +98,7 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 	SetLifeSpan(Lifespan);
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	SpawnLoot();
+	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	Super::Die(DeathImpulse);
 }
 
@@ -213,4 +214,20 @@ void AAuraEnemy::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 	{
 		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"),bIsStunned);	
 	}
+}
+
+void AAuraEnemy::StartDisarm_Implementation(float InDuration)
+{
+	UE_LOG(LogTemp, Warning, TEXT("start disarm"));
+	GetWorld()->GetTimerManager().ClearTimer(DisarmTimerHandle);
+	DisarmTimerDelegate.BindUObject(this, &AAuraEnemy::FinishDisarm);
+	GetWorld()->GetTimerManager().SetTimer(DisarmTimerHandle, DisarmTimerDelegate, InDuration, false);
+	Execute_SetIsDisarmed(this, true);
+}
+
+void AAuraEnemy::FinishDisarm()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Finish disarm"));
+	Execute_SetIsDisarmed(this, false);
+	GetWorld()->GetTimerManager().ClearTimer(DisarmTimerHandle);
 }

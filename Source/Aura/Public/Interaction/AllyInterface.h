@@ -24,4 +24,12 @@ class AURA_API IAllyInterface
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	ECharacterClass GetCharacterClass();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void SetCombatTargetAlly(AActor* InCombatTarget);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	AActor* GetCombatTargetAlly() const;
+
+	
 };

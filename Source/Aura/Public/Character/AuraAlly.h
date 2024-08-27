@@ -34,7 +34,7 @@ struct FSortVectorByLenght
 	}
 };
 UCLASS()
-class AURA_API AAuraAlly : public AAuraCharacterBase, public IEnemyInterface, public IHighlightInterface, public IAllyInterface
+class AURA_API AAuraAlly : public AAuraCharacterBase, public IHighlightInterface, public IAllyInterface
 {
 	GENERATED_BODY()
 
@@ -44,15 +44,13 @@ public:
 
 	/* Ally Interface*/
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
+	virtual AActor* GetCombatTargetAlly_Implementation() const override;
+	virtual void SetCombatTargetAlly_Implementation(AActor* InCombatTarget) override;
 	
 	/* HighlightInterface*/
 	virtual void HighlightActor_Implementation() override;
 	virtual void UnHighlightActor_Implementation() override;
 	virtual void SetMoveToLocation_Implementation(FVector& OutDestination) override;
-
-	/* EnemyInterface*/
-	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
-	virtual AActor* GetCombatTarget_Implementation() const override;
 
 	/* CombatInterface*/
 	virtual int32 GetPlayerLevel_Implementation() override;

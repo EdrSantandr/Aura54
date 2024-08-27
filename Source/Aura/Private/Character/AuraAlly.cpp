@@ -81,6 +81,16 @@ ECharacterClass AAuraAlly::GetCharacterClass_Implementation()
 	return CharacterClass;
 }
 
+AActor* AAuraAlly::GetCombatTargetAlly_Implementation() const
+{
+	return CombatTarget;
+}
+
+void AAuraAlly::SetCombatTargetAlly_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
 void AAuraAlly::HighlightActor_Implementation()
 {
 	MeshComponent->SetRenderCustomDepth(true);
@@ -112,16 +122,6 @@ void AAuraAlly::HideDecal() const
 		CharacterDecal->SetVisibility(false);
 		CharacterDecal->Deactivate();
 	}
-}
-
-void AAuraAlly::SetCombatTarget_Implementation(AActor* InCombatTarget)
-{
-	CombatTarget = InCombatTarget;
-}
-
-AActor* AAuraAlly::GetCombatTarget_Implementation() const
-{
-	return CombatTarget;
 }
 
 int32 AAuraAlly::GetPlayerLevel_Implementation()

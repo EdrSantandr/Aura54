@@ -575,9 +575,12 @@ void UAuraAbilitySystemLibrary::GetClosestTargets(int32 MaxTargets, const TArray
 
 bool UAuraAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
+	const bool bBothAreAllies = FirstActor->ActorHasTag(FName("Ally")) && SecondActor->ActorHasTag(FName("Ally"));
+	const bool bPlayerAndAlly = FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Ally"));
+	const bool bAllyAndPlayer = FirstActor->ActorHasTag(FName("Ally")) && SecondActor->ActorHasTag(FName("Player"));
 	const bool bBothArePlayers = FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Player"));
 	const bool bBothAreEnemies = FirstActor->ActorHasTag(FName("Enemy")) && SecondActor->ActorHasTag(FName("Enemy"));
-	const bool bFriends = bBothAreEnemies || bBothArePlayers;
+	const bool bFriends = bBothAreEnemies || bBothArePlayers || bBothAreAllies || bPlayerAndAlly || bAllyAndPlayer;
 	return !bFriends;
 }
 

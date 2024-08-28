@@ -61,6 +61,15 @@ public:
 	UFUNCTION()
 	AActor* GetHighLightedActor() { return ThisActor; }
 	
+	UFUNCTION(BlueprintImplementableEvent, Category="MouseCursor")
+	void ChangeCursorByActor(AActor* InActorHighlighted);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category="MouseCursor")
+	void ChangeCursorByCasting();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="MouseCursor")
+	void SetCursorDefault();
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -113,8 +122,8 @@ private:
 	
 	FHitResult CursorHit;
 
-	static void HighLightActor(AActor* InActor);
-	static void UnHighLightActor(AActor* InActor);
+	void HighLightActor(AActor* InActor);
+	void UnHighLightActor(AActor* InActor);
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);

@@ -267,6 +267,7 @@ void AAuraPlayerController::HighLightActor(AActor* InActor)
 	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
 	{
 		IHighlightInterface::Execute_HighlightActor(InActor);
+		ChangeCursorByActor(InActor);
 	}
 }
 
@@ -275,6 +276,7 @@ void AAuraPlayerController::UnHighLightActor(AActor* InActor)
 	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
 	{
 		IHighlightInterface::Execute_UnHighlightActor(InActor);
+		SetCursorDefault();
 	}
 }
 

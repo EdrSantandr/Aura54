@@ -20,6 +20,26 @@ void UAuraDamageBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 	}
 }
 
+void UAuraDamageBeamSpell::ElectricStoreMouseDataInfo(AActor* InActor)
+{
+	if (InActor)
+	{
+		MouseHitLocation = InActor->GetActorLocation();
+		MouseHitActor = InActor;
+		if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor))
+		{
+			if (!CombatInterface->GetOnDeathDelegate().IsAlreadyBound(this, &UAuraDamageBeamSpell::PrimaryTargetDied))
+			{
+				CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraDamageBeamSpell::PrimaryTargetDied);
+			}
+		}
+	}
+	else
+	{
+		CancelAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true);
+	}
+}
+
 void UAuraDamageBeamSpell::StoreOwnerVariables()
 {
 	if (CurrentActorInfo)

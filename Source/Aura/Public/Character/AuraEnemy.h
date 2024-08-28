@@ -38,6 +38,7 @@ public:
 	virtual int32 GetPlayerLevel_Implementation() override;
 	virtual void Die(const FVector& DeathImpulse) override;
 	virtual void StartDisarm_Implementation(float InDuration) override;
+	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
 
 	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 

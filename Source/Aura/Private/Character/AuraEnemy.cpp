@@ -211,6 +211,15 @@ void AAuraEnemy::StartDisarm_Implementation(float InDuration)
 	StartDisarmEffectTimeline(InDuration);
 }
 
+void AAuraEnemy::SetIsBeingShocked_Implementation(bool bInShock)
+{
+	Super::SetIsBeingShocked_Implementation(bInShock);
+	if (AuraAIController && AuraAIController->GetBlackboardComponent())
+	{
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"),bInShock);
+	}
+}
+
 void AAuraEnemy::FinishDisarm()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Finish disarm"));

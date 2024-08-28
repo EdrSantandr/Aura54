@@ -36,6 +36,9 @@ public:
 	void StoreMouseDataInfo(const FHitResult& HitResult);
 
 	UFUNCTION(BlueprintCallable)
+	void ElectricStoreMouseDataInfo(AActor* InActor);
+
+	UFUNCTION(BlueprintCallable)
 	void StoreOwnerVariables();
 
 	UFUNCTION(BlueprintCallable)

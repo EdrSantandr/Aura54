@@ -132,6 +132,7 @@ void AAuraPlayerController::ChangeToConfirmInputMapping() const
 	{
 		Subsystem->RemoveMappingContext(AuraContext);
 		Subsystem->AddMappingContext(ConfirmContext, 0);
+		ChangeCursorByCasting();
 	}
 }
 
@@ -143,6 +144,7 @@ void AAuraPlayerController::ChangeToLiriaInputMapping() const
 	{
 		Subsystem->RemoveMappingContext(ConfirmContext);
 		Subsystem->AddMappingContext(AuraContext, 0);
+		SetCursorDefault();
 	}
 }
 

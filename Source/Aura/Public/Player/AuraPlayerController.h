@@ -65,10 +65,10 @@ public:
 	void ChangeCursorByActor(AActor* InActorHighlighted);
 	
 	UFUNCTION(BlueprintImplementableEvent, Category="MouseCursor")
-	void ChangeCursorByCasting();
+	void ChangeCursorByCasting() const;
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="MouseCursor")
-	void SetCursorDefault();
+	void SetCursorDefault() const;
 	
 protected:
 	virtual void BeginPlay() override;

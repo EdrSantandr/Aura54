@@ -77,10 +77,6 @@ void AAuraSpawnGate::SpawnEnemy()
 			Enemy->SpawnDefaultController();
 			EnemiesSpawned++;
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Enemy class not set"));
-		}
 	}
 	else
 	{

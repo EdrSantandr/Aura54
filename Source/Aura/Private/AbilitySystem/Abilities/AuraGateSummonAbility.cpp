@@ -26,10 +26,6 @@ void UAuraGateSummonAbility::SpawnEnemy(const int32 InEnemiesSpawned, const int3
 			AuraAlly->IncreaseEnemiesSpawned(1);
 		}
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Enemy class not set"));
-	}
 }
 
 FTransform UAuraGateSummonAbility::GenerateRandomTransform(TArray<FVector> InSpawnLocations) const

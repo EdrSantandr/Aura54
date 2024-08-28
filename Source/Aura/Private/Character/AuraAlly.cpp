@@ -21,12 +21,10 @@
 
 AAuraAlly::AAuraAlly()
 {
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
-	MeshComponent->SetupAttachment(GetRootComponent());
-	MeshComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
-	MeshComponent->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
-	MeshComponent->SetGenerateOverlapEvents(false);
-	MeshComponent->MarkRenderStateDirty();
+	GetMesh()->SetCollisionResponseToAllChannels(ECR_Ignore);
+	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
+	GetMesh()->SetGenerateOverlapEvents(false);
 
 	BeamOriginComponent = CreateDefaultSubobject<UStaticMeshComponent>("BeamOriginComponent");
 	BeamOriginComponent->SetupAttachment(GetRootComponent());
@@ -35,9 +33,7 @@ AAuraAlly::AAuraAlly()
 	
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECR_Block);
-
-	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
-	GetMesh()->SetGenerateOverlapEvents(false);
+	
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
@@ -93,12 +89,12 @@ void AAuraAlly::SetCombatTargetAlly_Implementation(AActor* InCombatTarget)
 
 void AAuraAlly::HighlightActor_Implementation()
 {
-	MeshComponent->SetRenderCustomDepth(true);
+	GetMesh()->SetRenderCustomDepth(true);
 }
 
 void AAuraAlly::UnHighlightActor_Implementation()
 {
-	MeshComponent->SetRenderCustomDepth(false);
+	GetMesh()->SetRenderCustomDepth(false);
 }
 
 void AAuraAlly::SetMoveToLocation_Implementation(FVector& OutDestination)
@@ -170,7 +166,7 @@ void AAuraAlly::Dissolve()
 	if (IsValid(DissolveMaterialInstance))
 	{
 		UMaterialInstanceDynamic* DynamicMatIns = UMaterialInstanceDynamic::Create(DissolveMaterialInstance, this);
-		MeshComponent->SetMaterial(0, DynamicMatIns);
+		GetMesh()->SetMaterial(0, DynamicMatIns);
 		StartMeshDissolveTimeline(DynamicMatIns);
 	}
 }

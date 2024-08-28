@@ -137,9 +137,6 @@ protected:
 	TObjectPtr<AAuraAIController> AuraAIController;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
-	TObjectPtr<UStaticMeshComponent> MeshComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	TObjectPtr<UStaticMeshComponent> BeamOriginComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

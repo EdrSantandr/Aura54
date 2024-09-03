@@ -33,7 +33,7 @@ FTransform UAuraGateSummonAbility::GenerateRandomTransform(TArray<FVector> InSpa
 	FTransform Result;
 	const int32 Index = FMath::RandRange(0, InSpawnLocations.Num()-1);
 	FVector Location = GetActorInfo().AvatarActor->GetActorLocation() + InSpawnLocations[Index]*DistanceFromGate;
-	Location +=FVector(0.f,0.f,60.f);// todo: could be fixed with height of each enemy
+	Location +=FVector(0.f,0.f,SpawnHeightAdjustment);
 	Result.SetLocation(Location);
 	Result.SetRotation(InSpawnLocations[Index].ToOrientationQuat());
 	return Result;

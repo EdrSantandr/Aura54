@@ -25,6 +25,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
 	float DistanceFromGate = 80.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
+	float SpawnHeightAdjustment = -30.f;
 	
 	UFUNCTION(BlueprintCallable, Category="SpawnGate")
 	void SpawnEnemy(const int32 InEnemiesSpawned, const int32 InNumberOfEnemiesToSpawn, TArray<FVector> InSpawnLocations);

@@ -8,7 +8,6 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AI/AuraAIController.h"
-#include "Aura/Aura.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Character/AuraEnemy.h"
@@ -22,7 +21,6 @@
 AAuraAlly::AAuraAlly()
 {
 	GetMesh()->SetCollisionResponseToAllChannels(ECR_Ignore);
-	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_BLUE);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Ignore);
 	GetMesh()->SetGenerateOverlapEvents(false);
 
@@ -55,13 +53,13 @@ void AAuraAlly::PossessedBy(AController* NewController)
 
 	if (!HasAuthority()) return; // This should only run on the server
 
+	GetMesh()->SetCustomDepthStencilValue(StencilColorValue);
 	AuraAIController = Cast<AAuraAIController>(NewController);
 	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	AuraAIController->RunBehaviorTree(BehaviorTree);
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"),false);
 	const bool RangedAttacker = CharacterClass != ECharacterClass::Warrior;
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), RangedAttacker);
-	
 	if (bIsGate && MainGoal)
 	{
 		//Execute init ability for gate

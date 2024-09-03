@@ -292,7 +292,8 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	{
 		if (IsValid(ThisActor))
 		{
-			TargetingStatus = ThisActor->Implements<UEnemyInterface>() ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNonEnemy;
+			const bool bActorHasEnemyTag= ThisActor->Tags.Contains(FName("Enemy"));
+			TargetingStatus = (ThisActor->Implements<UEnemyInterface>() || bActorHasEnemyTag) ? ETargetingStatus::TargetingEnemy : ETargetingStatus::TargetingNonEnemy;
 		}
 		else
 		{

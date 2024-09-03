@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Aura/Aura.h"
 #include "Character/AuraCharacter.h"
 #include "Interaction/AllyInterface.h"
 #include "Interaction/EnemyInterface.h"
@@ -75,6 +76,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	float Lifespan = 3.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	float StencilColorValue = CUSTOM_DEPTH_BLUE;
+	
 	UPROPERTY(BlueprintReadWrite, Category="Combat")
 	TObjectPtr<AActor> CombatTarget;
 

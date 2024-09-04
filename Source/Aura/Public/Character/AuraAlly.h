@@ -147,16 +147,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="SpawnGate")
 	TObjectPtr<AActor> MainGoal;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="SpawnGate")
-	TSubclassOf<AAuraEnemy> SpawnClass;
 	
 	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
 	int32 NumberOfEnemiesToSpawn = 5;
-
-	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
-	float SpawnInterval = 2.f;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category="SpawnGate")
 	float AngleSpread = 90.f;
 

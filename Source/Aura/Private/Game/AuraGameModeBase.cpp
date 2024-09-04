@@ -233,6 +233,8 @@ void AAuraGameModeBase::RemoveGate(AActor* DeathGate)
 {
 	Gates.RemoveSingle(DeathGate);
 	UE_LOG(LogTemp, Warning,TEXT("NUMGATES: [%i]"), Gates.Num());
+	LiveGates = Gates.Num();
+	OnGateDestroyedDelegate.Broadcast(LiveGates, TotalGates);
 }
 
 void AAuraGameModeBase::BeginPlay()

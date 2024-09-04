@@ -6,6 +6,8 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
+#include "Game/AuraGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"
 #include "Player/AuraPlayerState.h"
 
@@ -75,4 +77,13 @@ UAuraAttributeSet* UAuraWidgetController::GetAuraAS()
 		AuraAttributeSet = Cast<UAuraAttributeSet>(AttributeSet);
 	}
 	return AuraAttributeSet;
+}
+
+AAuraGameModeBase* UAuraWidgetController::GetAuraGM()
+{
+	if (AuraGameMode==nullptr)
+	{
+		AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	}
+	return AuraGameMode;
 }

@@ -7,6 +7,7 @@
 #include "UObject/NoExportTypes.h"
 #include "AuraWidgetController.generated.h"
 
+class AAuraGameModeBase;
 class UAbilityInfo;
 class UAuraAttributeSet;
 class UAuraAbilitySystemComponent;
@@ -89,9 +90,12 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category="WidgetController")
 	TObjectPtr<UAuraAttributeSet> AuraAttributeSet;
 
+	UPROPERTY(BlueprintReadOnly, Category="WidgetController")
+	TObjectPtr<AAuraGameModeBase> AuraGameMode;
+
 	AAuraPlayerController* GetAuraPC();
 	AAuraPlayerState* GetAuraPS();
 	UAuraAbilitySystemComponent* GetAuraASC();
 	UAuraAttributeSet* GetAuraAS();
-	
+	AAuraGameModeBase* GetAuraGM();
 };

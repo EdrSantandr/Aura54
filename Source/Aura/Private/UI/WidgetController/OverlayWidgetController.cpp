@@ -8,6 +8,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
+#include "Game/AuraGameModeBase.h"
 #include "Player/AuraPlayerState.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
@@ -20,6 +21,17 @@ void UOverlayWidgetController::BroadcastInitialValues()
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
+	//Bind Callbacks to GameMode
+	if (GetAuraGM()!=nullptr)
+	{
+		GetAuraGM()->OnGateDestroyedDelegate.AddLambda(
+			[this](int32 CurrentGates, int32 TotalGates )
+			{
+				OnGateDestroyedChangedDelegate.Broadcast(CurrentGates, TotalGates);
+			}
+		);
+	}
+	
 	//Bind Callbacks to player state
 	if (GetAuraPS()!=nullptr)
 	{

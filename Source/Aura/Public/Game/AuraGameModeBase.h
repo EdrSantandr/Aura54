@@ -13,6 +13,8 @@ class UMVVM_LoadSlot;
 class UAbilityInfo;
 class UCharacterClassInfo;
 
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnGateDestroyedSignature, int32 /*CurrentGates*/, int32 /*TotalGates*/);
+
 /**
  * 
  */
@@ -31,6 +33,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="LootTiersInfo")
 	TObjectPtr<ULootTiersInfo> LootTiersInfo;
 
+	FOnGateDestroyedSignature OnGateDestroyedDelegate;
+	
 	UFUNCTION()
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
 

@@ -13,7 +13,9 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Game/AuraGameModeBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "UI/Widget/AuraUserWidget.h"
 
 AAuraEnemy::AAuraEnemy()
@@ -98,6 +100,7 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 	if (AuraAIController) AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	SpawnLoot();
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+	HandleEnemyKilled();
 	Super::Die(DeathImpulse);
 }
 
@@ -222,7 +225,14 @@ void AAuraEnemy::SetIsBeingShocked_Implementation(bool bInShock)
 
 void AAuraEnemy::FinishDisarm()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Finish disarm"));
 	Execute_SetIsDisarmed(this, false);
 	GetWorld()->GetTimerManager().ClearTimer(DisarmTimerHandle);
+}
+
+void AAuraEnemy::HandleEnemyKilled() const
+{
+	if (AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+	{
+		AuraGameModeBase->EnemyKilled();
+	}
 }

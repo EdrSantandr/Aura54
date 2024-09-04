@@ -232,16 +232,21 @@ void AAuraGameModeBase::PlayerDied(const ACharacter* DeadCharacter) const
 void AAuraGameModeBase::RemoveGate(AActor* DeathGate)
 {
 	Gates.RemoveSingle(DeathGate);
-	UE_LOG(LogTemp, Warning,TEXT("NUMGATES: [%i]"), Gates.Num());
 	LiveGates = Gates.Num();
 	OnGateDestroyedDelegate.Broadcast(LiveGates, TotalGates);
+}
+
+void AAuraGameModeBase::EnemyKilled()
+{
+	EnemiesKilled++;
+	OnEnemyKilledDelegate.Broadcast(EnemiesKilled);
 }
 
 void AAuraGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 	Maps.Add(DefaultMapName,DefaultMap);
-	SearchGatesInMap();	
+	SearchGatesInMap();
 }
 
 void AAuraGameModeBase::SearchGatesInMap()
@@ -249,4 +254,6 @@ void AAuraGameModeBase::SearchGatesInMap()
 	UGameplayStatics::GetAllActorsWithTag(GetWorld(), FName("Enemy"),Gates);
 	TotalGates = Gates.Num();
 	LiveGates = TotalGates;
+	OnGateDestroyedDelegate.Broadcast(LiveGates, TotalGates);
+	OnEnemyKilledDelegate.Broadcast(EnemiesKilled);
 }

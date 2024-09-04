@@ -14,6 +14,7 @@ class UAbilityInfo;
 class UCharacterClassInfo;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnGateDestroyedSignature, int32 /*CurrentGates*/, int32 /*TotalGates*/);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnEnemyKilledSignature, int32 /*EnemiesKilled*/);
 
 /**
  * 
@@ -34,6 +35,8 @@ public:
 	TObjectPtr<ULootTiersInfo> LootTiersInfo;
 
 	FOnGateDestroyedSignature OnGateDestroyedDelegate;
+
+	FOnEnemyKilledSignature OnEnemyKilledDelegate;
 	
 	UFUNCTION()
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
@@ -86,6 +89,8 @@ public:
 
 	void RemoveGate(AActor* DeathGate);
 
+	void EnemyKilled();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -100,4 +105,7 @@ private:
 
 	UPROPERTY()
 	int32 LiveGates = 0;
+
+	UPROPERTY()
+	int32 EnemiesKilled = 0;
 };

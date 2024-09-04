@@ -65,6 +65,8 @@ public:
 	int32 GetCurrentIndex() const { return CurrentPathIndex; }
 
 	void FinishDisarm();
+
+	void HandleEnemyKilled() const;
 	
 protected:
 	virtual void BeginPlay() override;

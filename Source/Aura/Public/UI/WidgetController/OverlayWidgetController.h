@@ -31,6 +31,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnValueChangedSignature, float, New
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnLevelChangedSignature, int32, NewValue, bool, bLevelUp);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGateDestroyedChangedSignature, int32, CurrentValue, int32, TotalValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemyKilledChangedSignature, int32, EnemiesKilled);
 
 /**
  * 
@@ -67,6 +68,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|CoreGame")
 	FOnGateDestroyedChangedSignature OnGateDestroyedChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|CoreGame")
+	FOnEnemyKilledChangedSignature OnEnemyKilledChangedDelegate;
 	
 protected:
 

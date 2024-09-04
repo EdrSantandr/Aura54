@@ -30,6 +30,7 @@ struct FUIWidgetRow : public FTableRowBase
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnValueChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnLevelChangedSignature, int32, NewValue, bool, bLevelUp);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGateDestroyedChangedSignature, int32, NewValue);
 
 /**
  * 
@@ -63,6 +64,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="GAS|Level")
 	FOnLevelChangedSignature OnPlayerLevelChangedDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category="GAS|CoreGame")
+	FOnGateDestroyedChangedSignature OnGateDestroyedChangedSignature;
 	
 protected:
 

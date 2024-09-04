@@ -71,13 +71,29 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
 	int32 NumberOfLives = 50;
 
+	UPROPERTY(BlueprintReadOnly, Category="LiriaModifiers")
+	int32 NumberOfGates = 0;
+
 	FString GetMapNameFromMapAssetName(const FString& MapAssetName) const;
 	
 	virtual AActor* ChoosePlayerStart_Implementation(AController* Player) override;
 
 	void PlayerDied(const ACharacter* DeadCharacter) const;
 
+	void RemoveGate(AActor* DeathGate);
+
 protected:
 	virtual void BeginPlay() override;
-	
+
+private:
+	void SearchGatesInMap();
+
+	UPROPERTY()
+	TArray<AActor*> Gates;
+
+	UPROPERTY()
+	int32 TotalGates = 0;
+
+	UPROPERTY()
+	int32 LiveGates = 0;
 };

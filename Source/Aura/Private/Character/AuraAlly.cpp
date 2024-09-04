@@ -14,6 +14,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Game/AuraGameModeBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/Widget/AuraUserWidget.h"
@@ -129,6 +130,11 @@ void AAuraAlly::Die(const FVector& DeathImpulse)
 	{
 		SpawnSentinel();
 		SetLifeSpan(1.f);
+		//Remove from the auragamemodebase
+		if (AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
+		{
+			AuraGameModeBase->RemoveGate(this);
+		}
 	}
 	else
 	{

@@ -30,6 +30,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	AActor* GetCombatTargetAlly() const;
-
-	
 };

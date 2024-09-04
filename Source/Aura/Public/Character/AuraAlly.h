@@ -6,7 +6,6 @@
 #include "Aura/Aura.h"
 #include "Character/AuraCharacter.h"
 #include "Interaction/AllyInterface.h"
-#include "Interaction/EnemyInterface.h"
 #include "Interaction/HighlightInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraAlly.generated.h"

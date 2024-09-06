@@ -370,14 +370,23 @@ void AAuraCharacter::MoveCamera_Implementation(const bool bMoveLeft, const bool 
 	if (bMoveTop || bMoveBottom)
 	{
 		if (bMoveTop) MoveVector.X = CameraSpeed;
-		if (bMoveBottom) MoveVector.X = -1.0f * CameraSpeed;	
+		if (bMoveBottom) MoveVector.X = -1.0f * CameraSpeed;
+		CheckCameraLimits(MaxLocationBottom, MaxLocationTop,TopDownCameraComponent->GetComponentLocation().X, MoveVector.X);
 	}
 	if (bMoveRight || bMoveLeft)
 	{
 		if (bMoveRight) MoveVector.Y = CameraSpeed;
 		if (bMoveLeft) MoveVector.Y = -1.0f * CameraSpeed;
+		CheckCameraLimits(MaxLocationLeft, MaxLocationRight, TopDownCameraComponent->GetComponentLocation().Y,MoveVector.Y);
 	}
 	TopDownCameraComponent->AddRelativeLocation(MoveVector);
+}
+
+void AAuraCharacter::CheckCameraLimits(float const LowerLimit, float const UpperLimit, float const CameraComponentLocation, double& CameraMovement)
+{
+	const double NewPosition = CameraComponentLocation + CameraMovement;
+	if (NewPosition<LowerLimit || UpperLimit<NewPosition)
+		CameraMovement = 0;
 }
 
 void AAuraCharacter::FocusCharacterCamera_Implementation()

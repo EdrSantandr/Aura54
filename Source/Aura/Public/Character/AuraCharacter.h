@@ -31,6 +31,18 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float DeathTime = 5.f;
 
+	UPROPERTY(EditDefaultsOnly, Category="CameraMovementClamp")
+	float MaxLocationTop = 3231.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="CameraMovementClamp")
+	float MaxLocationBottom = -1448.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="CameraMovementClamp")
+	float MaxLocationRight = 3601.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="CameraMovementClamp")
+	float MaxLocationLeft = -388.f;
+
 	FTimerHandle DeathTimerHandle;
 
 	/** Player Interface*/
@@ -68,5 +80,7 @@ private:
 	TObjectPtr<UCameraComponent> TopDownCameraComponent;
 
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USpringArmComponent> SpringArmComponent;	
+	TObjectPtr<USpringArmComponent> SpringArmComponent;
+
+	static void CheckCameraLimits(float const LowerLimit, float const UpperLimit, float const CameraComponentLocation, double& CameraMovement);
 };

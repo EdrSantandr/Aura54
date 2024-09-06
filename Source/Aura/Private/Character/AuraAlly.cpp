@@ -86,6 +86,15 @@ void AAuraAlly::SetCombatTargetAlly_Implementation(AActor* InCombatTarget)
 	CombatTarget = InCombatTarget;
 }
 
+void AAuraAlly::SetLevel_Implementation(const int32 NewLevel)
+{
+	Level = NewLevel;
+	if (UAuraAbilitySystemComponent* AuraAsc = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponent()))
+	{
+		AuraAsc->UpdateAbilitiesOfCharacter();
+	}
+}
+
 void AAuraAlly::HighlightActor_Implementation()
 {
 	GetMesh()->SetRenderCustomDepth(true);

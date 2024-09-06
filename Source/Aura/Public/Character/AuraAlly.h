@@ -46,6 +46,7 @@ public:
 	virtual ECharacterClass GetCharacterClass_Implementation() override;
 	virtual AActor* GetCombatTargetAlly_Implementation() const override;
 	virtual void SetCombatTargetAlly_Implementation(AActor* InCombatTarget) override;
+	virtual void SetLevel_Implementation(int32 NewLevel) override;
 	
 	/* HighlightInterface*/
 	virtual void HighlightActor_Implementation() override;

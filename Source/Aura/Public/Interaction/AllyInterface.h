@@ -30,4 +30,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	AActor* GetCombatTargetAlly() const;
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void SetLevel(int32 NewLevel);
 };

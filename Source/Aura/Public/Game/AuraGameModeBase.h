@@ -95,6 +95,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	void ImproveGates(float GatesNewLevel);
+	
 	void SearchGatesInMap();
 
 	UPROPERTY()
@@ -108,4 +111,7 @@ private:
 
 	UPROPERTY()
 	int32 EnemiesKilled = 0;
+
+	UPROPERTY()
+	int32 GatesLevel = 1;
 };

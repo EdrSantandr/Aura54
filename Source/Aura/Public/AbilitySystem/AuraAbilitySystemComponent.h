@@ -42,7 +42,7 @@ public:
 	void AbilityInputTagHeld(const FGameplayTag& InputTag);
 	void AbilityInputTagReleased(const FGameplayTag& InputTag);
 	void ForEachAbility(const FForEachAbility& Delegate);
-
+	
 	static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 	static FGameplayTag GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec);
@@ -83,6 +83,8 @@ public:
 	void ClearAbilitiesOfSlotInputTag(const FGameplayTag& SlotInputTag);
 
 	static bool AbilityHasSlotInputTag(FGameplayAbilitySpec* Spec, const FGameplayTag& SlotInputTag);
+
+	void UpdateAbilitiesOfCharacter();
 	
 protected:
 	virtual void OnRep_ActivateAbilities() override;

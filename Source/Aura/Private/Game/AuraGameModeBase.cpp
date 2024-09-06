@@ -5,6 +5,7 @@
 
 #include "EngineUtils.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Character/AuraAlly.h"
 #include "Game/AuraGameInstance.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/Character.h"
@@ -234,6 +235,7 @@ void AAuraGameModeBase::RemoveGate(AActor* DeathGate)
 	Gates.RemoveSingle(DeathGate);
 	LiveGates = Gates.Num();
 	OnGateDestroyedDelegate.Broadcast(LiveGates, TotalGates);
+	ImproveGates(GatesLevel);
 }
 
 void AAuraGameModeBase::EnemyKilled()
@@ -247,6 +249,18 @@ void AAuraGameModeBase::BeginPlay()
 	Super::BeginPlay();
 	Maps.Add(DefaultMapName,DefaultMap);
 	SearchGatesInMap();
+}
+
+void AAuraGameModeBase::ImproveGates(float GatesNewLevel)
+{
+	GatesLevel++;
+	for (AActor* Gate : Gates)
+	{
+		if (Gate->Implements<UAllyInterface>())
+		{
+			IAllyInterface::Execute_SetLevel(Gate, GatesLevel);
+		}
+	}
 }
 
 void AAuraGameModeBase::SearchGatesInMap()

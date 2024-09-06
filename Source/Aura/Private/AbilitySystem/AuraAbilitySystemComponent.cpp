@@ -445,6 +445,14 @@ bool UAuraAbilitySystemComponent::AbilityHasSlotInputTag(FGameplayAbilitySpec* S
 	return false;
 }
 
+void UAuraAbilitySystemComponent::UpdateAbilitiesOfCharacter()
+{
+	for(FGameplayAbilitySpec& Spec : GetActivatableAbilities())
+	{
+		Spec.Level += 1;
+	}
+}
+
 void UAuraAbilitySystemComponent::OnRep_ActivateAbilities()
 {
 	Super::OnRep_ActivateAbilities();

@@ -15,6 +15,7 @@ class UCharacterClassInfo;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnGateDestroyedSignature, int32 /*CurrentGates*/, int32 /*TotalGates*/);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnEnemyKilledSignature, int32 /*EnemiesKilled*/);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerLivesSignature, int32 /*PlayerLives*/);
 
 /**
  * 
@@ -37,6 +38,8 @@ public:
 	FOnGateDestroyedSignature OnGateDestroyedDelegate;
 
 	FOnEnemyKilledSignature OnEnemyKilledDelegate;
+
+	FOnPlayerLivesSignature OnPlayerLivesDelegate;
 	
 	UFUNCTION()
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);
@@ -55,10 +58,10 @@ public:
 	int32 GetNumberOfLives() const { return NumberOfLives; }
 
 	UFUNCTION()
-	void ReduceLivePoints(const int32 InMinusPoints) { NumberOfLives -=InMinusPoints; }
+	void ReduceLivePoints(const int32 InMinusPoints);
 
 	UFUNCTION()
-	void IncrementLivePoints(const int32 InPlusPoints) { NumberOfLives +=InPlusPoints; }
+	void IncrementLivePoints(const int32 InPlusPoints);
 	
 	UPROPERTY(EditDefaultsOnly, Category="SaveInfo")
 	TSubclassOf<USaveGame> LoadScreenSaveGameClass;

@@ -36,6 +36,12 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 				OnEnemyKilledChangedDelegate.Broadcast(EnemiesKilled);
 			}
 		);
+		GetAuraGM()->OnPlayerLivesDelegate.AddLambda(
+			[this](int32 PlayerLives )
+			{
+				OnPlayerLivesUpdateDelegate.Broadcast(PlayerLives);
+			}
+		);
 	}
 	
 	//Bind Callbacks to player state

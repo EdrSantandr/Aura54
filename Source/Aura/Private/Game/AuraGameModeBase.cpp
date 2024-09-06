@@ -4,7 +4,6 @@
 #include "Game/AuraGameModeBase.h"
 
 #include "EngineUtils.h"
-#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Character/AuraAlly.h"
 #include "Game/AuraGameInstance.h"
 #include "Game/LoadScreenSaveGame.h"
@@ -184,6 +183,18 @@ void AAuraGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)
 	UGameplayStatics::OpenLevelBySoftObjectPtr(Slot, Maps.FindChecked(Slot->GetMapName()));
 }
 
+void AAuraGameModeBase::ReduceLivePoints(const int32 InMinusPoints)
+{
+	NumberOfLives -=InMinusPoints;
+	OnPlayerLivesDelegate.Broadcast(NumberOfLives);
+}
+
+void AAuraGameModeBase::IncrementLivePoints(const int32 InPlusPoints)
+{
+	NumberOfLives +=InPlusPoints;
+	OnPlayerLivesDelegate.Broadcast(NumberOfLives);
+}
+
 FString AAuraGameModeBase::GetMapNameFromMapAssetName(const FString& MapAssetName) const
 {
 	for(auto & Map : Maps)
@@ -249,6 +260,7 @@ void AAuraGameModeBase::BeginPlay()
 	Super::BeginPlay();
 	Maps.Add(DefaultMapName,DefaultMap);
 	SearchGatesInMap();
+	OnPlayerLivesDelegate.Broadcast(NumberOfLives);
 }
 
 void AAuraGameModeBase::ImproveGates(float GatesNewLevel)

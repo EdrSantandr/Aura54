@@ -79,10 +79,13 @@ public:
 	TMap<FString, TSoftObjectPtr<UWorld>> Maps;
 
 	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
-	int32 NumberOfLives = 50;
+	int32 NumberOfLives = 5;
 
 	UPROPERTY(BlueprintReadOnly, Category="LiriaModifiers")
 	int32 NumberOfGates = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
+	FName MainMenuMapName = FName("MainMenu_Liria");
 
 	FString GetMapNameFromMapAssetName(const FString& MapAssetName) const;
 	
@@ -90,9 +93,14 @@ public:
 
 	void PlayerDied(const ACharacter* DeadCharacter) const;
 
+	void LiriaPlayerDied(ACharacter* DeadCharacter);
+
 	void RemoveGate(AActor* DeathGate);
 
 	void EnemyKilled();
+
+	UFUNCTION()
+	void MainMenuScreen(ACharacter* DeadCharacter);
 
 protected:
 	virtual void BeginPlay() override;
@@ -117,4 +125,11 @@ private:
 
 	UPROPERTY()
 	int32 GatesLevel = 1;
+
+	FTimerHandle PlayerDeadTimerHandle;
+	
+	FTimerDelegate PlayerDeadTimerDelegate;
+
+	UPROPERTY()
+	float WaitTime = 2.f;
 };

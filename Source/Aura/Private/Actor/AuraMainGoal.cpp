@@ -6,7 +6,9 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Actor/AuraLifePoint.h"
 #include "Components/SphereComponent.h"
+#include "Game/AuraGameModeBase.h"
 #include "Interaction/EnemyInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AAuraMainGoal::AAuraMainGoal()
@@ -48,7 +50,6 @@ void AAuraMainGoal::SpawnLifePoints(int32 NumberOfLives)
 		AAuraLifePoint* Life = GetWorld()->SpawnActor<AAuraLifePoint>(GetRandomLifePointClass(),Location,Rotation, ActorSpawnParameters);
 		LifePoints.Add(Life);
 	}
-	UE_LOG(LogTemp, Warning,TEXT("num lifepoints: [%i]"), LifePoints.Num());
 }
 
 void AAuraMainGoal::EliminateLifePoints(const int32 InLifePoints)
@@ -82,8 +83,15 @@ void AAuraMainGoal::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	CurrentNumLives = UAuraAbilitySystemLibrary::GetNumberOfLives(this);
 	if (CurrentNumLives <= 0)
 	{
-		//todo: if Current Number of lives == 0 do something
-		UE_LOG(LogTemp, Warning, TEXT("Should finish the game Numlives [%i]"), CurrentNumLives);
+		SphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+		SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		if (AAuraGameModeBase* AuraGm = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
+		{
+			if (const APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+			{
+				AuraGm->LiriaPlayerDied(PC->GetCharacter());	
+			}
+		}
 	}
 }
 

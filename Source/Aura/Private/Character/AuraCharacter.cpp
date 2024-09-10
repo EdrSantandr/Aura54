@@ -189,7 +189,7 @@ void AAuraCharacter::Die(const FVector& DeathImpulse)
 	{
 		if (AAuraGameModeBase* AuraGm = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))
 		{
-			AuraGm->PlayerDied(this);
+			AuraGm->LiriaPlayerDied(this);
 		}
 	});
 	GetWorldTimerManager().SetTimer(DeathTimerHandle, DeathTimerDelegate, DeathTime, false);

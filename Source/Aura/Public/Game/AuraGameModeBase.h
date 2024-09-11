@@ -105,6 +105,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void ShowMessageYouLose(int32 InEnemiesKilled);
 
+	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
+	float WaitTime = 2.f;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -133,6 +136,5 @@ private:
 	
 	FTimerDelegate PlayerDeadTimerDelegate;
 
-	UPROPERTY()
-	float WaitTime = 2.f;
+	
 };

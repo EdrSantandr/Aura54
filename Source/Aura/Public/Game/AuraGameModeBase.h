@@ -102,6 +102,9 @@ public:
 	UFUNCTION()
 	void MainMenuScreen(ACharacter* DeadCharacter);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowMessageYouLose(int32 InEnemiesKilled);
+
 protected:
 	virtual void BeginPlay() override;
 

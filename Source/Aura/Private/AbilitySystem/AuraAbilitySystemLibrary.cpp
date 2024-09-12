@@ -11,6 +11,7 @@
 #include "Game/AuraGameModeBase.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "Interaction/CombatInterface.h"
+#include "Interaction/EnemyInterface.h"
 #include "Interaction/PathInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/AuraPlayerController.h"

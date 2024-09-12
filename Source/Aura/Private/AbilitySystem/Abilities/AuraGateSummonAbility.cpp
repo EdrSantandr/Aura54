@@ -8,14 +8,14 @@
 
 void UAuraGateSummonAbility::SpawnEnemy(const int32 InEnemiesSpawned, const int32 InNumberOfEnemiesToSpawn, TArray<FVector> InSpawnLocations)
 {
-	if (InEnemiesSpawned < InNumberOfEnemiesToSpawn && SpawnClass)
+	if (InEnemiesSpawned < InNumberOfEnemiesToSpawn)
 	{
 		if (AAuraAlly*AuraAlly = Cast<AAuraAlly>(GetActorInfo().AvatarActor))
 		{
 			const TArray<TArray<FVector>> PathsByPoint = AuraAlly->GetPathPoints();
 			FActorSpawnParameters SpawnParameters;
-			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn; 
-			AAuraEnemy* Enemy = GetWorld()->SpawnActorDeferred<AAuraEnemy>(SpawnClass, GetActorInfo().AvatarActor->GetActorTransform());
+			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+			AAuraEnemy* Enemy = GetWorld()->SpawnActorDeferred<AAuraEnemy>(GetSpawnClass(), GetActorInfo().AvatarActor->GetActorTransform());
 			
 			//TODO: Change Level according to progression on the game
 			Enemy->SetLevel(1); 
@@ -26,6 +26,12 @@ void UAuraGateSummonAbility::SpawnEnemy(const int32 InEnemiesSpawned, const int3
 			AuraAlly->IncreaseEnemiesSpawned(1);
 		}
 	}
+}
+
+TSubclassOf<AAuraEnemy> UAuraGateSummonAbility::GetSpawnClass()
+{
+	const int32 RandomInt = FMath::RandRange(0, SpawnClasses.Num()-1);
+	return SpawnClasses[RandomInt];
 }
 
 FTransform UAuraGateSummonAbility::GenerateRandomTransform(TArray<FVector> InSpawnLocations) const

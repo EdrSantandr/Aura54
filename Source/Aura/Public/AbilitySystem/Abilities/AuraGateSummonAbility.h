@@ -18,7 +18,7 @@ class AURA_API UAuraGateSummonAbility : public UAuraGameplayAbility
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="SpawnGate")
-	TSubclassOf<AAuraEnemy> SpawnClass;
+	TArray<TSubclassOf<AAuraEnemy>> SpawnClasses;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="SpawnGate")
 	ECharacterClass CharacterClass = ECharacterClass::Warrior;
@@ -33,6 +33,10 @@ public:
 	void SpawnEnemy(const int32 InEnemiesSpawned, const int32 InNumberOfEnemiesToSpawn, TArray<FVector> InSpawnLocations);
 
 private:
+
+	UFUNCTION()
+	TSubclassOf<AAuraEnemy> GetSpawnClass();
+	
 	UFUNCTION()
 	FTransform GenerateRandomTransform(TArray<FVector> SpawnLocations) const;
 	

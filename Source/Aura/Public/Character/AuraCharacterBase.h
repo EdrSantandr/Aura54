@@ -57,6 +57,7 @@ public:
 	virtual void SetIsSlowed_Implementation(bool bInSlowed) override;
 	virtual bool GetIsDisarmed_Implementation() const override;
 	virtual void SetIsDisarmed_Implementation(bool bInDisarmed) override;
+	virtual void ForceDeath_Implementation() override;
 	
 	
 	FOnAscRegisteredSignature OnAscRegisteredDelegate;

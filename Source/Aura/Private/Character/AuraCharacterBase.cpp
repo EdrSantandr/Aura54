@@ -202,6 +202,11 @@ void AAuraCharacterBase::SetIsDisarmed_Implementation(bool bInDisarmed)
 	bIsDisarmed = bInDisarmed;
 }
 
+void AAuraCharacterBase::ForceDeath_Implementation()
+{
+	MulticastHandleDeath(FVector(0.f,0.f,0.f));
+}
+
 void AAuraCharacterBase::Die(const FVector& DeathImpulse)
 {
 	//Drop the weapon

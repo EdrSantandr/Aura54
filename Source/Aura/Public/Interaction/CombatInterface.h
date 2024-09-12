@@ -104,6 +104,9 @@ public:
 	USkeletalMeshComponent* GetWeapon();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ForceDeath();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UMeshComponent* GetBeamOriginComponent();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)

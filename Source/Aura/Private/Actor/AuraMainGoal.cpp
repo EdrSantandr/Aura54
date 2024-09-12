@@ -7,6 +7,7 @@
 #include "Actor/AuraLifePoint.h"
 #include "Components/SphereComponent.h"
 #include "Game/AuraGameModeBase.h"
+#include "Interaction/CombatInterface.h"
 #include "Interaction/EnemyInterface.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -73,6 +74,9 @@ void AAuraMainGoal::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	if (OtherActor && !OtherActor->Implements<UEnemyInterface>()) return;
 	int32 EnemyDamage = IEnemyInterface::Execute_GetDamagePoints(OtherActor);	
 	int32 CurrentNumLives = UAuraAbilitySystemLibrary::GetNumberOfLives(this);
+	if (OtherActor->Implements<UCombatInterface>())
+		ICombatInterface::Execute_ForceDeath(OtherActor);
+	
 	if (CurrentNumLives - EnemyDamage < 0)
 	{
 		EnemyDamage = CurrentNumLives;

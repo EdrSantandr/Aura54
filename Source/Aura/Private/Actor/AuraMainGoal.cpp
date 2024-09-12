@@ -87,6 +87,7 @@ void AAuraMainGoal::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AAc
 	CurrentNumLives = UAuraAbilitySystemLibrary::GetNumberOfLives(this);
 	if (CurrentNumLives <= 0)
 	{
+		SetDarkLightning();
 		SphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
 		SphereComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		if (AAuraGameModeBase* AuraGm = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(this)))

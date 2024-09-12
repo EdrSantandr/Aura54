@@ -17,6 +17,9 @@ class AURA_API AAuraMainGoal : public AActor
 public:	
 	AAuraMainGoal();
 
+	UFUNCTION(BlueprintImplementableEvent, Category="ReachGoal")
+	void SetDarkLightning();
+
 protected:
 	virtual void BeginPlay() override;
 	

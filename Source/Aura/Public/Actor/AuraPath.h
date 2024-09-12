@@ -8,6 +8,7 @@
 #include "AuraPath.generated.h"
 
 class USphereComponent;
+class UBillboardComponent;
 
 UCLASS()
 class AURA_API AAuraPath : public AActor, public IPathInterface

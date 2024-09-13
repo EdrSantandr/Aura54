@@ -135,6 +135,12 @@ protected:
 	float BaseWalkSpeed = 600.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	float SlowPercentage = 0.2f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
+	float GroundFrictionPercentage = 2.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	float AttackRange = 1000.f;
 	
 	UPROPERTY()
@@ -215,6 +221,10 @@ protected:
 	TObjectPtr<UDeBuffNiagaraComponent> DisarmDeBuffComponent;
 	
 private:
+
+	UPROPERTY()
+	float OriginalBDWalking = 0.f;
+	
 	UPROPERTY(EditAnywhere, Category="Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 

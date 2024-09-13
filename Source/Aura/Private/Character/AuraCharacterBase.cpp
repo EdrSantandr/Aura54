@@ -257,6 +257,17 @@ void AAuraCharacterBase::SlowTagChanged(const FGameplayTag CallbackTag, int32 Ne
 	bIsSlowed = NewCount > 0;
 	UE_LOG(LogTemp, Warning, TEXT("isslowed [%s]"), bIsSlowed? *FString("True") : *FString("False"));
 	UE_LOG(LogTemp, Warning, TEXT("slow tag changed aurabase"));
+	UE_LOG(LogTemp, Warning, TEXT("bradking [%f]"), GetCharacterMovement()->BrakingDecelerationWalking);
+	if (bIsSlowed)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed * SlowPercentage;
+		GetCharacterMovement()->BrakingDecelerationWalking = OriginalBDWalking * GroundFrictionPercentage;
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+		GetCharacterMovement()->BrakingDecelerationWalking = OriginalBDWalking;
+	}
 }
 
 void AAuraCharacterBase::OnRep_Slowed()
@@ -282,6 +293,7 @@ void AAuraCharacterBase::OnRep_Disarmed()
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+	OriginalBDWalking = GetCharacterMovement()->BrakingDecelerationWalking;
 }
 
 FVector AAuraCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)

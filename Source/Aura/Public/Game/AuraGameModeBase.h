@@ -105,8 +105,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void ShowMessageYouLose(int32 InEnemiesKilled);
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowMessageYouWin(int32 InEnemiesKilled);
+
 	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
-	float WaitTime = 2.f;
+	float LoseWaitTime = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="LiriaModifiers")
+	float WinWaitTime = 10.f;
 
 protected:
 	virtual void BeginPlay() override;

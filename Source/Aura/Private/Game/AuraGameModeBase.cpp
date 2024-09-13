@@ -243,10 +243,9 @@ void AAuraGameModeBase::PlayerDied(const ACharacter* DeadCharacter) const
 
 void AAuraGameModeBase::LiriaPlayerDied(ACharacter* DeadCharacter)
 {
-	UE_LOG(LogTemp, Warning, TEXT("SHOW NUMBER OF KILLS AND CURRENT TIME"));
 	ShowMessageYouLose(EnemiesKilled);
 	PlayerDeadTimerDelegate.BindUObject(this, &AAuraGameModeBase::MainMenuScreen, DeadCharacter);
-	GetWorld()->GetTimerManager().SetTimer(PlayerDeadTimerHandle, PlayerDeadTimerDelegate, WaitTime, false);	
+	GetWorld()->GetTimerManager().SetTimer(PlayerDeadTimerHandle, PlayerDeadTimerDelegate, LoseWaitTime, false);	
 }
 
 void AAuraGameModeBase::RemoveGate(AActor* DeathGate)
@@ -254,6 +253,15 @@ void AAuraGameModeBase::RemoveGate(AActor* DeathGate)
 	Gates.RemoveSingle(DeathGate);
 	LiveGates = Gates.Num();
 	OnGateDestroyedDelegate.Broadcast(LiveGates, TotalGates);
+	if (LiveGates == 0)
+	{
+		if (const APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
+		{
+			ShowMessageYouWin(EnemiesKilled);
+			PlayerDeadTimerDelegate.BindUObject(this, &AAuraGameModeBase::MainMenuScreen, PC->GetCharacter());
+			GetWorld()->GetTimerManager().SetTimer(PlayerDeadTimerHandle, PlayerDeadTimerDelegate, WinWaitTime, false);	
+		}	
+	}
 	ImproveGates(GatesLevel);
 }
 
@@ -265,7 +273,6 @@ void AAuraGameModeBase::EnemyKilled()
 
 void AAuraGameModeBase::MainMenuScreen(ACharacter* DeadCharacter)
 {
-	UE_LOG(LogTemp, Warning, TEXT("aFTER TWO SECONDS"));
 	GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 	UGameplayStatics::OpenLevel(DeadCharacter, MainMenuMapName);
 }

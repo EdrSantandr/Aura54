@@ -95,6 +95,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 	OnAscRegisteredDelegate.Broadcast(AbilitySystemComponent);
 
 	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().DeBuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraCharacter::StunTagChanged);
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().DeBuff_Slow, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraCharacter::SlowTagChanged);
 
 	if (AAuraPlayerController* AuraPlayerController = Cast<AAuraPlayerController>(GetController()))
 	{

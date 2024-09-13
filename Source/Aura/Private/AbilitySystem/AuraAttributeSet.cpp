@@ -289,7 +289,6 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
 	{
 		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
 	}
-
 	if(Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
 		HandleIncomingDamage(Props);

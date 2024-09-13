@@ -128,6 +128,8 @@ protected:
 	bool bDead = false;
 
 	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
+	virtual void SlowTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Combat")
 	float BaseWalkSpeed = 600.f;

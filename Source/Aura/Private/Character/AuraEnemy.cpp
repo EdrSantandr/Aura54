@@ -187,6 +187,8 @@ void AAuraEnemy::InitAbilityActorInfo()
 	{
 		InitializeDefaultAttributes();	
 	}
+	/*For Slow movement*/
+	AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().DeBuff_Slow, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AAuraEnemy::SlowTagChanged);
 	OnAscRegisteredDelegate.Broadcast(AbilitySystemComponent);
 }
 
@@ -202,6 +204,12 @@ void AAuraEnemy::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 	{
 		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"),bIsStunned);	
 	}
+}
+
+void AAuraEnemy::SlowTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	Super::SlowTagChanged(CallbackTag, NewCount);
+	UE_LOG(LogTemp,Warning,TEXT("SLOWTAG CHANGED ON ENEMY"));
 }
 
 void AAuraEnemy::StartDisarm_Implementation(float InDuration)

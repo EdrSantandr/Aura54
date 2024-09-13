@@ -81,6 +81,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
 	bool bApplyEffectToEnemies = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
+	bool bDestroyAfterOverlap = true;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Effects")
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;

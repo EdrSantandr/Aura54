@@ -75,7 +75,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 		{
 			ActiveEffectHandles.Add(ActiveGameplayEffectHandle, TargetASC);
 		}
-		if (!bIsInfinite)
+		if (!bIsInfinite && bDestroyAfterOverlap)
 		{
 			Destroy();
 		}

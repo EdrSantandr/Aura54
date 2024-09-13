@@ -73,6 +73,7 @@ protected:
 	virtual void InitAbilityActorInfo() override;
 	virtual void InitializeDefaultAttributes() const override;
 	virtual void StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
+	virtual void SlowTagChanged(const FGameplayTag CallbackTag, int32 NewCount) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character Class Defaults")
 	int32 Level = 1;

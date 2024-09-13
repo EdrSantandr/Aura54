@@ -255,9 +255,6 @@ void AAuraCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 Ne
 void AAuraCharacterBase::SlowTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	bIsSlowed = NewCount > 0;
-	UE_LOG(LogTemp, Warning, TEXT("isslowed [%s]"), bIsSlowed? *FString("True") : *FString("False"));
-	UE_LOG(LogTemp, Warning, TEXT("slow tag changed aurabase"));
-	UE_LOG(LogTemp, Warning, TEXT("bradking [%f]"), GetCharacterMovement()->BrakingDecelerationWalking);
 	if (bIsSlowed)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed * SlowPercentage;

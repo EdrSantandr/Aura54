@@ -209,12 +209,10 @@ void AAuraEnemy::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 void AAuraEnemy::SlowTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	Super::SlowTagChanged(CallbackTag, NewCount);
-	UE_LOG(LogTemp,Warning,TEXT("SLOWTAG CHANGED ON ENEMY"));
 }
 
 void AAuraEnemy::StartDisarm_Implementation(float InDuration)
 {
-	UE_LOG(LogTemp, Warning, TEXT("start disarm"));
 	GetWorld()->GetTimerManager().ClearTimer(DisarmTimerHandle);
 	DisarmTimerDelegate.BindUObject(this, &AAuraEnemy::FinishDisarm);
 	GetWorld()->GetTimerManager().SetTimer(DisarmTimerHandle, DisarmTimerDelegate, InDuration, false);

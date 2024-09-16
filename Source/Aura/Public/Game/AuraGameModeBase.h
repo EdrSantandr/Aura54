@@ -123,6 +123,9 @@ private:
 	
 	void SearchGatesInMap();
 
+	UFUNCTION()
+	void FinalEnemiesInteraction(const bool WinOrLoseGame) const;
+
 	UPROPERTY()
 	TArray<AActor*> Gates;
 
@@ -141,6 +144,5 @@ private:
 	FTimerHandle PlayerDeadTimerHandle;
 	
 	FTimerDelegate PlayerDeadTimerDelegate;
-
 	
 };

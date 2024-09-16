@@ -244,6 +244,7 @@ void AAuraGameModeBase::PlayerDied(const ACharacter* DeadCharacter) const
 void AAuraGameModeBase::LiriaPlayerDied(ACharacter* DeadCharacter)
 {
 	ShowMessageYouLose(EnemiesKilled);
+	FinalEnemiesInteraction(false);
 	PlayerDeadTimerDelegate.BindUObject(this, &AAuraGameModeBase::MainMenuScreen, DeadCharacter);
 	GetWorld()->GetTimerManager().SetTimer(PlayerDeadTimerHandle, PlayerDeadTimerDelegate, LoseWaitTime, false);	
 }
@@ -255,6 +256,7 @@ void AAuraGameModeBase::RemoveGate(AActor* DeathGate)
 	OnGateDestroyedDelegate.Broadcast(LiveGates, TotalGates);
 	if (LiveGates == 0)
 	{
+		FinalEnemiesInteraction(true); 
 		if (const APlayerController* PC = UGameplayStatics::GetPlayerController(GetWorld(), 0))
 		{
 			ShowMessageYouWin(EnemiesKilled);
@@ -263,6 +265,32 @@ void AAuraGameModeBase::RemoveGate(AActor* DeathGate)
 		}	
 	}
 	ImproveGates(GatesLevel);
+}
+
+void AAuraGameModeBase::FinalEnemiesInteraction(const bool WinOrLoseGame) const
+{
+	// WinOrLoseGame = TRUE (Enemies perform stun animation) Set the tag for every enemy
+	if (WinOrLoseGame)
+	{
+		TArray<AActor*> Enemies;
+		UGameplayStatics::GetAllActorsWithTag(GetWorld(), FName("Enemy"), Enemies);
+		for (AActor* Enemy : Enemies)
+		{
+			if (Enemy->Implements<UCombatInterface>())
+			{
+				ICombatInterface::Execute_ForceDeath(Enemy);
+			}
+		}
+	}
+	else
+	{
+		// aura perform stun tag
+		ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+		if (PlayerCharacter->Implements<UCombatInterface>())
+		{
+			ICombatInterface::Execute_ForceDeath(PlayerCharacter);
+		}
+	}
 }
 
 void AAuraGameModeBase::EnemyKilled()

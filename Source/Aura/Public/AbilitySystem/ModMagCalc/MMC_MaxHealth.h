@@ -19,6 +19,9 @@ public:
 
 	virtual float CalculateBaseMagnitude_Implementation(const FGameplayEffectSpec& Spec) const override;
 
+	UPROPERTY(EditDefaultsOnly, Category="MaxHealth")
+	float BaseHealthCoefficient = 80.f;
+
 private:
 	FGameplayEffectAttributeCaptureDefinition VigorDef;
 };

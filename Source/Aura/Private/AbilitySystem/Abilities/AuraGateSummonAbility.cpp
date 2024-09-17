@@ -16,10 +16,7 @@ void UAuraGateSummonAbility::SpawnEnemy(const int32 InEnemiesSpawned, const int3
 			FActorSpawnParameters SpawnParameters;
 			SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 			AAuraEnemy* Enemy = GetWorld()->SpawnActorDeferred<AAuraEnemy>(GetSpawnClass(), GetActorInfo().AvatarActor->GetActorTransform());
-			
-			//TODO: Change Level according to progression on the game
-			Enemy->SetLevel(1); 
-			Enemy->SetCharacterClass(CharacterClass);
+			Enemy->SetLevel(GetAbilityLevel());
 			Enemy->SetPath(GetEnemyPath(PathsByPoint));
 			Enemy->FinishSpawning(GenerateRandomTransform(InSpawnLocations));
 			Enemy->SpawnDefaultController();

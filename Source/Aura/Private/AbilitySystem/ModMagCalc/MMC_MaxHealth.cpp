@@ -23,6 +23,7 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 	FAggregatorEvaluateParameters EvaluationParameters;
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
+	
 
 	float Vigor = 0.f;
 	GetCapturedAttributeMagnitude(VigorDef, Spec, EvaluationParameters, Vigor);
@@ -32,7 +33,7 @@ float UMMC_MaxHealth::CalculateBaseMagnitude_Implementation(const FGameplayEffec
 	if (Spec.GetContext().GetSourceObject()->Implements<UCombatInterface>())
 	{
 		PlayerLevel = ICombatInterface::Execute_GetPlayerLevel(Spec.GetContext().GetSourceObject());
-		return BaseHealthCoefficient + 2.5f * Vigor + 10.f * PlayerLevel;
+		return BaseHealthCoefficient.GetValueAtLevel(PlayerLevel) + 2.5f * Vigor + 10.f * PlayerLevel;
 	}
 	return 0;
 }

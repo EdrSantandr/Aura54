@@ -461,6 +461,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Cooldown_Spawn = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Spawn"),
 		FString("Tag for Spawn cooldown"));
+
+	GameplayTags.Cooldown_Passive_ManaSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Passive.ManaSiphon"),
+		FString("Tag for Cooldown.Passive.ManaSiphon"));
 	
 	/* Player*/
 	GameplayTags.Player_Block_CursorTrace = UGameplayTagsManager::Get().AddNativeGameplayTag(

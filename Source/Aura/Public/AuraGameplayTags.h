@@ -126,6 +126,7 @@ public:
 	FGameplayTag Cooldown_Enchant_Poison;
 	FGameplayTag Cooldown_Enchant_Wind;
 	FGameplayTag Cooldown_Spawn;
+	FGameplayTag Cooldown_Passive_ManaSiphon;
 	
 	FGameplayTag CombatSocket_Weapon;
 	FGameplayTag CombatSocket_RightHand;

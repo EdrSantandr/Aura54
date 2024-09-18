@@ -53,7 +53,7 @@ FString UAuraFirebolt::GetNextLevelDescription(int32 Level)
 			Level, ManaCost, Cooldown, FMath::Min(Level,NumProjectiles), ScaledDamage);
 }
 
-void UAuraFirebolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, bool bOverridePitch, float PitchOverride, const AActor* HomingTarget, const FVector& SocketLocation)
+void UAuraFirebolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, bool bOverridePitch, float PitchOverride, AActor* HomingTarget, const FVector& SocketLocation)
 {
 	FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 	if (bOverridePitch) Rotation.Pitch = PitchOverride;
@@ -67,27 +67,19 @@ void UAuraFirebolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, bo
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
 		SpawnTransform.SetRotation(Rot.Quaternion());
-
-		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+		if(HomingTarget && HomingTarget->Implements<UCombatInterface>())
+		{
+			AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
 			ProjectileClass, SpawnTransform, GetOwningActorFromActorInfo(),
 			Cast<APawn>(GetOwningActorFromActorInfo()),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
-
-		if(HomingTarget && HomingTarget->Implements<UCombatInterface>())
-		{
+			Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 			Projectile->ProjectileMovementComponent->HomingTargetComponent = HomingTarget->GetRootComponent();
+			Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin,HomingAccelerationMax);
+			Projectile->ProjectileMovementComponent->bIsHomingProjectile = bLaunchHomingProjectiles;
+			Projectile->BindTargetDestroy(HomingTarget);
+			Projectile->FinishSpawning(SpawnTransform);
 		}
-		else
-		{
-			Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
-			Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
-			Projectile->ProjectileMovementComponent->HomingTargetComponent= Projectile->HomingTargetSceneComponent;
-		}
-		Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin,HomingAccelerationMax);
-		Projectile->ProjectileMovementComponent->bIsHomingProjectile = bLaunchHomingProjectiles;
-
-		Projectile->FinishSpawning(SpawnTransform);
 	}
 }
 

@@ -12,6 +12,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Aura/Aura.h"
 #include "Components/AudioComponent.h"
+#include "Interaction/CombatInterface.h"
 
 AAuraProjectile::AAuraProjectile()
 {
@@ -30,6 +31,12 @@ AAuraProjectile::AAuraProjectile()
 	ProjectileMovementComponent->InitialSpeed = 550.f;
 	ProjectileMovementComponent->MaxSpeed = 550.f;
 	ProjectileMovementComponent->ProjectileGravityScale = 0.f;
+}
+
+void AAuraProjectile::BindTargetDestroy(AActor* HomingTarget)
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(HomingTarget))
+		CombatInterface->GetOnDeathDelegate().AddDynamic(this, &AAuraProjectile::OnTargetDie);
 }
 
 void AAuraProjectile::BeginPlay()
@@ -73,7 +80,7 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 		if(SourceAvatarActor == OtherActor) return;
 		if (!UAuraAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor)) return;
 		if(!bHit) OnHit();
-	
+		
 		if (HasAuthority())
 		{
 			//The effect should be server only
@@ -103,4 +110,11 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 			bHit = true;
 		}
 	}
+}
+
+void AAuraProjectile::OnTargetDie(AActor* DeadActor)
+{
+	ProjectileMovementComponent->StopMovementImmediately();
+	OnHit();
+	Destroy();
 }

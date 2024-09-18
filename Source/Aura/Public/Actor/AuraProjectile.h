@@ -18,7 +18,7 @@ class AURA_API AAuraProjectile : public AActor
 	
 public:	
 	AAuraProjectile();
-
+	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
 
@@ -30,6 +30,9 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnHitProjectile(AActor* InOtherActor);
+
+	UFUNCTION()
+	void BindTargetDestroy(AActor* HomingTarget);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -52,6 +55,9 @@ protected:
 	
 private:
 
+	UFUNCTION()
+	void OnTargetDie(AActor* DeadActor);
+	
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 15.f;	
 	

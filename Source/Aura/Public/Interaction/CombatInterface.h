@@ -60,7 +60,7 @@ public:
 	void UpdateFacingTarget(const FVector& Target);
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void ScalingRotatingMesh(const FVector& Target);
+	void ScalingRotatingMesh(const FVector& Target, const float EffectDuration=1.f);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();

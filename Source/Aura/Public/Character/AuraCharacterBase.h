@@ -177,7 +177,7 @@ protected:
 	void StartWeaponDissolveTimeline(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void StartDisarmEffectTimeline(float InDuration);
+	void StartDisarmEffectTimeline(float InDuration, bool bActivateEffect = true);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TObjectPtr<UMaterialInstance> DissolveMaterialInstance;

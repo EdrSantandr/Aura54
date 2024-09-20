@@ -137,5 +137,5 @@ public:
 	void SetIsCasting(bool bInCasting);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void StartDisarm(float InDuration);
+	void StartDisarm(float InDuration, bool InShowEffect);
 };

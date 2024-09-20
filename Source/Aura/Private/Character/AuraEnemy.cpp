@@ -104,6 +104,15 @@ void AAuraEnemy::Die(const FVector& DeathImpulse)
 	Super::Die(DeathImpulse);
 }
 
+void AAuraEnemy::StartDisarm_Implementation(float InDuration, bool InShowEffect)
+{
+	GetWorld()->GetTimerManager().ClearTimer(DisarmTimerHandle);
+	DisarmTimerDelegate.BindUObject(this, &AAuraEnemy::FinishDisarm);
+	GetWorld()->GetTimerManager().SetTimer(DisarmTimerHandle, DisarmTimerDelegate, InDuration, false);
+	Execute_SetIsDisarmed(this, true);
+	StartDisarmEffectTimeline(InDuration, InShowEffect);
+}
+
 void AAuraEnemy::SetPath(const TArray<FVector>& InPath)
 {
 	PathPoints = InPath;
@@ -208,15 +217,6 @@ void AAuraEnemy::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 void AAuraEnemy::SlowTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
 	Super::SlowTagChanged(CallbackTag, NewCount);
-}
-
-void AAuraEnemy::StartDisarm_Implementation(float InDuration)
-{
-	GetWorld()->GetTimerManager().ClearTimer(DisarmTimerHandle);
-	DisarmTimerDelegate.BindUObject(this, &AAuraEnemy::FinishDisarm);
-	GetWorld()->GetTimerManager().SetTimer(DisarmTimerHandle, DisarmTimerDelegate, InDuration, false);
-	Execute_SetIsDisarmed(this, true);
-	StartDisarmEffectTimeline(InDuration);
 }
 
 void AAuraEnemy::SetIsBeingShocked_Implementation(bool bInShock)

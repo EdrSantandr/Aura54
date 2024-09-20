@@ -49,6 +49,9 @@ protected:
 	TObjectPtr<USphereComponent> SphereComponent;
 
 	bool bHit = false;
+
+	UPROPERTY(EditDefaultsOnly, Category="Collision")
+	bool bBindRootOnOverlap = true;
 	
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> LoopingSoundComponent;

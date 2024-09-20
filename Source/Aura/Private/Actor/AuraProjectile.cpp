@@ -42,7 +42,8 @@ void AAuraProjectile::BindTargetDestroy(AActor* HomingTarget)
 void AAuraProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	SphereComponent->OnComponentBeginOverlap.AddDynamic(this,&AAuraProjectile::OnBeginOverlap);
+	if (bBindRootOnOverlap)
+		SphereComponent->OnComponentBeginOverlap.AddDynamic(this,&AAuraProjectile::OnBeginOverlap);
 	SetLifeSpan(LifeSpan);
 	SetReplicateMovement(true);
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());

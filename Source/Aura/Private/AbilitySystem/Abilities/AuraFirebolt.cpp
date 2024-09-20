@@ -67,19 +67,27 @@ void UAuraFirebolt::SpawnProjectiles(const FVector& ProjectileTargetLocation, bo
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
 		SpawnTransform.SetRotation(Rot.Quaternion());
+		AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+					ProjectileClass, SpawnTransform, GetOwningActorFromActorInfo(),
+					Cast<APawn>(GetOwningActorFromActorInfo()),
+					ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+		
 		if(HomingTarget && HomingTarget->Implements<UCombatInterface>())
 		{
-			AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
-			ProjectileClass, SpawnTransform, GetOwningActorFromActorInfo(),
-			Cast<APawn>(GetOwningActorFromActorInfo()),
-			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
-			Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 			Projectile->ProjectileMovementComponent->HomingTargetComponent = HomingTarget->GetRootComponent();
-			Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin,HomingAccelerationMax);
-			Projectile->ProjectileMovementComponent->bIsHomingProjectile = bLaunchHomingProjectiles;
-			Projectile->BindTargetDestroy(HomingTarget);
-			Projectile->FinishSpawning(SpawnTransform);
 		}
+		else
+		{
+			Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+			Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+			Projectile->ProjectileMovementComponent->HomingTargetComponent= Projectile->HomingTargetSceneComponent;
+		}
+		Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin,HomingAccelerationMax);
+		Projectile->ProjectileMovementComponent->bIsHomingProjectile = bLaunchHomingProjectiles;
+		Projectile->BindTargetDestroy(HomingTarget);
+		Projectile->FinishSpawning(SpawnTransform);
+		
 	}
 }
 

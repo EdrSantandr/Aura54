@@ -101,6 +101,7 @@ public:
 	FGameplayTag Abilities_Fire_Fireblast;
 	FGameplayTag Abilities_Lightning_Electrocute;
 	FGameplayTag Abilities_Arcane_ArcaneShards;
+	FGameplayTag Abilities_Arcane_BlackHoleBolt;
 
 	FGameplayTag Abilities_Enchant_Fire;
 	FGameplayTag Abilities_Enchant_Lightning;
@@ -119,6 +120,7 @@ public:
 	FGameplayTag Cooldown_Fire_Fireblast;
 	FGameplayTag Cooldown_Lightning_Electrocute;
 	FGameplayTag Cooldown_Arcane_ArcaneShards;
+	FGameplayTag Cooldown_Arcane_BlackHoleBolt;
 	FGameplayTag Cooldown_Enchant_Fire;
 	FGameplayTag Cooldown_Enchant_Lightning;
 	FGameplayTag Cooldown_Enchant_Arcane;

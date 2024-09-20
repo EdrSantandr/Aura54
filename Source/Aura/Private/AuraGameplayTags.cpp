@@ -336,6 +336,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Abilities.Arcane.ArcaneShards"),
 		FString("Tag for Arcane ArcaneShards ability"));
 
+	GameplayTags.Abilities_Arcane_BlackHoleBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Arcane.BlackHoleBolt"),
+		FString("Tag for Arcane BlackHoleBolt ability"));
+
 	/* Passive Abilities*/
 	GameplayTags.Abilities_Passive_LifeSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Abilities.Passive.LifeSiphon"),
@@ -433,6 +437,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Cooldown_Arcane_ArcaneShards = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Arcane.ArcaneShards"),
 		FString("Tag for Arcane_ArcaneShards cooldown"));
+
+	GameplayTags.Cooldown_Arcane_BlackHoleBolt = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Arcane.BlackHoleBolt"),
+		FString("Tag for Arcane_BlackHoleBolt cooldown"));
 
 	GameplayTags.Cooldown_Enchant_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Enchant.Arcane"),

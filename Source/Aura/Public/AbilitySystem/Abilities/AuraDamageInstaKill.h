@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/AuraDamageFireblast.h"
+#include "AuraEnchantAbility.h"
 #include "AuraDamageInstaKill.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class AURA_API UAuraDamageInstaKill : public UAuraDamageFireblast
+class AURA_API UAuraDamageInstaKill : public UAuraEnchantAbility
 {
 	GENERATED_BODY()
 	

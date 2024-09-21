@@ -37,6 +37,12 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Projecttile")
 	void SpawnProjectileAtLocation(AActor* HomingTarget, const FVector& SpawnLocation, bool bOverridePitch = false, float PitchOverride = 0.f);
 
+	UFUNCTION(BlueprintCallable, Category="Projecttile")
+	AAuraProjectile* SpawnProjectileNoTarget(const FVector& SpawnLocation, const FVector PositionAdjustment = FVector::ZeroVector);
+
+	UFUNCTION(BlueprintCallable, Category="Projecttile")
+	void UpdateProjectileTarget(AAuraProjectile* InProjectile, FVector InProjectileTargetLocation);
+	
 	UPROPERTY(EditDefaultsOnly)
 	int32 NumProjectiles = 5;
 

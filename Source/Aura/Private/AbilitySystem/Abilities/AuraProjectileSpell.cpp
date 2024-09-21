@@ -97,5 +97,40 @@ void UAuraProjectileSpell::SpawnProjectileAtLocation(AActor* HomingTarget, const
 	Projectile->FinishSpawning(SpawnTransform);
 }
 
+AAuraProjectile* UAuraProjectileSpell::SpawnProjectileNoTarget(const FVector& SpawnLocation, const FVector PositionAdjustment)
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
+	if (!bIsServer) return nullptr;
+
+	const FRotator Rotation =GetAvatarActorFromActorInfo()->GetActorRotation();
+	FTransform SpawnTransform;
+	SpawnTransform.SetLocation(SpawnLocation + PositionAdjustment);
+	SpawnTransform.SetRotation(Rotation.Quaternion());
+		
+	AAuraProjectile* Projectile = GetWorld()->SpawnActorDeferred<AAuraProjectile>(
+		ProjectileClass,
+		SpawnTransform,
+		GetOwningActorFromActorInfo(),
+		Cast<APawn>(GetOwningActorFromActorInfo()),
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+	
+	Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+	Projectile->ProjectileMovementComponent->Deactivate();
+	Projectile->ProjectileMovementComponent->bIsHomingProjectile = false;
+	Projectile->FinishSpawning(SpawnTransform);
+
+	return Projectile;
+}
+
+void UAuraProjectileSpell::UpdateProjectileTarget(AAuraProjectile* InProjectile, FVector InProjectileTargetLocation)
+{
+	InProjectile->ProjectileMovementComponent->Activate();
+	InProjectile->ProjectileMovementComponent->bIsHomingProjectile = true;
+	InProjectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+	InProjectile->HomingTargetSceneComponent->SetWorldLocation(InProjectileTargetLocation);
+	InProjectile->ProjectileMovementComponent->HomingTargetComponent= InProjectile->HomingTargetSceneComponent;
+	InProjectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::RandRange(HomingAccelerationMin,HomingAccelerationMax);
+}
+
 
 	

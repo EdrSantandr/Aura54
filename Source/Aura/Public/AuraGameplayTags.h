@@ -99,6 +99,7 @@ public:
 
 	FGameplayTag Abilities_Fire_Firebolt;
 	FGameplayTag Abilities_Fire_Fireblast;
+	FGameplayTag Abilities_Fire_Meteor;
 	FGameplayTag Abilities_Lightning_Electrocute;
 	FGameplayTag Abilities_Arcane_ArcaneShards;
 	FGameplayTag Abilities_Arcane_BlackHoleBolt;
@@ -120,6 +121,7 @@ public:
 	
 	FGameplayTag Cooldown_Fire_Firebolt;
 	FGameplayTag Cooldown_Fire_Fireblast;
+	FGameplayTag Cooldown_Fire_Meteor;
 	FGameplayTag Cooldown_Lightning_Electrocute;
 	FGameplayTag Cooldown_Arcane_ArcaneShards;
 	FGameplayTag Cooldown_Arcane_BlackHoleBolt;

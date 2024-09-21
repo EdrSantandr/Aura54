@@ -103,6 +103,7 @@ public:
 	FGameplayTag Abilities_Arcane_ArcaneShards;
 	FGameplayTag Abilities_Arcane_BlackHoleBolt;
 	FGameplayTag Abilities_Wind_Pushback;
+	FGameplayTag Abilities_Poison_InstaKill;
 
 	FGameplayTag Abilities_Enchant_Fire;
 	FGameplayTag Abilities_Enchant_Lightning;
@@ -123,6 +124,7 @@ public:
 	FGameplayTag Cooldown_Arcane_ArcaneShards;
 	FGameplayTag Cooldown_Arcane_BlackHoleBolt;
 	FGameplayTag Cooldown_Wind_Pushback;
+	FGameplayTag Cooldown_Poison_InstaKill;
 	FGameplayTag Cooldown_Enchant_Fire;
 	FGameplayTag Cooldown_Enchant_Lightning;
 	FGameplayTag Cooldown_Enchant_Arcane;

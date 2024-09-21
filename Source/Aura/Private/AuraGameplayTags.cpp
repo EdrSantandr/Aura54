@@ -344,6 +344,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Abilities.Wind.Pushback"),
 		FString("Tag for Wind Pushback ability"));
 
+	GameplayTags.Abilities_Poison_InstaKill = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Poison.InstaKill"),
+		FString("Tag for Poison InstaKill ability"));
+
 	/* Passive Abilities*/
 	GameplayTags.Abilities_Passive_LifeSiphon = UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Abilities.Passive.LifeSiphon"),
@@ -449,6 +453,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Cooldown_Wind_Pushback = UGameplayTagsManager::Get().AddNativeGameplayTag(
 			FName("Cooldown.Wind.Pushback"),
 			FString("Tag for Wind_Pushback cooldown"));
+
+	GameplayTags.Cooldown_Poison_InstaKill = UGameplayTagsManager::Get().AddNativeGameplayTag(
+			FName("Cooldown.Poison.InstaKill"),
+			FString("Tag for Poison.InstaKill cooldown"));
 	
 	GameplayTags.Cooldown_Enchant_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Enchant.Arcane"),

@@ -113,6 +113,38 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 	}
 }
 
+void AAuraProjectile::AreaRadialDamage()
+{
+	if (DamageEffectParams.SourceAbilitySystemComponent == nullptr) return; 
+	if (AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor())
+	{
+		TArray<AActor*> Enemies;
+		const TArray<AActor*> ActorsToIgnore;
+		UAuraAbilitySystemLibrary::GetLiveEnemiesWithinRadius(GetWorld(), Enemies,ActorsToIgnore,SphereComponent->GetScaledSphereRadius(), GetActorLocation());
+		if (Enemies.Num()>0)
+		{
+			for (AActor* Enemy : Enemies)
+			{
+				if (UAbilitySystemComponent* TargetAsc = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Enemy))
+				{
+					DamageEffectParams.TargetAbilitySystemComponent = TargetAsc;
+					UAuraAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
+					OnHitProjectile(Enemy);
+				}
+			}
+		}
+		if(!bHit) OnHit();
+		if (HasAuthority())
+		{
+			Destroy();
+		}
+		else
+		{
+			bHit = true;
+		}
+	}
+}
+
 void AAuraProjectile::OnTargetDie(AActor* DeadActor)
 {
 	ProjectileMovementComponent->StopMovementImmediately();

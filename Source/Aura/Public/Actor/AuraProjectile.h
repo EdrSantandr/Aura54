@@ -50,11 +50,14 @@ protected:
 
 	bool bHit = false;
 
-	UPROPERTY(EditDefaultsOnly, Category="Collision")
+	UPROPERTY(EditDefaultsOnly, Category="CustomCollision")
 	bool bBindRootOnOverlap = true;
 	
 	UPROPERTY()
 	TObjectPtr<UAudioComponent> LoopingSoundComponent;
+
+	UFUNCTION(BlueprintCallable, Category="CustomCollision")
+	void AreaRadialDamage();
 	
 private:
 

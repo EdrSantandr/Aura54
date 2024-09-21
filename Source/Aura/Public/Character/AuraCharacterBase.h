@@ -34,6 +34,7 @@ public:
 
 	/* Combat Interface*/
 	// Die function will handle things on the server only
+	UFUNCTION(BlueprintCallable, Category="Die")
 	virtual void Die(const FVector& DeathImpulse) override;
 	virtual bool IsDead_Implementation() const override;
 	virtual AActor* GetAvatar_Implementation() override;

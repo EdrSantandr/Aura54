@@ -34,6 +34,15 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	float GetDamageAtLevel() const;
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeToConfirmInputMapping();
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeToLiriaInputMapping();
+
+	UFUNCTION(BlueprintCallable)
+	void StoreOwnerVariables();
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -77,4 +86,11 @@ protected:
 	
 	UFUNCTION(BlueprintPure)
 	FTaggedMontage GetRandomTaggedMontage(const TArray<FTaggedMontage>& TaggedMontages) const;
+
+	UPROPERTY(BlueprintReadWrite, Category="Beam")
+	TObjectPtr<APlayerController> OwnerPlayerController;
+
+	UPROPERTY(BlueprintReadWrite, Category="Beam")
+	TObjectPtr<ACharacter> OwnerCharacter;
+
 };

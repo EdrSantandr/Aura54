@@ -5,6 +5,8 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "GameFramework/Character.h"
 
 
 void UAuraDamageGameplayAbility::CauseDamage(AActor* TargetActor)
@@ -91,6 +93,25 @@ FDamageEffectParams UAuraDamageGameplayAbility::MakeDamageEffectParamsFromClassD
 float UAuraDamageGameplayAbility::GetDamageAtLevel() const
 {
 	return Damage.GetValueAtLevel(GetAbilityLevel());
+}
+
+void UAuraDamageGameplayAbility::ChangeToConfirmInputMapping()
+{
+	UAuraAbilitySystemLibrary::ChangeToConfirmImc(this);
+}
+
+void UAuraDamageGameplayAbility::ChangeToLiriaInputMapping()
+{
+	UAuraAbilitySystemLibrary::ChangeToLiriaImc(this);
+}
+
+void UAuraDamageGameplayAbility::StoreOwnerVariables()
+{
+	if (CurrentActorInfo)
+	{
+		OwnerPlayerController = CurrentActorInfo->PlayerController.Get();
+		OwnerCharacter = Cast<ACharacter>(CurrentActorInfo->AvatarActor);
+	}
 }
 
 FTaggedMontage UAuraDamageGameplayAbility::GetRandomTaggedMontage(const TArray<FTaggedMontage>& TaggedMontages) const

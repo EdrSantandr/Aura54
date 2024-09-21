@@ -39,9 +39,6 @@ public:
 	void ElectricStoreMouseDataInfo(AActor* InActor);
 
 	UFUNCTION(BlueprintCallable)
-	void StoreOwnerVariables();
-
-	UFUNCTION(BlueprintCallable)
 	void TraceFirstTarget(const FVector& BeamTargetLocation);
 
 	UFUNCTION(BlueprintCallable)
@@ -62,13 +59,7 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category="Beam")
 	TObjectPtr<AActor> MouseHitActor;
-
-	UPROPERTY(BlueprintReadWrite, Category="Beam")
-	TObjectPtr<APlayerController> OwnerPlayerController;
-
-	UPROPERTY(BlueprintReadWrite, Category="Beam")
-	TObjectPtr<ACharacter> OwnerCharacter;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category="Beam")
 	int32 MaxNumTargets = 5;
 };

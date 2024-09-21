@@ -20,11 +20,5 @@ public:
 	ECharacterClass NewCharacterClass;
 
 	UFUNCTION(BlueprintCallable)
-	void ChangeToConfirmInputMapping();
-
-	UFUNCTION(BlueprintCallable)
-	void ChangeToLiriaInputMapping();
-
-	UFUNCTION(BlueprintCallable)
 	void EnchantAlly(AActor* InAlly);
 };

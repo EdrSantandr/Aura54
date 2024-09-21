@@ -40,15 +40,6 @@ void UAuraDamageBeamSpell::ElectricStoreMouseDataInfo(AActor* InActor)
 	}
 }
 
-void UAuraDamageBeamSpell::StoreOwnerVariables()
-{
-	if (CurrentActorInfo)
-	{
-		OwnerPlayerController = CurrentActorInfo->PlayerController.Get();
-		OwnerCharacter = Cast<ACharacter>(CurrentActorInfo->AvatarActor);
-	}
-}
-
 void UAuraDamageBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation)
 {
 	check(OwnerCharacter);

@@ -348,6 +348,10 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FName("Abilities.Wind.Pushback"),
 		FString("Tag for Wind Pushback ability"));
 
+	GameplayTags.Abilities_Wind_WindWave = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Wind.WindWave"),
+		FString("Tag for Wind WindWave ability"));
+
 	GameplayTags.Abilities_Poison_InstaKill = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Abilities.Poison.InstaKill"),
 		FString("Tag for Poison InstaKill ability"));
@@ -459,12 +463,16 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 		FString("Tag for Arcane_BlackHoleBolt cooldown"));
 
 	GameplayTags.Cooldown_Wind_Pushback = UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Cooldown.Wind.Pushback"),
-			FString("Tag for Wind_Pushback cooldown"));
+		FName("Cooldown.Wind.Pushback"),
+		FString("Tag for Wind_Pushback cooldown"));
+
+	GameplayTags.Cooldown_Wind_WindWave = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Cooldown.Wind.WindWave"),
+		FString("Tag for WindWave cooldown"));
 
 	GameplayTags.Cooldown_Poison_InstaKill = UGameplayTagsManager::Get().AddNativeGameplayTag(
-			FName("Cooldown.Poison.InstaKill"),
-			FString("Tag for Poison.InstaKill cooldown"));
+		FName("Cooldown.Poison.InstaKill"),
+		FString("Tag for Poison.InstaKill cooldown"));
 	
 	GameplayTags.Cooldown_Enchant_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Cooldown.Enchant.Arcane"),

@@ -4,6 +4,7 @@
 #include "AbilitySystem/Abilities/AuraDamageBeamSpell.h"
 
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
+#include "Character/AuraEnemy.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -85,25 +86,21 @@ void UAuraDamageBeamSpell::SentinelTraceFirstTarget(const FVector& InBeamOriginL
 	check(OwnerCharacter);
 	if (OwnerCharacter->Implements<UCombatInterface>())
 	{
-		TArray<AActor*> ActorsToIgnore;
-		ActorsToIgnore.Add(OwnerCharacter);
-		FHitResult HitResult;
-		UKismetSystemLibrary::SphereTraceSingle(
-			OwnerCharacter,
-			InBeamOriginLocation,
-			BeamTargetLocation,
-			10.f,
-			TraceTypeQuery1,
-			false,
-			ActorsToIgnore,
-			EDrawDebugTrace::None,
-			HitResult,
-			true);
-
-		if(HitResult.bBlockingHit)
+		TArray<AActor*> SphereActorsToIgnore;
+		TArray<FHitResult> OutHits;
+		UKismetSystemLibrary::SphereTraceMulti(GetWorld(), InBeamOriginLocation, BeamTargetLocation, 10.f,TraceTypeQuery1,  false, SphereActorsToIgnore, EDrawDebugTrace::None,OutHits,true);
+		for (auto Hit : OutHits)
 		{
-			MouseHitLocation = HitResult.ImpactPoint;
-			MouseHitActor = HitResult.GetActor();
+			UE_LOG(LogTemp, Warning, TEXT("Actor Sphere [%s]"), *Hit.GetActor()->GetName());
+		}
+		if (OutHits.Num()>0)
+		{
+			if(const FHitResult HitResult = OutHits.Last(); HitResult.bBlockingHit)
+			{
+				MouseHitLocation = HitResult.ImpactPoint;
+				MouseHitActor = HitResult.GetActor();
+				UE_LOG(LogTemp, Warning, TEXT("to affect light Actor [%s]"), *MouseHitActor->GetName());
+			}	
 		}
 	}
 	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(MouseHitActor))
@@ -112,6 +109,15 @@ void UAuraDamageBeamSpell::SentinelTraceFirstTarget(const FVector& InBeamOriginL
 		{
 			CombatInterface->GetOnDeathDelegate().AddDynamic(this, &UAuraDamageBeamSpell::PrimaryTargetDied);
 		}
+	}
+}
+
+void UAuraDamageBeamSpell::SentinelSetHitActor(AActor* InActor)
+{
+	if (IsValid(InActor))
+	{
+		MouseHitLocation = InActor->GetActorLocation();
+		MouseHitActor = InActor;
 	}
 }
 

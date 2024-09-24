@@ -287,6 +287,11 @@ void AAuraCharacterBase::OnRep_Disarmed()
 {
 }
 
+void AAuraCharacterBase::SetCharacterClass(ECharacterClass InClass)
+{
+	CharacterClass = InClass;
+}
+
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

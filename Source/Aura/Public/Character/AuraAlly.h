@@ -110,6 +110,8 @@ public:
 
 	void IncreaseEnemiesSpawned(int32 InAddNumber) { EnemiesSpawned += InAddNumber; }
 
+	virtual void SetCharacterClass(ECharacterClass InClass) override;
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void InitAbilityActorInfo() override;

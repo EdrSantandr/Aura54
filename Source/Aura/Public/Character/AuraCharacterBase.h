@@ -106,7 +106,9 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Disarmed();
 
-	void SetCharacterClass(ECharacterClass InClass) { CharacterClass = InClass; }
+	UFUNCTION()
+	virtual void SetCharacterClass(ECharacterClass InClass);
+	
 protected:
 	virtual void BeginPlay() override;
 

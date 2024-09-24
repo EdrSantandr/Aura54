@@ -57,7 +57,6 @@ void AAuraAlly::PossessedBy(AController* NewController)
 	GetMesh()->SetCustomDepthStencilValue(StencilColorValue);
 	AuraAIController = Cast<AAuraAIController>(NewController);
 	AuraAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
-	AuraAIController->RunBehaviorTree(BehaviorTree);
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"),false);
 	const bool RangedAttacker = CharacterClass != ECharacterClass::Warrior;
 	AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), RangedAttacker);
@@ -68,6 +67,7 @@ void AAuraAlly::PossessedBy(AController* NewController)
 		FVector Direction = MainGoal->GetActorLocation() - GetActorLocation();
 		Direction.Normalize();
 		SpawnLocations = UAuraAbilitySystemLibrary::EvenlySpreadVectors(Direction, FVector::ZAxisVector, AngleSpread, SpawnApertures);
+		AuraAIController->RunBehaviorTree(BehaviorTree);
 	}
 }
 
@@ -207,6 +207,12 @@ void AAuraAlly::SpawnSentinel() const
 	Sentinel->SetCharacterClass(SentinelClass);
 	Sentinel->FinishSpawning(GetTransform());
 	Sentinel->SpawnDefaultController();
+}
+
+void AAuraAlly::SetCharacterClass(ECharacterClass InClass)
+{
+	Super::SetCharacterClass(InClass);
+	AuraAIController->RunBehaviorTree(BehaviorTree);
 }
 
 void AAuraAlly::BeginPlay()

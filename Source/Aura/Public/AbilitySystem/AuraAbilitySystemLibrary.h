@@ -9,6 +9,7 @@
 #include "AuraAbilitySystemLibrary.generated.h"
 
 
+struct FGameplayAbilitySpecHandle;
 class ULootTiersInfo;
 class ULoadScreenSaveGame;
 struct FDamageEffectParams;
@@ -60,6 +61,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassInfo")
 	static TSubclassOf<AActor> GetVisualEffectByCharacterClass(const UObject* WorldContextObject, ECharacterClass CharacterClass);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|CharacterClassAbilities")
+	static void ActivateRandomAbility(UAbilitySystemComponent* InAsc);
 
 	/* Liria Gameplay Parameters*/
 	UFUNCTION(BlueprintCallable, Category="LiriaAbilitySystemLibrary|Parameters")

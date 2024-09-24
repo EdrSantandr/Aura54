@@ -709,3 +709,10 @@ TArray<FVector> UAuraAbilitySystemLibrary::EvenlySpreadVectors(const FVector& Fo
 	}
 	return Vectors;
 }
+
+void UAuraAbilitySystemLibrary::ActivateRandomAbility(UAbilitySystemComponent* InAsc)
+{
+	//We are excluding the 0 ability because it's HitReact
+	const int32 RandomAbilityIndex = FMath::RandRange(1,InAsc->GetActivatableAbilities().Num()-1);
+	InAsc->TryActivateAbility(InAsc->GetActivatableAbilities()[RandomAbilityIndex].Handle);
+}

@@ -268,6 +268,7 @@ void AAuraAlly::SpawnVisualEffectActor()
 			SpawnTransform.SetLocation(EffectSpawnLocation);
 			SpawnTransform.SetRotation(GetActorRotation().Quaternion());
 			VisualEffectActor = GetWorld()->SpawnActorDeferred<AActor>(VisualEffectClass, SpawnTransform, this, Cast<APawn>(this), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+			VisualEffectActor->SetOwner(this);
 			VisualEffectActor->FinishSpawning(SpawnTransform);
 		}	
 	}

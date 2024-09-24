@@ -307,6 +307,13 @@ void AAuraAlly::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 	}
 }
 
+void AAuraAlly::Destroyed()
+{
+	Super::Destroyed();
+	if (VisualEffectActor)
+		VisualEffectActor->Destroy();
+}
+
 void AAuraAlly::CreatePathsFromGate(const int32 NumPaths, const FVector& InOriginalPoint, const FVector& InFinalPoint)
 {
 	TArray<AActor*> ActorsFound;

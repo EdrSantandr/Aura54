@@ -215,6 +215,11 @@ void AAuraAlly::SetCharacterClass(ECharacterClass InClass)
 	AuraAIController->RunBehaviorTree(BehaviorTree);
 }
 
+void AAuraAlly::ActivateBehaviorTree(AAIController* InAiController) const
+{
+	InAiController->RunBehaviorTree(BehaviorTree);
+}
+
 void AAuraAlly::BeginPlay()
 {
 	Super::BeginPlay();

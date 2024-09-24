@@ -10,6 +10,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AuraAlly.generated.h"
 
+class AAIController;
 class AAuraEnemy;
 class UWidgetComponent;
 class UBehaviorTree;
@@ -111,6 +112,9 @@ public:
 	void IncreaseEnemiesSpawned(int32 InAddNumber) { EnemiesSpawned += InAddNumber; }
 
 	virtual void SetCharacterClass(ECharacterClass InClass) override;
+
+	UFUNCTION(BlueprintCallable, Category="AiController")
+	void ActivateBehaviorTree(AAIController* InAiController) const;
 
 protected:
 	virtual void BeginPlay() override;

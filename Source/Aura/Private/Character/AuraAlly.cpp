@@ -204,8 +204,9 @@ void AAuraAlly::SpawnSentinel() const
 	FActorSpawnParameters SpawnParameters;
 	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn; 
 	AAuraAlly* Sentinel = GetWorld()->SpawnActorDeferred<AAuraAlly>(SentinelSpawnClass, GetTransform());
-	Sentinel->SetCharacterClass(SentinelClass);
+	//Sentinel->SetCharacterClass(SentinelClass);
 	Sentinel->FinishSpawning(GetTransform());
+	Sentinel->SpawnVisualEffectActor();
 	Sentinel->SpawnDefaultController();
 }
 

@@ -57,7 +57,7 @@ protected:
 	TObjectPtr<UAudioComponent> LoopingSoundComponent;
 
 	UFUNCTION(BlueprintCallable, Category="CustomCollision")
-	void AreaRadialDamage();
+	void AreaRadialDamage(bool bOverRideRadius = false, float RadiusOverwritten = 0.f);
 	
 private:
 

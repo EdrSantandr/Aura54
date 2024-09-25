@@ -113,14 +113,15 @@ void AAuraProjectile::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, A
 	}
 }
 
-void AAuraProjectile::AreaRadialDamage()
+void AAuraProjectile::AreaRadialDamage(bool bOverRideRadius, float RadiusOverwritten)
 {
 	if (DamageEffectParams.SourceAbilitySystemComponent == nullptr) return; 
 	if (AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor())
 	{
 		TArray<AActor*> Enemies;
 		const TArray<AActor*> ActorsToIgnore;
-		UAuraAbilitySystemLibrary::GetLiveEnemiesWithinRadius(GetWorld(), Enemies,ActorsToIgnore,SphereComponent->GetScaledSphereRadius(), GetActorLocation());
+		const float Radius = bOverRideRadius? RadiusOverwritten:SphereComponent->GetScaledSphereRadius();  
+		UAuraAbilitySystemLibrary::GetLiveEnemiesWithinRadius(GetWorld(), Enemies,ActorsToIgnore, Radius, GetActorLocation());
 		if (Enemies.Num()>0)
 		{
 			for (AActor* Enemy : Enemies)

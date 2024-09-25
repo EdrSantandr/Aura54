@@ -46,3 +46,20 @@ float UAuraGameplayAbility::GetCooldown(float InLevel) const
 	}
 	return Cooldown;
 }
+
+float UAuraGameplayAbility::GetCurrentLevelManaCost() const
+{
+	float ManaCost = 0.f;
+	if (const UGameplayEffect* CostEffect = GetCostGameplayEffect())
+	{
+		for(auto Mod : CostEffect->Modifiers)
+		{
+			if (Mod.Attribute == UAuraAttributeSet::GetManaAttribute())
+			{
+				Mod.ModifierMagnitude.GetStaticMagnitudeIfPossible(GetAbilityLevel(),ManaCost);
+				break;
+			}
+		}
+	}
+	return ManaCost;
+}

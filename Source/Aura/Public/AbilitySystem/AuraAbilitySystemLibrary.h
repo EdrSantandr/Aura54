@@ -79,6 +79,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|AbilityInfo")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|AbilityInfo")
+	static float CalculateManaCostByTag(UAbilitySystemComponent* InAsc, const FGameplayTag& InAbilityTag);
+
 	/* Loot tiers info*/
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|LootTiers", meta=(DefaultToSelf="WorldContextObject"))
 	static ULootTiersInfo* GetLootTiersInfo(const UObject* WorldContextObject);

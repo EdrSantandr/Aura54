@@ -415,6 +415,19 @@ bool UAuraAbilitySystemComponent::GetDescriptionsByAbilityTag(const FGameplayTag
 	return false;
 }
 
+float UAuraAbilitySystemComponent::GetCurrentManaCostByTag(const FGameplayTag AbilityTag)
+{
+	float ManaCost = 0.f;
+	if (const FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+	{
+		if (UAuraGameplayAbility* AuraAbility =Cast<UAuraGameplayAbility>(AbilitySpec->Ability))
+		{
+			ManaCost = AuraAbility->GetCurrentLevelManaCost();
+		} 
+	}
+	return ManaCost;
+}
+
 void UAuraAbilitySystemComponent::ClearSlot(FGameplayAbilitySpec* Spec)
 {
 	const FGameplayTag& SlotInputTag = GetInputTagFromSpec(*Spec);

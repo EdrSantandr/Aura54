@@ -78,6 +78,8 @@ public:
 
 	bool GetDescriptionsByAbilityTag(const FGameplayTag AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
 
+	float GetCurrentManaCostByTag(const FGameplayTag AbilityTag);
+
 	static void ClearSlot(FGameplayAbilitySpec* Spec);
 
 	void ClearAbilitiesOfSlotInputTag(const FGameplayTag& SlotInputTag);

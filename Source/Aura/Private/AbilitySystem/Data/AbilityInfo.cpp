@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/Data/AbilityInfo.h"
 
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "Aura/AuraLogChannels.h"
 
 FAuraAbilityInfo UAbilityInfo::FindAbilityInfoForTag(const FGameplayTag& AbilityTag, bool bLogNotFound) const

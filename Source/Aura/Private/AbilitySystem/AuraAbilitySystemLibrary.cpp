@@ -6,6 +6,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraAbilityTypes.h"
 #include "AuraGameplayTags.h"
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "Character/AuraAlly.h"
 #include "Character/AuraCharacterBase.h"
 #include "Game/AuraGameModeBase.h"
@@ -205,6 +206,15 @@ UAbilityInfo* UAuraAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldCont
 	const AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (AuraGameModeBase == nullptr) return nullptr;
 	return AuraGameModeBase->AbilityInfo;
+}
+
+float UAuraAbilitySystemLibrary::CalculateManaCostByTag(UAbilitySystemComponent* InAsc, const FGameplayTag& InAbilityTag)
+{
+	if (UAuraAbilitySystemComponent* AuraAsc = Cast<UAuraAbilitySystemComponent>(InAsc))
+	{
+		return AuraAsc->GetCurrentManaCostByTag(InAbilityTag);
+	}
+	return 0.f;
 }
 
 ULootTiersInfo* UAuraAbilitySystemLibrary::GetLootTiersInfo(const UObject* WorldContextObject)

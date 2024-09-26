@@ -42,6 +42,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 				OnPlayerLivesUpdateDelegate.Broadcast(PlayerLives);
 			}
 		);
+		GetAuraGM()->OnAbilityPlayerMessageSignature.AddUObject(this, &UOverlayWidgetController::HandlePlayerMessage);
 	}
 	
 	//Bind Callbacks to player state
@@ -111,8 +112,6 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		);
 		
 		GetAuraASC()->AbilityEquippedDelegate.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);
-
-		GetAuraASC()->OnAbilityPlayerMessageSignature.AddUObject(this, &UOverlayWidgetController::HandlePlayerMessage);
 	}
 }
 

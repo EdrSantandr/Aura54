@@ -3,21 +3,55 @@
 
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 
-#include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/MessageInfo.h"
+#include "Game/AuraGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 
-void UAuraGameplayAbility::SendMessage(const FGameplayTag& InMessageTag)
+void UAuraGameplayAbility::SendMessage(const FGameplayTag& InMessageTag) const
 {
-	if (const UAuraAbilitySystemComponent* AuraAsc = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponentFromActorInfo()))
+	if (const AAuraGameModeBase * AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(GetWorld())))
 	{
 		if (const UPlayerMessageInfo* PlayerMessageInfo = UAuraAbilitySystemLibrary::GetPlayerMessageInfo(GetWorld()))
 		{
 			const FMessageInfo MessageForPlayer = PlayerMessageInfo->FindMessagePlayerInfoByTag(InMessageTag);
-			AuraAsc->OnAbilityPlayerMessageSignature.Broadcast(MessageForPlayer.MessageContent.ToString());	
+			AuraGameMode->OnAbilityPlayerMessageSignature.Broadcast(MessageForPlayer.MessageContent.ToString());
 		}
 	}
+}
+
+void UAuraGameplayAbility::CheckCostAndCooldown(const FGameplayAbilityActorInfo InActorInfo) const
+{
+	if (bCheckCooldown||bCheckCost)
+	{
+		if (bCheckCooldown)
+		{
+			if (!FMath::IsNearlyZero(GetCooldownTimeRemaining()))
+			{
+				if (bool bCooldown = !CheckCooldown(CurrentSpecHandle, &InActorInfo))
+				{
+					SendMessage(FAuraGameplayTags::Get().Message_NotReady);
+				}
+			}
+		}
+		if (bCheckCost)
+		{
+			if (!CheckCost(CurrentSpecHandle, &InActorInfo))
+			{
+				SendMessage(FAuraGameplayTags::Get().Message_NotEnoughMana);
+			}
+		}	
+	}
+}
+
+bool UAuraGameplayAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
+	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags,
+	const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const
+{
+	CheckCostAndCooldown(*ActorInfo);
+	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
 }
 
 FString UAuraGameplayAbility::GetDescription(int32 Level)
@@ -77,4 +111,9 @@ float UAuraGameplayAbility::GetCurrentLevelManaCost() const
 		}
 	}
 	return ManaCost;
+}
+
+void UAuraGameplayAbility::SendMessageBP(const FGameplayTag& InMessageTag)
+{
+	SendMessage(InMessageTag);
 }

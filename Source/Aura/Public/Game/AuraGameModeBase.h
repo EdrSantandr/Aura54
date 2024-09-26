@@ -17,6 +17,7 @@ class UCharacterClassInfo;
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnGateDestroyedSignature, int32 /*CurrentGates*/, int32 /*TotalGates*/);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnEnemyKilledSignature, int32 /*EnemiesKilled*/);
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerLivesSignature, int32 /*PlayerLives*/);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnAbilityPlayerMessageSignature, const FString& /*StringMessage*/);
 
 /**
  * 
@@ -44,6 +45,8 @@ public:
 	FOnEnemyKilledSignature OnEnemyKilledDelegate;
 
 	FOnPlayerLivesSignature OnPlayerLivesDelegate;
+
+	FOnAbilityPlayerMessageSignature OnAbilityPlayerMessageSignature;
 	
 	UFUNCTION()
 	void SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex);

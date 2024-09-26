@@ -165,6 +165,10 @@ public:
 	FGameplayTag Player_Block_InputHeld;
 	FGameplayTag Player_Block_InputReleased;
 	FGameplayTag Player_Block_CursorTrace;
+
+	FGameplayTag Message_TargetOutOfRange;
+	FGameplayTag Message_NotEnoughMana;
+	FGameplayTag Message_NotReady;
 	
 	FGameplayTag GameplayCue_FireBlast;
 	

@@ -556,4 +556,17 @@ void FAuraGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Tree_Enchanted_Physical = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Tree.Enchanted.Physical"),
 		FString("Tag for Tree Enchanted Physical"));
+
+	/* Player Messages */
+	GameplayTags.Message_TargetOutOfRange = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Message.TargetOutOfRange"),
+		FString("Tag for TargetOutOfRange"));
+
+	GameplayTags.Message_NotReady = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Message.NotReady"),
+		FString("Tag for NotReady cooldown related"));
+
+	GameplayTags.Message_NotEnoughMana = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Message.NotEnoughMana"),
+		FString("Tag for NotEnoughMana manacost related"));
 }

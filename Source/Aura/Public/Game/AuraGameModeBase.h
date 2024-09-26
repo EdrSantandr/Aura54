@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "AuraGameModeBase.generated.h"
 
+class UPlayerMessageInfo;
 class ULootTiersInfo;
 class ULoadScreenSaveGame;
 class USaveGame;
@@ -34,6 +35,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="LootTiersInfo")
 	TObjectPtr<ULootTiersInfo> LootTiersInfo;
+
+	UPROPERTY(EditDefaultsOnly, Category="PlayerMessageInfo")
+	TObjectPtr<UPlayerMessageInfo> PlayerMessageInfo;
 
 	FOnGateDestroyedSignature OnGateDestroyedDelegate;
 

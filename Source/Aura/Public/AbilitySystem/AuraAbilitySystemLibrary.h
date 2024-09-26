@@ -86,6 +86,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|LootTiers", meta=(DefaultToSelf="WorldContextObject"))
 	static ULootTiersInfo* GetLootTiersInfo(const UObject* WorldContextObject);
 
+	/* Player messages info*/
+	UFUNCTION(BlueprintCallable, Category="AuraAbilitySystemLibrary|LootTiers", meta=(DefaultToSelf="WorldContextObject"))
+	static UPlayerMessageInfo* GetPlayerMessageInfo(const UObject* WorldContextObject);
+
 	/* Gameplay Effects contexts getters and setters*/
 	UFUNCTION(BlueprintPure, Category="AuraAbilitySystemLibrary|GameplayEffects")
 	static bool IsSuccessfulDeBuff(const FGameplayEffectContextHandle& EffectContextHandle);

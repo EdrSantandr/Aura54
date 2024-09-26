@@ -26,7 +26,7 @@ public:
 	float GetCurrentLevelManaCost() const;
 
 	UFUNCTION(BlueprintCallable, Category="PlayerMessage")
-	void SendMessage(const FString& InMessageForPlayer) const;
+	void SendMessage(const FGameplayTag& InMessageTag);
 
 protected:
 	float GetManaCost(float InLevel = 1.f) const;

@@ -224,6 +224,13 @@ ULootTiersInfo* UAuraAbilitySystemLibrary::GetLootTiersInfo(const UObject* World
 	return AuraGameModeBase->LootTiersInfo;
 }
 
+UPlayerMessageInfo* UAuraAbilitySystemLibrary::GetPlayerMessageInfo(const UObject* WorldContextObject)
+{
+	const AAuraGameModeBase* AuraGameModeBase = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameModeBase == nullptr) return nullptr;
+	return AuraGameModeBase->PlayerMessageInfo;
+}
+
 bool UAuraAbilitySystemLibrary::IsSuccessfulDeBuff(const FGameplayEffectContextHandle& EffectContextHandle)
 {
 	if (const FAuraGameplayEffectContext* AuraGameplayEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))

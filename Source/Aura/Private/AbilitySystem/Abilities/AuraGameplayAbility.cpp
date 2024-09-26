@@ -4,13 +4,19 @@
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "AbilitySystem/AuraAbilitySystemLibrary.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "AbilitySystem/Data/MessageInfo.h"
 
-void UAuraGameplayAbility::SendMessage(const FString& InMessageForPlayer) const
+void UAuraGameplayAbility::SendMessage(const FGameplayTag& InMessageTag)
 {
 	if (const UAuraAbilitySystemComponent* AuraAsc = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponentFromActorInfo()))
 	{
-		AuraAsc->OnAbilityPlayerMessageSignature.Broadcast(InMessageForPlayer);
+		if (const UPlayerMessageInfo* PlayerMessageInfo = UAuraAbilitySystemLibrary::GetPlayerMessageInfo(GetWorld()))
+		{
+			const FMessageInfo MessageForPlayer = PlayerMessageInfo->FindMessagePlayerInfoByTag(InMessageTag);
+			AuraAsc->OnAbilityPlayerMessageSignature.Broadcast(MessageForPlayer.MessageContent.ToString());	
+		}
 	}
 }
 

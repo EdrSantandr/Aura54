@@ -14,7 +14,7 @@ class AURA_API UAuraGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
 public:
-
+	
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	FGameplayTag StartupInputTag;
 
@@ -24,6 +24,9 @@ public:
 
 	UFUNCTION()
 	float GetCurrentLevelManaCost() const;
+
+	UFUNCTION(BlueprintCallable, Category="PlayerMessage")
+	void SendMessage(const FString& InMessageForPlayer) const;
 
 protected:
 	float GetManaCost(float InLevel = 1.f) const;

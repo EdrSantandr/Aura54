@@ -33,6 +33,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidge
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnGateDestroyedChangedSignature, int32, CurrentValue, int32, TotalValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEnemyKilledChangedSignature, int32, EnemiesKilled);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerLivesUpdateSignature, int32, PlayerLives);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMessagePlayerSignature, FString, Message);
 
 /**
  * 
@@ -46,6 +47,9 @@ public:
 	virtual void BroadcastInitialValues() override;
 	virtual void BindCallbacksToDependencies() override;
 
+	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
+	FOnMessagePlayerSignature OnMessagePlayerSignature;
+	
 	UPROPERTY(BlueprintAssignable, Category="GAS|Attributes")
 	FOnValueChangedSignature OnHealthChangedSignature;
 
@@ -80,6 +84,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
 	TObjectPtr<UDataTable> MessageWidgetDataTable;
+
+	void HandlePlayerMessage(const FString& InMessage) const;
 	
 	template<typename T>
 	T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);

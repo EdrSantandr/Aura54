@@ -8,6 +8,7 @@
 
 class ULoadScreenSaveGame;
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /*AssetTags*/);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnAbilityPlayerMessageSignature, const FString& /*StringMessage*/);
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag /*AbilityTag*/, const FGameplayTag /*StatusAbilityTag*/, int32 /*AbilityLevel*/);
@@ -32,6 +33,7 @@ public:
 	FAbilityEquipped AbilityEquippedDelegate;
 	FDeactivatePassiveAbility DeactivatePassiveAbilityDelegate;
 	FActivatePassiveEffect ActivatePassiveEffectDelegate;
+	FOnAbilityPlayerMessageSignature OnAbilityPlayerMessageSignature;
 
 	void AddCharacterAbilitiesFromSaveData(ULoadScreenSaveGame* SaveData);
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);

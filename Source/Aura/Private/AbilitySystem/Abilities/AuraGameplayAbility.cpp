@@ -3,7 +3,16 @@
 
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
 
+#include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+
+void UAuraGameplayAbility::SendMessage(const FString& InMessageForPlayer) const
+{
+	if (const UAuraAbilitySystemComponent* AuraAsc = Cast<UAuraAbilitySystemComponent>(GetAbilitySystemComponentFromActorInfo()))
+	{
+		AuraAsc->OnAbilityPlayerMessageSignature.Broadcast(InMessageForPlayer);
+	}
+}
 
 FString UAuraGameplayAbility::GetDescription(int32 Level)
 {

@@ -111,7 +111,14 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		);
 		
 		GetAuraASC()->AbilityEquippedDelegate.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);
+
+		GetAuraASC()->OnAbilityPlayerMessageSignature.AddUObject(this, &UOverlayWidgetController::HandlePlayerMessage);
 	}
+}
+
+void UOverlayWidgetController::HandlePlayerMessage(const FString& InMessage) const
+{
+	OnMessagePlayerSignature.Broadcast(InMessage);
 }
 
 void UOverlayWidgetController::OnXpChanged(int32 NewXp)

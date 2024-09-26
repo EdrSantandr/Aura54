@@ -30,7 +30,7 @@ void UAuraGameplayAbility::CheckCostAndCooldown(const FGameplayAbilityActorInfo 
 		{
 			if (!FMath::IsNearlyZero(GetCooldownTimeRemaining()))
 			{
-				if (bool bCooldown = !CheckCooldown(CurrentSpecHandle, &InActorInfo))
+				if (!CheckCooldown(CurrentSpecHandle, &InActorInfo))
 				{
 					SendMessage(FAuraGameplayTags::Get().Message_NotReady);
 				}

@@ -61,15 +61,6 @@ public:
 	UFUNCTION()
 	AActor* GetHighLightedActor() { return ThisActor; }
 	
-	UFUNCTION(BlueprintImplementableEvent, Category="MouseCursor")
-	void ChangeCursorByActor(AActor* InActorHighlighted);
-	
-	UFUNCTION(BlueprintImplementableEvent, Category="MouseCursor")
-	void ChangeCursorByCasting() const;
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="MouseCursor")
-	void SetCursorDefault() const;
-	
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;

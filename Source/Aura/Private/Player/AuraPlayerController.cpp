@@ -132,7 +132,6 @@ void AAuraPlayerController::ChangeToConfirmInputMapping() const
 	{
 		Subsystem->RemoveMappingContext(AuraContext);
 		Subsystem->AddMappingContext(ConfirmContext, 0);
-		ChangeCursorByCasting();
 	}
 }
 
@@ -144,7 +143,6 @@ void AAuraPlayerController::ChangeToLiriaInputMapping() const
 	{
 		Subsystem->RemoveMappingContext(ConfirmContext);
 		Subsystem->AddMappingContext(AuraContext, 0);
-		SetCursorDefault();
 	}
 }
 
@@ -269,7 +267,6 @@ void AAuraPlayerController::HighLightActor(AActor* InActor)
 	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
 	{
 		IHighlightInterface::Execute_HighlightActor(InActor);
-		ChangeCursorByActor(InActor);
 	}
 }
 
@@ -278,7 +275,6 @@ void AAuraPlayerController::UnHighLightActor(AActor* InActor)
 	if (IsValid(InActor) && InActor->Implements<UHighlightInterface>())
 	{
 		IHighlightInterface::Execute_UnHighlightActor(InActor);
-		SetCursorDefault();
 	}
 }
 

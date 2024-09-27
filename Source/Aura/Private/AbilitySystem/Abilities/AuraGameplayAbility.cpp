@@ -124,9 +124,12 @@ void UAuraGameplayAbility::SaveCharacterWalkSpeed(const FGameplayAbilityActorInf
 
 void UAuraGameplayAbility::SetCharacterWalkSpeed(const FGameplayAbilityActorInfo* ActorInfo) const
 {
-	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor);!FMath::IsNearlyZero(CharacterWalkSpeed))
+	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor); !FMath::IsNearlyZero(CharacterWalkSpeed))
 	{
-		Character->GetCharacterMovement()->MaxWalkSpeed = CharacterWalkSpeed;
+		if (IsValid(Character))
+		{
+			Character->GetCharacterMovement()->MaxWalkSpeed = CharacterWalkSpeed;	
+		}
 	}
 }
 

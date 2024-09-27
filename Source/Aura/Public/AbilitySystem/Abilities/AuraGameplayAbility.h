@@ -39,9 +39,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category="PlayerMessage")
 	void CheckCostAndCooldown(const FGameplayAbilityActorInfo InActorInfo) const;
 
+	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
+	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const override;
 
 protected:
 	float GetManaCost(float InLevel = 1.f) const;
 	float GetCooldown(float InLevel = 1.f) const;
+
+private:
+	
+	void SaveCharacterWalkSpeed(const FGameplayAbilityActorInfo* ActorInfo);
+	void SetCharacterWalkSpeed(const FGameplayAbilityActorInfo* ActorInfo) const;
+	float CharacterWalkSpeed = 0.f;
 };

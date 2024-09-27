@@ -8,6 +8,8 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "AbilitySystem/Data/MessageInfo.h"
 #include "Game/AuraGameModeBase.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 void UAuraGameplayAbility::SendMessage(const FGameplayTag& InMessageTag) const
@@ -46,9 +48,25 @@ void UAuraGameplayAbility::CheckCostAndCooldown(const FGameplayAbilityActorInfo 
 	}
 }
 
+void UAuraGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
+	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
+	const FGameplayEventData* TriggerEventData)
+{
+	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+	SaveCharacterWalkSpeed(ActorInfo);
+}
+
+void UAuraGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
+	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
+	bool bReplicateEndAbility, bool bWasCancelled)
+{
+	SetCharacterWalkSpeed(ActorInfo);
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
 bool UAuraGameplayAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Handle,
-	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags,
-	const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const
+                                              const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags,
+                                              const FGameplayTagContainer* TargetTags, FGameplayTagContainer* OptionalRelevantTags) const
 {
 	CheckCostAndCooldown(*ActorInfo);
 	return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
@@ -94,6 +112,22 @@ float UAuraGameplayAbility::GetCooldown(float InLevel) const
 		CooldownEffect->DurationMagnitude.GetStaticMagnitudeIfPossible(InLevel, Cooldown);
 	}
 	return Cooldown;
+}
+
+void UAuraGameplayAbility::SaveCharacterWalkSpeed(const FGameplayAbilityActorInfo* ActorInfo)
+{
+	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor))
+	{
+		CharacterWalkSpeed = Character->GetCharacterMovement()->MaxWalkSpeed;
+	}
+}
+
+void UAuraGameplayAbility::SetCharacterWalkSpeed(const FGameplayAbilityActorInfo* ActorInfo) const
+{
+	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor))
+	{
+		Character->GetCharacterMovement()->MaxWalkSpeed = CharacterWalkSpeed;
+	}
 }
 
 float UAuraGameplayAbility::GetCurrentLevelManaCost() const

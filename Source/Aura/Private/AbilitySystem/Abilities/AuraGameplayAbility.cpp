@@ -116,7 +116,7 @@ float UAuraGameplayAbility::GetCooldown(float InLevel) const
 
 void UAuraGameplayAbility::SaveCharacterWalkSpeed(const FGameplayAbilityActorInfo* ActorInfo)
 {
-	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor))
+	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor);!FMath::IsNearlyZero(Character->GetCharacterMovement()->MaxWalkSpeed))
 	{
 		CharacterWalkSpeed = Character->GetCharacterMovement()->MaxWalkSpeed;
 	}
@@ -124,7 +124,7 @@ void UAuraGameplayAbility::SaveCharacterWalkSpeed(const FGameplayAbilityActorInf
 
 void UAuraGameplayAbility::SetCharacterWalkSpeed(const FGameplayAbilityActorInfo* ActorInfo) const
 {
-	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor))
+	if (const ACharacter* Character = Cast<ACharacter>(ActorInfo->AvatarActor);!FMath::IsNearlyZero(CharacterWalkSpeed))
 	{
 		Character->GetCharacterMovement()->MaxWalkSpeed = CharacterWalkSpeed;
 	}

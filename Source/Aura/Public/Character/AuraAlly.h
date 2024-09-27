@@ -48,6 +48,7 @@ public:
 	virtual AActor* GetCombatTargetAlly_Implementation() const override;
 	virtual void SetCombatTargetAlly_Implementation(AActor* InCombatTarget) override;
 	virtual void SetLevel_Implementation(int32 NewLevel) override;
+	virtual bool GetIsGate_Implementation() override;
 	
 	/* HighlightInterface*/
 	virtual void HighlightActor_Implementation() override;
@@ -93,7 +94,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="SpawnGate")
 	int32 GetEnemiesToSpawn() const { return NumberOfEnemiesToSpawn; }
-
+	
 	UFUNCTION(BlueprintCallable, Category="SpawnGate")
 	int32 GetEnemiesSpawned() const { return EnemiesSpawned; }
 

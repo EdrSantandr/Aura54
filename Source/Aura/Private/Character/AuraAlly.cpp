@@ -95,6 +95,11 @@ void AAuraAlly::SetLevel_Implementation(const int32 NewLevel)
 	}
 }
 
+bool AAuraAlly::GetIsGate_Implementation()
+{
+	return bIsGate;
+}
+
 void AAuraAlly::HighlightActor_Implementation()
 {
 	GetMesh()->SetRenderCustomDepth(true);

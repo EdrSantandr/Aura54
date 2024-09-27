@@ -33,4 +33,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void SetLevel(int32 NewLevel);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool GetIsGate();
 };
